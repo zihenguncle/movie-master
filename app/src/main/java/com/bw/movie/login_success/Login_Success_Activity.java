@@ -20,16 +20,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Login_Success_Activity extends BaseActivity {
+
     @BindView(R.id.login_success_viewpager)
     ViewPager loginSuccessViewpager;
-    @BindView(R.id.radio1)
-    RadioButton radio1;
-    @BindView(R.id.radio2)
-    RadioButton radio2;
-    @BindView(R.id.radio3)
-    RadioButton radio3;
-    @BindView(R.id.group)
-    RadioGroup group;
+    @BindView(R.id.home_fragment)
+    RadioButton homeFragment;
+    @BindView(R.id.nearby_cinema_fragment)
+    RadioButton nearbyCinemaFragment;
+    @BindView(R.id.personal_fragment)
+    RadioButton personalFragment;
+    @BindView(R.id.login_success_group)
+    RadioGroup loginSuccessGroup;
     private List<Fragment> list;
 
     @Override
@@ -41,7 +42,7 @@ public class Login_Success_Activity extends BaseActivity {
     protected void initData() {
         ButterKnife.bind(this);
 
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         list.add(new HomeFragment());
         list.add(new NearbyCinemaFragment());
         list.add(new PersonalFragment());
@@ -59,17 +60,17 @@ public class Login_Success_Activity extends BaseActivity {
             }
         });
 
-        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        loginSuccessGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.radio1:
+                switch (checkedId) {
+                    case R.id.home_fragment:
                         loginSuccessViewpager.setCurrentItem(0);
                         break;
-                    case R.id.radio2:
+                    case R.id.nearby_cinema_fragment:
                         loginSuccessViewpager.setCurrentItem(1);
                         break;
-                    case R.id.radio3:
+                    case R.id.personal_fragment:
                         loginSuccessViewpager.setCurrentItem(2);
                         break;
                     default:
@@ -81,5 +82,10 @@ public class Login_Success_Activity extends BaseActivity {
     }
 
 
-
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }
