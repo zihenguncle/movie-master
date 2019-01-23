@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/login_success_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></android.support.v4.view.ViewPager>
+
+    <RadioGroup
+        android:id="@+id/login_success_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:alpha="0.7"
+        >
+        <RadioButton
+            android:layout_width="@dimen/dp_70"
+            android:gravity="center"
+            android:button="@null"
+            android:layout_height="@dimen/dp_70"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:id="@+id/home_fragment"
+            android:checked="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/home_fragment"
+            />
+        <RadioButton
+            android:layout_width="@dimen/dp_60"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_height="@dimen/dp_60"
+            android:id="@+id/nearby_cinema_fragment"
+            android:layout_marginLeft="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/nearby_cinema_fragment"
+            />
+        <RadioButton
+            android:layout_width="@dimen/dp_60"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_height="@dimen/dp_60"
+            android:id="@+id/personal_fragment"
+            android:layout_marginLeft="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_20"
+            android:background="@drawable/personal_fragment"
+            />
+
+    </RadioGroup>
+
+
+</RelativeLayout>
