@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".guide_page.GuideActivity"
     >
-    <Button
+    <android.support.v4.view.ViewPager
+        android:id="@+id/guide_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="测试成功"
-        />
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
 </RelativeLayout>

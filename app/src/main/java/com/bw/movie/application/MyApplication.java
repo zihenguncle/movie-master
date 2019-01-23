@@ -15,7 +15,6 @@ public class MyApplication extends Application {
     }
 
 
-
     public static Context MyApplication() {
         return context;
     }
