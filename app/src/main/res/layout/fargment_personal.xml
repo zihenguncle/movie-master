@@ -5,4 +5,16 @@
     android:background="#d44"
     >
 
+    <ImageView
+        android:id="@+id/personal_image"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_220"
+        android:background="@drawable/mine_bancakgroud"
+        />
+    <ImageView
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+
+        />
+
 </android.support.constraint.ConstraintLayout>
