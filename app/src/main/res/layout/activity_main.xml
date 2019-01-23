@@ -6,10 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-   <Button
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:text="静静最美"
-       />
 
 </android.support.constraint.ConstraintLayout>
