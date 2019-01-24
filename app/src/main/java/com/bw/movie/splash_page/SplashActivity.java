@@ -3,6 +3,7 @@ package com.bw.movie.splash_page;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 * zhangjing
 * 20190123
 * */
-public class SplashActivity extends BaseActivity{
+public class SplashActivity extends AppCompatActivity{
     @BindView(R.id.relative_haswork)
     RelativeLayout relativeLayout_haswork;
     @BindView(R.id.relative_nowork)
@@ -32,15 +33,15 @@ public class SplashActivity extends BaseActivity{
 
     private static final long DELAY_TIME = 2000L;
 
-
-
     @Override
-    protected int getViewById() {
-        return R.layout.activity_splash;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        initData();
     }
 
-    @Override
-    protected void initData() {
+
+    public void initData() {
         ButterKnife.bind(this);
         if(!NetWorkUtils.hasNetwork(this)){
             relativeLayout_nowork.setVisibility(View.VISIBLE);

@@ -12,7 +12,23 @@ public class PersonalFragment extends BaseFragment {
     }
 
     @Override
-    protected void initData(View view) {
+    protected void initData() {
 
     }
+
+    @Override
+    protected void initView(View view) {
+
+    }
+
+    @Override
+    protected void successed(Object data) {
+
+    }
+
+    @Override
+    protected void failed(String error) {
+
+    }
+
 }

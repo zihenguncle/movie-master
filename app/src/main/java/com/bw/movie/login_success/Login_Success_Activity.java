@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -19,7 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class Login_Success_Activity extends BaseActivity {
+public class Login_Success_Activity extends AppCompatActivity {
 
     @BindView(R.id.login_success_viewpager)
     ViewPager loginSuccessViewpager;
@@ -34,11 +35,16 @@ public class Login_Success_Activity extends BaseActivity {
     private List<Fragment> list;
 
     @Override
-    protected int getViewById() {
-        return R.layout.activity_login_success;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login_success);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+        initData();
     }
 
-    @Override
+
+
     protected void initData() {
         ButterKnife.bind(this);
 
@@ -82,10 +88,4 @@ public class Login_Success_Activity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }
