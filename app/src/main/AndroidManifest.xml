@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bw.movie">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".login_success.Login_Success_Activity"
             android:theme="@style/AppTheme.NoTitle_FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,7 @@
         </activity>
         <activity android:name=".splash_page.SplashActivity" />
         <activity android:name=".guide_page.GuideActivity"></activity>
+        <activity android:name=".login_success.person.person_activity.Personal_Message_Activity"/>
     </application>
 
 </manifest>

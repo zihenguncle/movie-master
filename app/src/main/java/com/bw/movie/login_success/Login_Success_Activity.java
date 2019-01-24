@@ -5,14 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.bw.movie.R;
-import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.HomeFragment;
 import com.bw.movie.login_success.nearby_cinema_fragment.NearbyCinemaFragment;
-import com.bw.movie.login_success.personal_fragment.PersonalFragment;
+import com.bw.movie.login_success.person.PersonalFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,14 @@ public class Login_Success_Activity extends AppCompatActivity {
     RadioButton personalFragment;
     @BindView(R.id.login_success_group)
     RadioGroup loginSuccessGroup;
+   /* @BindView(R.id.home_fragment_true)
+    RadioButton homeFragmentTrue;
+    @BindView(R.id.nearby_cinema_fragment_true)
+    RadioButton nearbyCinemaFragmentTrue;
+    @BindView(R.id.personal_fragment_true)
+    RadioButton personalFragmentTrue;*/
     private List<Fragment> list;
+    private boolean ischeck = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +50,8 @@ public class Login_Success_Activity extends AppCompatActivity {
         initData();
     }
 
-
-
     protected void initData() {
+
         ButterKnife.bind(this);
 
         list = new ArrayList<>();
