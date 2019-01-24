@@ -3,6 +3,7 @@ package com.bw.movie.login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.register.RegisterActivity;
+import com.bw.movie.tools.RegexUtils;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.bw.movie.tools.md5.EncryptUtil;
@@ -37,6 +39,7 @@ public class LoginActivity extends BaseActivity {
     Button button_login;
     @BindView(R.id.text_register)
     TextView textView_register;
+   // @BindView()
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
@@ -73,12 +76,24 @@ public class LoginActivity extends BaseActivity {
     private void login() {
         String phone = editText_phone.getText().toString();
         String pass = editText_pass.getText().toString();
-        String pwd = EncryptUtil.encrypt(pass);
-       // ToastUtils.toast(pwd);
-        Map<String,String> map=new HashMap<>();
-        map.put("phone",phone);
-        map.put("pwd",pwd);
-        startRequestPost(Apis.URL_LOGIN,map,LoginBean.class);
+        if(TextUtils.isEmpty(phone)){
+            ToastUtils.toast("手机号不能为空");
+        }else if(!RegexUtils.isMobile(phone)){
+            ToastUtils.toast("手机号格式不对");
+        }else if(TextUtils.isEmpty(pass)){
+            ToastUtils.toast("登录密码不能为空");
+        }else if(!RegexUtils.isPassword(pass)){
+            ToastUtils.toast("登录密码6-20位");
+        }else {
+            String pwd = EncryptUtil.encrypt(pass);
+            // ToastUtils.toast(pwd);
+            Map<String,String> map=new HashMap<>();
+            map.put("phone",phone);
+            map.put("pwd",pwd);
+            startRequestPost(Apis.URL_LOGIN,map,LoginBean.class);
+        }
+
+
     }
 
 
@@ -87,6 +102,7 @@ public class LoginActivity extends BaseActivity {
           LoginBean bean= (LoginBean) data;
          if(bean.getStatus().equals("0000")){
              ToastUtils.toast(bean.getMessage());
+             //用SharedPreferences保存sessionId，userId
             int userId = bean.getResult().getUserId();
              String sessionId = bean.getResult().getSessionId();
              SharedPreferencesUtils.setParam(this,"userId",userId+"");
