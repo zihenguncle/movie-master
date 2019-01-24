@@ -1,7 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_186"
+                android:src="@mipmap/beijing2"
+                />
+
+            <ImageView
+                android:id="@+id/location"
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:src="@mipmap/com_icon_loc_white_default"
+                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginLeft="@dimen/dp_10"
+                />
+            <TextView
+                android:id="@+id/location_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/location"
+                android:textSize="@dimen/sp_14"
+                android:layout_marginTop="@dimen/dp_15"
+                android:textColor="@color/colorWhite"
+                android:text="北京"
+                android:layout_marginLeft="@dimen/dp_5"
+                />
+
+            <RelativeLayout
+                android:id="@+id/relative_search"
+                android:layout_width="220dp"
+                android:layout_height="@dimen/dp_24"
+                android:background="@drawable/view_search_style"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="-180dp"
+                android:layout_marginTop="@dimen/dp_15"
+                >
+                <ImageView
+                    android:id="@+id/home_search"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:src="@mipmap/com_icon_search_default"
+                    />
+                <EditText
+                    android:id="@+id/home_edit_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/home_search"
+                    android:layout_marginLeft="@dimen/dp_20"
+                    android:background="@null"
+                    android:layout_toLeftOf="@+id/home_text_search"
+                    android:layout_alignParentBottom="true"
+                    android:textColorHint="@color/colorWhite"
+                    android:textColor="@color/colorWhite"
+                    android:hint="输入要搜索的影片"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_marginBottom="@dimen/dp_3"
+                    />
+                <TextView
+                    android:id="@+id/home_text_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="搜索"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/sp_12"
+                    />
+            </RelativeLayout>
+
+            <recycler.coverflow.RecyclerCoverFlow
+                android:id="@+id/custom_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_223"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginRight="@dimen/dp_24"
+                android:layout_marginTop="@dimen/dp_85"
+                >
+            </recycler.coverflow.RecyclerCoverFlow>
+        </RelativeLayout>
+    </ScrollView>
+
+
+    
+</RelativeLayout>

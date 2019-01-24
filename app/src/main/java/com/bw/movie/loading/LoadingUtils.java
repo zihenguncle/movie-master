@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.bw.movie.R;
 
 public class LoadingUtils {
-    public static Dialog createLoadingDialog(Context context, String msg) {
-      /*  LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view*/
+    /*public static Dialog createLoadingDialog(Context context, String msg) {
+      *//*  LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view*//*
         View v = View.inflate(context, R.layout.dialog_loading, null);
         LinearLayout layout = (LinearLayout) v
                 .findViewById(R.id.dialog_loading_view);// 加载布局
@@ -28,9 +28,9 @@ public class LoadingUtils {
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
-        /**
+        *//**
          *将显示Dialog的方法封装在这里面
-         */
+         *//*
         Window window = loadingDialog.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -42,14 +42,14 @@ public class LoadingUtils {
 
         return loadingDialog;
     }
-    /**
+    *//**
      * 关闭dialog
      *
      *
-     */
+     *//*
     public static void closeDialog(Dialog mDialogUtils) {
         if (mDialogUtils != null && mDialogUtils.isShowing()) {
             mDialogUtils.dismiss();
         }
-    }
+    }*/
 }

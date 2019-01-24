@@ -31,9 +31,10 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        iPresemter = new IPresemterImpl(this);
         initView(view);
         initData();
-        iPresemter = new IPresemterImpl(this);
+
     }
 
     protected abstract void initData();
@@ -45,24 +46,24 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected abstract void failed(String error);
 
     protected void startRequestGet(String url,Class clazz){
-        loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+        //loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
         iPresemter.startRequestGet(url,clazz);
     }
 
     protected void startRequestPost(String url, Map<String,String> map, Class clazz){
-        loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+        //loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
         iPresemter.startRequestPost(url,map,clazz);
     }
 
     @Override
     public void onSuccessed(Object data) {
-        LoadingUtils.closeDialog(loadingDialog);
+        //LoadingUtils.closeDialog(loadingDialog);
         successed(data);
     }
 
     @Override
     public void onFailed(String error) {
-        LoadingUtils.closeDialog(loadingDialog);
+        //LoadingUtils.closeDialog(loadingDialog);
         failed(error);
     }
 

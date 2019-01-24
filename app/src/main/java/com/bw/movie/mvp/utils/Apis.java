@@ -6,4 +6,7 @@ public class Apis {
     //注册
     public static final String URL_REGISTER="user/v1/registerUser";
 
+    //主页面轮播----GET请求
+    public static final String URL_BANNER = "movie/v1/findHotMovieList?page=%d&count=%d";
+
 }
