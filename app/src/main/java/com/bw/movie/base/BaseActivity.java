@@ -28,7 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         iPresemter = new IPresemterImpl(this);
         initData();
 
-
     }
 
     protected abstract void initView(Bundle savedInstanceState);
