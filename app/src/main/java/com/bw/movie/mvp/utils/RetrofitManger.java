@@ -1,10 +1,19 @@
 package com.bw.movie.mvp.utils;
 
+import android.text.TextUtils;
+
+import com.bw.movie.application.MyApplication;
+import com.bw.movie.tools.SharedPreferencesUtils;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,7 +26,7 @@ public class RetrofitManger {
     private static RetrofitManger instance;
     private OkHttpClient client;
     private BaseApils baseApils;
-    private final String BASE_URL="172.17.8.100";
+    private final String BASE_URL="http://172.17.8.100/movieApi/";
     //private final String BASE_URL="mobile.bwstudent.com";
     //创建单例
     public static RetrofitManger getInstance(){
@@ -30,15 +39,42 @@ public class RetrofitManger {
     }
     //构造方法
     private RetrofitManger(){
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        HttpLoggingInterceptor interceptor1 = interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+     /*   HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        HttpLoggingInterceptor interceptor1 = interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);*/
 
         client=new OkHttpClient.Builder()
                 .writeTimeout(2000, TimeUnit.SECONDS)
                 .readTimeout(2000,TimeUnit.SECONDS)
                 .connectTimeout(2000, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
-                .addInterceptor(interceptor1)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        //拿到请求
+                        Request request = chain.request();
+                        //取出登陆时获得的两个id
+                        String userId = (String) SharedPreferencesUtils.getParam(MyApplication.getApplication(), "userId", "");
+                        String sessionId = (String) SharedPreferencesUtils.getParam(MyApplication.getApplication(), "sessionId", "");
+
+                        //重写构造请求
+                        Request.Builder builder = request.newBuilder();
+                        //把原来请求的数据原样放进去
+                        builder.method(request.method(),request.body());
+
+
+                        if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
+                            builder.addHeader("userId",userId);
+                            builder.addHeader("sessionId",sessionId);
+                            builder.addHeader("sk","0110010010000");
+                        }
+
+                        //打包
+                        Request request1 = builder.build();
+
+                        return chain.proceed(request1);
+                    }
+                })
+
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

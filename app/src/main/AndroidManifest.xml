@@ -3,16 +3,18 @@
     package="com.bw.movie">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".application.MyApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <activity
-            android:name=".splash_page.SplashActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/AppTheme.NoTitle_FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".splash_page.SplashActivity" />
         <activity android:name=".guide_page.GuideActivity"></activity>
     </application>
 

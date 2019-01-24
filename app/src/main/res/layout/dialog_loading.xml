@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_loading_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    >
 
     <LinearLayout
         android:layout_width="150dp"
@@ -15,7 +15,9 @@
         android:paddingBottom="10dp"
         android:paddingLeft="21dp"
         android:paddingRight="21dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+
+        >
 
         <ProgressBar
             android:id="@+id/progressBar1"
@@ -36,4 +38,4 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

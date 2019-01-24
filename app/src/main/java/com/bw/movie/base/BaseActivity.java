@@ -25,9 +25,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         super.onCreate(savedInstanceState);
         setContentView(getViewById());
         initView(savedInstanceState);
+        iPresemter = new IPresemterImpl(this);
         initData();
 
-        iPresemter = new IPresemterImpl(this);
+
     }
 
     protected abstract void initView(Bundle savedInstanceState);
@@ -41,24 +42,24 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
     protected abstract void failed(String error);
 
     protected void startRequestGet(String url,Class clazz){
-        loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+      // loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
         iPresemter.startRequestGet(url,clazz);
     }
 
     protected void startRequestPost(String url, Map<String,String> map,Class clazz){
-        loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+      //  loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
         iPresemter.startRequestPost(url,map,clazz);
     }
 
     @Override
     public void onSuccessed(Object data) {
-        LoadingUtils.closeDialog(loadingDialog);
+    //   LoadingUtils.closeDialog(loadingDialog);
         successed(data);
     }
 
     @Override
     public void onFailed(String error) {
-        LoadingUtils.closeDialog(loadingDialog);
+       // LoadingUtils.closeDialog(loadingDialog);
         failed(error);
     }
 

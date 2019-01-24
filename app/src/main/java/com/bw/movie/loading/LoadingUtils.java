@@ -14,8 +14,9 @@ import com.bw.movie.R;
 
 public class LoadingUtils {
     public static Dialog createLoadingDialog(Context context, String msg) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view
+      /*  LayoutInflater inflater = LayoutInflater.from(context);
+        View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view*/
+        View v = View.inflate(context, R.layout.dialog_loading, null);
         LinearLayout layout = (LinearLayout) v
                 .findViewById(R.id.dialog_loading_view);// 加载布局
         TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字

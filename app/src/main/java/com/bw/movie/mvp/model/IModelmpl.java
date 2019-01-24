@@ -24,7 +24,7 @@ public class IModelmpl implements IModel {
                          Gson gson=new Gson();
                          Object o = gson.fromJson(data, clazz);
                          if(mCallBack!=null){
-                             mCallBack.successData(data);
+                             mCallBack.successData(o);
                          }
                      }catch (Exception e){
                          e.printStackTrace();
@@ -56,7 +56,7 @@ public class IModelmpl implements IModel {
                         Gson gson=new Gson();
                         Object o = gson.fromJson(data, clazz);
                         if(mCallBack!=null){
-                            mCallBack.successData(data);
+                            mCallBack.successData(o);
                         }
                     }catch (Exception e){
                         e.printStackTrace();
