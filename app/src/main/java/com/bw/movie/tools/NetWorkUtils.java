@@ -17,14 +17,5 @@ public class NetWorkUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isAvailable();
     }
 
-    //判断是否是手机网络
-    public static boolean isMobileNetwork(Context context) {
-        //连接管理服务
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        //获取到当前默认可用网络信息
-        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
-        //有网络设备 且 网络设备是手机网络
-        return activeNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-    }
 
 }

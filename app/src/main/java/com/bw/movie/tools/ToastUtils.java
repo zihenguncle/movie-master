@@ -9,6 +9,6 @@ import com.bw.movie.application.MyApplication;
 * */
 public class ToastUtils {
     public static void toast(String message){
-        Toast.makeText(MyApplication.MyApplication(),message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(MyApplication.getApplication(),message,Toast.LENGTH_SHORT).show();
     }
 }
