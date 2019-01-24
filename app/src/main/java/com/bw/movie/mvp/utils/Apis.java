@@ -2,8 +2,8 @@ package com.bw.movie.mvp.utils;
 
 public class Apis {
     //登录
-    public static  String URL_LOGIN="user/v1/login";
+    public static final String URL_LOGIN="user/v1/login";
     //注册
-    public static String URL_REGISTER="user/v1/registerUser";
+    public static final String URL_REGISTER="user/v1/registerUser";
 
 }

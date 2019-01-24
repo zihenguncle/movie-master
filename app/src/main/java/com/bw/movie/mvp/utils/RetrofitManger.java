@@ -26,8 +26,8 @@ public class RetrofitManger {
     private static RetrofitManger instance;
     private OkHttpClient client;
     private BaseApils baseApils;
-    private final String BASE_URL="http://172.17.8.100/movieApi/";
-    //private final String BASE_URL="mobile.bwstudent.com";
+   // private final String BASE_URL="http://172.17.8.100/movieApi/";
+    private final String BASE_URL="http://mobile.bwstudent.com/movieApi/";
     //创建单例
     public static RetrofitManger getInstance(){
         if(instance==null){

@@ -4,25 +4,175 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".login.LoginActivity">
+    tools:context=".login.LoginActivity"
+    android:background="@mipmap/bitmap"
+    >
+    <ImageView
+        android:id="@+id/image_login_phone"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:src="@mipmap/log_icon_phone_default"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_130"
+        />
+
     <EditText
         android:id="@+id/login_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/dp_190"
+        android:layout_height="@dimen/dp_42"
+        android:hint="手机号"
+        android:layout_marginTop="@dimen/dp_125"
+        android:layout_toRightOf="@+id/image_login_phone"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:textSize="@dimen/sp_18"
+        android:textColorHint="#eeeeee"
+        android:background="@null"
+        android:textColor="#eeeeee"
+        android:inputType="number"
+        />
+    <View
+        android:id="@+id/view_login_phone"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="1dp"
+        android:background="#1Affffff"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_below="@+id/login_phone"
+        ></View>
+
+    <ImageView
+        android:id="@+id/image_login_pass"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:src="@mipmap/log_icon_lock_default"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_below="@+id/view_login_phone"
+        />
     <EditText
         android:id="@+id/login_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_phone"
+        android:layout_width="@dimen/dp_190"
+        android:layout_height="@dimen/dp_42"
+        android:hint="登录密码"
+       android:layout_below="@+id/view_login_phone"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_toRightOf="@+id/image_login_pass"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:textSize="@dimen/sp_18"
+        android:textColorHint="#eeeeee"
+        android:background="@null"
+        android:textColor="#eeeeee"
+        android:inputType="number"
         />
-    <Button
-        android:id="@+id/but_login"
+    <ImageView
+        android:id="@+id/image_login_eye"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:src="@mipmap/log_icon_eye_default"
+       android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_login_phone"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_marginRight="@dimen/dp_40"
+        />
+    <View
+        android:id="@+id/view_login_pass"
+        android:layout_width="@dimen/dp_280"
+        android:layout_height="1dp"
+        android:background="#1Affffff"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_40"
+        android:layout_below="@+id/login_pass"
+        ></View>
+    <CheckBox
+        android:id="@+id/checkbox_remember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_pass"
+        android:layout_below="@+id/view_login_pass"
+        android:layout_marginLeft="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="记住密码"
+        android:theme="@style/checkbox_remember"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/colorWhite"
+
         />
+    <CheckBox
+        android:id="@+id/checkbox_auto_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_login_pass"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_toRightOf="@+id/checkbox_remember"
+        android:text="自动登录"
+        android:theme="@style/checkbox_remember"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/colorWhite"
 
-
-
+        />
+    <TextView
+        android:id="@+id/text_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="快速注册"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/view_login_pass"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_23"
+        />
+    
+<Button
+    android:id="@+id/but_login"
+    android:layout_width="@dimen/dp_280"
+    android:layout_height="@dimen/dp_40"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@+id/text_register"
+    android:layout_marginTop="@dimen/dp_130"
+    android:background="@drawable/but_login"
+    android:text="登录"
+    android:textColor="#ffffff"
+    android:textSize="@dimen/sp_18"
+    />
+    <View
+        android:id="@+id/view_line1"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_2"
+        android:background="#ffffff"
+        android:layout_below="@+id/but_login"
+        android:layout_marginTop="@dimen/dp_42"
+        android:layout_marginLeft="@dimen/dp_40"
+        ></View>
+    <TextView
+        android:id="@+id/text_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第三方账号快速登录"
+        android:textSize="@dimen/sp_10"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/but_login"
+        android:layout_toRightOf="@+id/view_line1"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_marginLeft="@dimen/dp_10"
+        />
+    <View
+        android:id="@+id/view_line2"
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_2"
+        android:background="#ffffff"
+        android:layout_below="@+id/but_login"
+        android:layout_marginTop="@dimen/dp_42"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_30"
+        ></View>
+    <ImageView
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:background="@mipmap/log_icon_weixin_default"
+        android:layout_below="@+id/view_line2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_16"
+        />
 
 </RelativeLayout>
