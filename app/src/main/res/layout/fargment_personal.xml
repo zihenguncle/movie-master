@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.bw.movie.custom.Personal_Custom
-    android:layout_width="match_parent"
+<com.bw.movie.custom.Personal_Custom android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,15 +54,24 @@
         android:paddingLeft="@dimen/dp_18"
         android:paddingTop="@dimen/dp_2"
         />
-    <RelativeLayout
+
+    <android.support.v7.widget.CardView
         android:id="@+id/personal_mine_message"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_86"
+        android:layout_height="@dimen/dp_105"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/dp_8"
         android:layout_below="@id/personal_image"
-        android:layout_marginTop="@dimen/dp_10"
-        android:background="@drawable/personal_border"
+        >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         >
         <RelativeLayout
             android:id="@+id/personal_meassage_my"
@@ -73,7 +82,7 @@
             android:layout_width="@dimen/dp_24"
             android:layout_height="@dimen/dp_24"
             android:background="@mipmap/my_icon_messiage_default"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
             android:layout_marginLeft="@dimen/dp_40"
             />
         <TextView
@@ -88,19 +97,28 @@
             />
         </RelativeLayout>
     </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/personal_record"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_86"
+        android:layout_height="@dimen/dp_105"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_8"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/dp_8"
+        android:layout_below="@id/personal_mine_message"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
-        android:layout_below="@id/personal_mine_message"
-        android:layout_marginTop="@dimen/dp_10"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/personal_border"
         >
         <RelativeLayout
+            android:id="@+id/personal_fragment_my_focus"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_86">
             <ImageView
@@ -108,7 +126,7 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_attention_default"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginLeft="@dimen/dp_40"
                 />
             <TextView
@@ -123,6 +141,7 @@
                 />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/personal_fragment_ticket_record"
             android:layout_width="@dimen/dp_100"
             android:layout_height="86dp">
             <ImageView
@@ -130,8 +149,8 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_rccord_default"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_30"
                 />
 
             <TextView
@@ -142,23 +161,32 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_ticket_record"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_22"
                 />
         </RelativeLayout>
     </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/personal_feedback"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_86"
+        android:layout_height="@dimen/dp_105"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_8"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/dp_8"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         android:layout_below="@id/personal_record"
-        android:layout_marginTop="@dimen/dp_10"
+        >
+    <LinearLayout
+        android:id="@+id/personal_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/personal_border"
         >
         <RelativeLayout
+            android:id="@+id/personal_feedback_advice"
             android:layout_width="@dimen/dp_100"
             android:layout_height="86dp">
             <ImageView
@@ -166,7 +194,7 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_feedback_default"
-                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_marginLeft="@dimen/dp_40"
                 />
 
@@ -174,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#333333"
-                android:text="购票记录"
+                android:text="意见反馈"
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_advice_feedback"
@@ -189,8 +217,8 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_version_default"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_30"
                 />
 
             <TextView
@@ -201,7 +229,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_latest_version"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
         </RelativeLayout>
 
@@ -213,8 +241,8 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_logout_default"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_30"
                 />
 
             <TextView
@@ -225,11 +253,11 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_log_out"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_22"
                 />
         </RelativeLayout>
     </LinearLayout>
-
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
 </com.bw.movie.custom.Personal_Custom>

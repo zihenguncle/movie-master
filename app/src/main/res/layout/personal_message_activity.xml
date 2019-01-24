@@ -202,6 +202,7 @@
             />
     </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/personal_reset_pwd"
             android:layout_width="@dimen/dp_312"
             android:layout_height="wrap_content"
             android:layout_below="@id/personal_email_phone"

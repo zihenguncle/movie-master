@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false" android:drawable="@mipmap/com_icon_film_fault"/>
-    <item android:state_checked="true" android:drawable="@mipmap/com_icon_film_selected"/>
-</selector>

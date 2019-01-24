@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Login_Success_Activity extends AppCompatActivity {
 
@@ -31,15 +33,14 @@ public class Login_Success_Activity extends AppCompatActivity {
     @BindView(R.id.personal_fragment)
     RadioButton personalFragment;
     @BindView(R.id.login_success_group)
-    RadioGroup loginSuccessGroup;
-   /* @BindView(R.id.home_fragment_true)
+    LinearLayout loginSuccessGroup;
+    @BindView(R.id.home_fragment_true)
     RadioButton homeFragmentTrue;
     @BindView(R.id.nearby_cinema_fragment_true)
     RadioButton nearbyCinemaFragmentTrue;
     @BindView(R.id.personal_fragment_true)
-    RadioButton personalFragmentTrue;*/
+    RadioButton personalFragmentTrue;
     private List<Fragment> list;
-    private boolean ischeck = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,42 @@ public class Login_Success_Activity extends AppCompatActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
         initData();
+
+    }
+
+    @OnClick({R.id.home_fragment,R.id.nearby_cinema_fragment,R.id.personal_fragment})
+    public void setCheck(View v){
+        switch (v.getId()){
+                case R.id.home_fragment:
+                    loginSuccessViewpager.setCurrentItem(0);
+                        homeFragmentTrue.setVisibility(View.VISIBLE);
+                        homeFragment.setVisibility(View.GONE);
+                        nearbyCinemaFragment.setVisibility(View.VISIBLE);
+                        nearbyCinemaFragmentTrue.setVisibility(View.GONE);
+                        personalFragment.setVisibility(View.VISIBLE);
+                        personalFragmentTrue.setVisibility(View.GONE);
+                    break;
+                case R.id.nearby_cinema_fragment:
+                    loginSuccessViewpager.setCurrentItem(1);
+                        homeFragmentTrue.setVisibility(View.GONE);
+                        homeFragment.setVisibility(View.VISIBLE);
+                        nearbyCinemaFragment.setVisibility(View.GONE);
+                        nearbyCinemaFragmentTrue.setVisibility(View.VISIBLE);
+                        personalFragment.setVisibility(View.VISIBLE);
+                        personalFragmentTrue.setVisibility(View.GONE);
+                    break;
+                case R.id.personal_fragment:
+                    loginSuccessViewpager.setCurrentItem(2);
+                        homeFragmentTrue.setVisibility(View.GONE);
+                        homeFragment.setVisibility(View.VISIBLE);
+                        nearbyCinemaFragment.setVisibility(View.VISIBLE);
+                        nearbyCinemaFragmentTrue.setVisibility(View.GONE);
+                        personalFragment.setVisibility(View.GONE);
+                        personalFragmentTrue.setVisibility(View.VISIBLE);
+                    break;
+                default:
+                    break;
+        }
     }
 
     protected void initData() {
@@ -71,26 +108,6 @@ public class Login_Success_Activity extends AppCompatActivity {
                 return list.size();
             }
         });
-
-        loginSuccessGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.home_fragment:
-                        loginSuccessViewpager.setCurrentItem(0);
-                        break;
-                    case R.id.nearby_cinema_fragment:
-                        loginSuccessViewpager.setCurrentItem(1);
-                        break;
-                    case R.id.personal_fragment:
-                        loginSuccessViewpager.setCurrentItem(2);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
     }
 
 
