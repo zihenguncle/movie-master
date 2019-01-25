@@ -21,7 +21,7 @@
                 android:layout_width="@dimen/dp_25"
                 android:layout_height="@dimen/dp_25"
                 android:src="@mipmap/com_icon_loc_white_default"
-                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginLeft="@dimen/dp_10"
                 />
             <TextView
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/location"
                 android:textSize="@dimen/sp_14"
-                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_22"
                 android:textColor="@color/colorWhite"
                 android:text="北京"
                 android:layout_marginLeft="@dimen/dp_5"
@@ -43,7 +43,7 @@
                 android:background="@drawable/view_search_style"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="-180dp"
-                android:layout_marginTop="@dimen/dp_15"
+                android:layout_marginTop="@dimen/dp_20"
                 >
                 <ImageView
                     android:id="@+id/home_search"
@@ -90,6 +90,147 @@
                 android:layout_marginTop="@dimen/dp_85"
                 >
             </recycler.coverflow.RecyclerCoverFlow>
+            <View
+                android:layout_width="@dimen/dp_312"
+                android:layout_height="@dimen/dp_3"
+                android:layout_below="@+id/custom_recycle"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/banner_tag"
+                ></View>
+            <View
+                android:id="@+id/banner_tag"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_3"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_below="@+id/custom_recycle"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/banner_tag_item"
+                ></View>
+            <TextView
+                android:id="@+id/hot_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_16"
+                android:textColor="@color/colorGray"
+                android:text="热门电影"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_below="@+id/banner_tag"
+                android:layout_marginLeft="@dimen/dp_24"
+                />
+            <View
+                android:id="@+id/hot_view"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_3"
+                android:layout_below="@+id/hot_text"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@drawable/banner_tag_item"
+                android:layout_marginLeft="@dimen/dp_24"
+                ></View>
+
+            <ImageView
+                android:id="@+id/hot_image_next"
+                android:layout_width="@dimen/dp_24"
+                android:layout_height="@dimen/dp_24"
+                android:background="@mipmap/com_icon_next_default"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_below="@+id/banner_tag"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hot_movie_xrecycle"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_165"
+                android:layout_below="@+id/hot_image_next"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_24"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/doing_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/colorGray"
+        android:text="正在热映"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_below="@+id/hot_movie_xrecycle"
+        android:layout_marginLeft="@dimen/dp_24"
+        />
+    <View
+        android:id="@+id/doing_view"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_3"
+        android:layout_below="@+id/doing_text"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@drawable/banner_tag_item"
+        android:layout_marginLeft="@dimen/dp_24"
+        ></View>
+
+    <ImageView
+        android:id="@+id/doing_image_next"
+        android:layout_width="@dimen/dp_24"
+        android:layout_height="@dimen/dp_24"
+        android:background="@mipmap/com_icon_next_default"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_25"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_below="@+id/hot_movie_xrecycle"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/doing_movie_xrecycle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_165"
+        android:layout_below="@+id/doing_image_next"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_24"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/noce_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/colorGray"
+            android:text="即将上映"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_below="@+id/doing_movie_xrecycle"
+            android:layout_marginLeft="@dimen/dp_24"
+            />
+        <View
+            android:id="@+id/noce_view"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_3"
+            android:layout_below="@+id/noce_text"
+            android:layout_marginTop="@dimen/dp_4"
+            android:background="@drawable/banner_tag_item"
+            android:layout_marginLeft="@dimen/dp_24"
+            ></View>
+
+        <ImageView
+            android:id="@+id/noce_image_next"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:background="@mipmap/com_icon_next_default"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_below="@+id/doing_movie_xrecycle"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/noce_movie_xrecycle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_165"
+            android:layout_below="@+id/noce_view"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:layout_marginBottom="@dimen/dp_85"
+            ></android.support.v7.widget.RecyclerView>
         </RelativeLayout>
     </ScrollView>
 

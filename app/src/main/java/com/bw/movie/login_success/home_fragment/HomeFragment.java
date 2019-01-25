@@ -3,6 +3,7 @@ package com.bw.movie.login_success.home_fragment;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,13 @@ import android.widget.Toast;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.home_fragment.adapter.HomeBannerAdapter;
+import com.bw.movie.login_success.home_fragment.adapter.MovieAdapter;
+import com.bw.movie.login_success.home_fragment.adapter.MovieDoingAdapter;
+import com.bw.movie.login_success.home_fragment.adapter.MovieNoceAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
+import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeanone;
+import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeantwo;
+import com.bw.movie.login_success.home_fragment.bean.HomeMovieBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 
@@ -46,15 +53,41 @@ public class HomeFragment extends BaseFragment {
     RelativeLayout relative_search;
     @BindView(R.id.custom_recycle)
     RecyclerCoverFlow coverFlow_recycle;
-
     HomeBannerAdapter homeBannerAdapter;
+    MovieAdapter movieAdapter;
+    MovieDoingAdapter doingAdapter;
+    MovieNoceAdapter noceAdapter;
+    @BindView(R.id.hot_movie_xrecycle)
+    RecyclerView hot_recycle;
+    @BindView(R.id.doing_movie_xrecycle)
+    RecyclerView doing_recycle;
+    @BindView(R.id.noce_movie_xrecycle)
+    RecyclerView noce_recycle;
     @Override
     protected void initData() {
 
-
         startRequestGet(String.format(Apis.URL_BANNER,1,10),HomeBannerBean.class);
-        homeBannerAdapter = new HomeBannerAdapter(getActivity());
-        coverFlow_recycle.setAdapter(homeBannerAdapter);
+        setLayout();
+        startRequestGet(String.format(Apis.URL_HOTMOVIE,1,10),HomeBannerBeanone.class);
+        startRequestGet(String.format(Apis.URL_DOINGMOVIE,1,10),HomeBannerBeantwo.class);
+        movieAdapter = new MovieAdapter(getActivity());
+        hot_recycle.setAdapter(movieAdapter);
+        doingAdapter = new MovieDoingAdapter(getActivity());
+        doing_recycle.setAdapter(doingAdapter);
+        noceAdapter = new MovieNoceAdapter(getActivity());
+        noce_recycle.setAdapter(noceAdapter);
+    }
+
+    private void setLayout() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        hot_recycle.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getActivity());
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        doing_recycle.setLayoutManager(linearLayoutManager1);
+        LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity());
+        linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        noce_recycle.setLayoutManager(linearLayoutManager2);
     }
 
     @OnClick({R.id.home_text_search,R.id.home_search})
@@ -103,9 +136,16 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void successed(Object data) {
         if(data instanceof HomeBannerBean){
-            HomeBannerBean homeBannerBean= (HomeBannerBean) data;
-            TextUtils.isEmpty(homeBannerBean.getMessage());
-            homeBannerAdapter.setData(((HomeBannerBean) data).getResult());
+            homeBannerAdapter = new HomeBannerAdapter(((HomeBannerBean) data).getResult(),getActivity());
+            coverFlow_recycle.setAdapter(homeBannerAdapter);
+            noceAdapter.setData(((HomeBannerBean) data).getResult());
+        }
+
+        if(data instanceof HomeBannerBeantwo){
+            doingAdapter.setData(((HomeBannerBeantwo) data).getResult());
+        }
+        if (data instanceof HomeBannerBeanone){
+            movieAdapter.setData(((HomeBannerBeanone) data).getResult());
         }
     }
 

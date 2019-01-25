@@ -2,10 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true">
+    android:layout_centerInParent="true"
+    android:background="@drawable/banner_style_relative"
+    >
     <ImageView
         android:id="@+id/item_home_img"
         android:layout_width="@dimen/dp_158"
         android:layout_height="@dimen/dp_223"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:background="@drawable/banner_style_relative"
+        />
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_158"
+        android:layout_height="@dimen/dp_36"
+        android:layout_alignBottom="@+id/item_home_img"
+        android:background="@drawable/banner_style"
+        >
+        <TextView
+            android:id="@+id/item_banner_name"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_16"
+            android:layout_marginLeft="@dimen/dp_10"
+
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            />
+        <TextView
+            android:id="@+id/item_banner_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textSize="@dimen/sp_12"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            />
+    </RelativeLayout>
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.activity.DetailsActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
-import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
-import com.bw.movie.tools.ToastUtils;
+import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeanone;
+import com.bw.movie.login_success.home_fragment.bean.HomeMovieBean;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,36 +24,36 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * @author 郭淄恒
- *
- *    首页轮播图
- * @date 2019.1.24     19.40
- */
-public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    private List<HomeBannerBean.ResultBean> data;
     private Context context;
+    private List<HomeBannerBeanone.ResultBean> data;
 
-    public HomeBannerAdapter(List<HomeBannerBean.ResultBean> data, Context context) {
-        this.data = data;
+
+    public MovieAdapter(Context context) {
         this.context = context;
+        data = new ArrayList<>();
     }
 
+    public void setData(List<HomeBannerBeanone.ResultBean> data) {
+        this.data = data;
+        notifyDataSetChanged();
+    }
+
+
     @Override
-    public HomeBannerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.item_homebanner,null);
+    public MovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = View.inflate(context, R.layout.item_movie,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HomeBannerAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(MovieAdapter.ViewHolder holder, final int position) {
         Glide.with(context)
                 .load(data.get(position%data.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
-                .into(holder.iamge);
-        holder.name.setText(data.get(position%data.size()).getName());
-        holder.date.setText(data.get(position%data.size()).getRank()+"分钟");
+                .into(holder.image);
+        holder.text.setText(data.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,16 +66,15 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_home_img)
-        ImageView iamge;
-        @BindView(R.id.item_banner_date)
-        TextView date;
-        @BindView(R.id.item_banner_name)
-        TextView name;
+
+        @BindView(R.id.item_movie_iamge)
+        ImageView image;
+        @BindView(R.id.item_movie_name)
+        TextView text;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
