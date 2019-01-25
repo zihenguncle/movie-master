@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.MyApplication"
@@ -26,7 +28,9 @@
         </activity>
         <activity android:name=".splash_page.SplashActivity" />
         <activity android:name=".guide_page.GuideActivity" />
-        <activity android:name=".register.RegisterActivity"></activity>
+        <activity android:name=".register.RegisterActivity" />
+        <activity android:name=".login_success.Login_Success_Activity" />
+        <activity android:name=".login.wxapi.WXEntryActivity"></activity>
     </application>
 
 </manifest>

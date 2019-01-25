@@ -9,4 +9,7 @@ public class Apis {
     //主页面轮播----GET请求
     public static final String URL_BANNER = "movie/v1/findHotMovieList?page=%d&count=%d";
 
+    //微信登录
+    public static final String URL_WEIXIN_LOGIN="user/v1/weChatBindingLogin";
+
 }
