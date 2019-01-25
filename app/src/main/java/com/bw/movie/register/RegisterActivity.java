@@ -2,8 +2,10 @@ package com.bw.movie.register;
 
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,6 +18,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -58,6 +62,7 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.but_register)
     Button button_register;
     private int mYear,mMonth,mDay;
+    private int gender;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -74,16 +79,38 @@ public class RegisterActivity extends BaseActivity {
     protected void initData() {
 
     }
-    @OnClick({R.id.but_register,R.id.reg_birth_date})
+    @OnClick({R.id.but_register,R.id.reg_birth_date,R.id.reg_sex})
     public void getViewById(View view){
         switch (view.getId()){
             case R.id.but_register:
                 register();
                 break;
             case R.id.reg_birth_date:
-                getDate();
+                getDate();//得到日期
+                break;
+            case R.id.reg_sex:
+                getSex();//得到性别
                 break;
         }
+    }
+    String[] sexArry = new String[]{ "女", "男"};// 性别选择
+    private void getSex() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);// 自定义对话框
+        builder.setTitle("性别");
+
+        builder.setSingleChoiceItems(sexArry, 0, new DialogInterface.OnClickListener() {// 2默认的选中
+            @Override
+            public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
+                // showToast(which+"");
+               editText_sex.setText(sexArry[which]);
+                dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
+            }
+        });
+        builder.show();// 让弹出框显示
+
+
+
     }
 
     private void getDate() {
@@ -110,9 +137,18 @@ public class RegisterActivity extends BaseActivity {
         String email = editText_email.getText().toString();
         String pass = editText_pass.getText().toString();
         String date = editText_birth_date.getText().toString();
+          if(sex.equals("男")){
+              gender=1;
+          }else if(sex.equals("女")){
+              gender=2;
+          }else {
+              ToastUtils.toast("请输入正确的性别");
+          }
+          ToastUtils.toast(gender+"");
+
         if(TextUtils.isEmpty(name)){
             ToastUtils.toast("昵称不能为空");
-        }else if(TextUtils.isEmpty(phone)){
+        } else if(TextUtils.isEmpty(phone)){
             ToastUtils.toast("手机号不能为空");
         }else if(!RegexUtils.isMobile(phone)){
             ToastUtils.toast("手机号格式不对");
@@ -131,7 +167,7 @@ public class RegisterActivity extends BaseActivity {
             map.put("phone",phone);
             map.put("pwd",pwd);
             map.put("pwd2",pwd);
-            map.put("sex",1+"");
+            map.put("sex",gender+"");
             map.put("birthday",date);
             map.put("email",email);
            startRequestPost(Apis.URL_REGISTER,map,RegisterBean.class);

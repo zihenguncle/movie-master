@@ -7,7 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.bw.movie.R;
+import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.LoginActivity;
+import com.bw.movie.login.LoginBean;
+import com.bw.movie.login_success.Login_Success_Activity;
+import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -20,7 +25,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHandler {
+import java.util.HashMap;
+import java.util.Map;
+
+public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
@@ -28,8 +36,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
     private String code;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initView(Bundle savedInstanceState) {
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
         api = WXAPIFactory.createWXAPI(this, APP_ID, true);
         // 将应用的appId注册到微信
@@ -46,6 +53,44 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected int getViewById() {
+        return R.layout.activity_wxentry;
+    }
+
+    @Override
+    protected void initData() {
+        Map<String,String> map=new HashMap<>();
+        map.put("code", code);
+        startRequestPost(Apis.URL_WEIXIN_LOGIN,map,LoginBean.class);
+
+    }
+
+    @Override
+    protected void successed(Object data) {
+        LoginBean bean= (LoginBean) data;
+        if(bean.getStatus().equals("0000")){
+            ToastUtils.toast(bean.getMessage());
+            //用SharedPreferences保存sessionId，userId
+            int userId = bean.getResult().getUserId();
+            // String phone = bean.getResult().getUserInfo().getPhone();
+            String sessionId = bean.getResult().getSessionId();
+            SharedPreferencesUtils.setParam(this,"userId",userId+"");
+            SharedPreferencesUtils.setParam(this,"sessionId",sessionId);
+
+            Intent intent=new Intent(WXEntryActivity.this, Login_Success_Activity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            ToastUtils.toast(bean.getMessage());
+        }
+    }
+
+    @Override
+    protected void failed(String error) {
+        ToastUtils.toast(error);
     }
 
     @Override
@@ -79,9 +124,7 @@ public class WXEntryActivity extends AppCompatActivity implements IWXAPIEventHan
             case BaseResp.ErrCode.ERR_OK:
                 //用户同意
                 code = ((SendAuth.Resp) resp).code;
-             /*   Intent intent=new Intent(this, LoginActivity.class);
-                intent.putExtra("code",code+"");
-                startActivity(intent);*/
+
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 //用户拒绝

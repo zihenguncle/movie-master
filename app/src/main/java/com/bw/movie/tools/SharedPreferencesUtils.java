@@ -37,7 +37,14 @@ public class SharedPreferencesUtils {
 
         editor.commit();
     }
+    public static void clearData(Context context,Object object){
+        String type = object.getClass().getSimpleName();
+        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
 
+        editor.clear();
+        editor.commit();
+    }
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
      * @param context

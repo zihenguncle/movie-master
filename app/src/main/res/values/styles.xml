@@ -44,6 +44,4 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:textColor">#ff66ff</item> </style>
 
-
-
 </resources>
