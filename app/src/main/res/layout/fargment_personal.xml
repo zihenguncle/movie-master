@@ -83,7 +83,7 @@
             android:layout_height="@dimen/dp_24"
             android:background="@mipmap/my_icon_messiage_default"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_30"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
             android:textSize="@dimen/sp_12"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_below="@id/personal_message_item"
-            android:layout_marginLeft="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_20"
             />
         </RelativeLayout>
     </RelativeLayout>
@@ -127,7 +127,7 @@
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_attention_default"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_30"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_record_attention"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
         </RelativeLayout>
         <RelativeLayout
@@ -150,7 +150,7 @@
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_rccord_default"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
 
             <TextView
@@ -161,7 +161,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_ticket_record"
-                android:layout_marginLeft="@dimen/dp_22"
+                android:layout_marginLeft="@dimen/dp_10"
                 />
         </RelativeLayout>
     </LinearLayout>
@@ -195,7 +195,7 @@
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_feedback_default"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginLeft="@dimen/dp_30"
                 />
 
             <TextView
@@ -206,7 +206,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_advice_feedback"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
         </RelativeLayout>
         <RelativeLayout
@@ -218,7 +218,7 @@
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_version_default"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
 
             <TextView
@@ -229,7 +229,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_latest_version"
-                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_10"
                 />
         </RelativeLayout>
 
@@ -242,7 +242,7 @@
                 android:layout_height="@dimen/dp_24"
                 android:background="@mipmap/my_icon_logout_default"
                 android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_20"
                 />
 
             <TextView
@@ -253,7 +253,7 @@
                 android:textSize="@dimen/sp_12"
                 android:layout_marginTop="@dimen/dp_10"
                 android:layout_below="@id/personal_log_out"
-                android:layout_marginLeft="@dimen/dp_22"
+                android:layout_marginLeft="@dimen/dp_10"
                 />
         </RelativeLayout>
     </LinearLayout>
