@@ -1,5 +1,6 @@
 package com.bw.movie.login_success;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -41,16 +42,17 @@ public class Login_Success_Activity extends AppCompatActivity {
     @BindView(R.id.personal_fragment_true)
     RadioButton personalFragmentTrue;
     private List<Fragment> list;
+    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_success);
-        // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
         initData();
 
     }
+
 
     @OnClick({R.id.home_fragment,R.id.nearby_cinema_fragment,R.id.personal_fragment})
     public void setCheck(View v){

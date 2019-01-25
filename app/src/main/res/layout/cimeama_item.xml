@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_24"
+    android:layout_marginRight="@dimen/dp_24"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/dp_20">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="@dimen/dp_4"
+        app:cardElevation="@dimen/dp_5"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="@dimen/dp_5"
+        >
+
+    <ImageView
+        android:id="@+id/cimeama_item_image"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_70"
+        android:background="@drawable/ic_launcher_background"
+        android:layout_marginTop="@dimen/dp_9"
+        android:layout_marginLeft="@dimen/dp_7"
+        android:layout_marginBottom="@dimen/dp_5"
+        />
+        <TextView
+            android:id="@+id/cimeama_item_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="影院"
+            android:textSize="@dimen/sp_14"
+            android:textColor="#333333"
+            />
+        <TextView
+            android:id="@+id/cimeama_item_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_100"
+            android:layout_marginTop="@dimen/dp_45"
+            android:text="好看的电影是每个人都在想往的生活"
+            android:textSize="@dimen/sp_12"
+            android:textColor="#333333"
+            />
+    </android.support.v7.widget.CardView>
+
+
+
+</android.support.constraint.ConstraintLayout>

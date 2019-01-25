@@ -9,6 +9,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class Personal_Message_Activity extends BaseActivity {
@@ -17,7 +18,7 @@ public class Personal_Message_Activity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        ButterKnife.bind(this);
     }
 
     @OnClick(R.id.personal_reset_pwd)

@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragment {
     protected void successed(Object data) {
         if(data instanceof HomeBannerBean){
             HomeBannerBean homeBannerBean= (HomeBannerBean) data;
-            Toast.makeText(getContext(), homeBannerBean.getMessage()+"ppp", Toast.LENGTH_SHORT).show();
+            TextUtils.isEmpty(homeBannerBean.getMessage());
             homeBannerAdapter.setData(((HomeBannerBean) data).getResult());
         }
     }

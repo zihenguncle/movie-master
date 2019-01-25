@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RadioButton
-        android:id="@+id/message_ticket"
+        android:id="@+id/message_video_information"
         android:layout_width="@dimen/dp_83"
         android:layout_height="@dimen/dp_23"
-        android:text="电影"
+        android:text="待付款"
         android:gravity="center"
         android:layout_marginTop="@dimen/dp_50"
         android:textColor="@drawable/text_color_selector"
@@ -19,13 +18,13 @@
         />
 
     <RadioButton
-        android:id="@+id/message_movie"
+        android:id="@+id/message_comption_information"
         android:layout_width="@dimen/dp_83"
         android:layout_height="@dimen/dp_23"
-        android:text="影院"
+        android:text="已完成"
         android:gravity="center"
         android:button="@null"
-        android:layout_toRightOf="@id/message_ticket"
+        android:layout_toRightOf="@id/message_video_information"
         android:layout_marginTop="@dimen/dp_50"
         android:layout_marginLeft="@dimen/dp_32"
         android:textColor="@drawable/text_color_selector"
@@ -34,11 +33,11 @@
         />
 
     <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/personal_message_titcket"
+        android:id="@+id/personal_message_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
-        android:layout_below="@id/message_ticket"
+        android:layout_below="@id/message_comption_information"
         android:layout_marginLeft="@dimen/dp_24"
         android:layout_marginRight="@dimen/dp_24"
         ></com.jcodecraeer.xrecyclerview.XRecyclerView>

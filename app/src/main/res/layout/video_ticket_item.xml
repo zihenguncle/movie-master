@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/dp_24"
+    android:layout_marginRight="@dimen/dp_24"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_8"
+    android:layout_marginTop="@dimen/dp_20"
+    android:background="@drawable/video_ticket_item_selector"
+    >
+    
+    <ImageView
+        android:id="@+id/video_ticket_item_imageview"
+        android:layout_width="@dimen/dp_103"
+        android:layout_height="@dimen/dp_124"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="@drawable/ic_launcher_background"
+        />
+
+    <TextView
+        android:id="@+id/video_ticket_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="铁血使命"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#333333"
+        android:layout_toRightOf="@id/video_ticket_item_imageview"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        />
+    <TextView
+        android:id="@+id/video_ticket_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/video_ticket_item_name"
+        android:layout_toRightOf="@id/video_ticket_item_imageview"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        android:text="1234r12333333333333444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444443333333333"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#333333"
+        />
+    <TextView
+        android:id="@+id/video_ticket_item_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/video_ticket_item_imageview"
+        android:layout_below="@id/video_ticket_item_title"
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:text="1997-12-01"
+        android:textColor="#999999"
+        android:textSize="@dimen/sp_12"
+        />
+
+
+
+</RelativeLayout>

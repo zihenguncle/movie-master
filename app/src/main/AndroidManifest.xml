@@ -31,6 +31,11 @@
         <activity android:name=".register.RegisterActivity" />
         <activity android:name=".login_success.Login_Success_Activity" />
         <activity android:name=".login.wxapi.WXEntryActivity"></activity>
+        <activity android:name=".login_success.person.person_activity.Personal_Message_Activity"/>
+        <activity android:name=".login_success.person.person_activity.Personal_FeedBack_Advice_Activity"/>
+        <activity android:name=".login_success.person.person_activity.Personal_Fragment_Focus_Activity"/>
+        <activity android:name=".login_success.person.person_activity.Personal_Reset_Pwd_Activity"/>
+        <activity android:name=".login_success.person.person_activity.Personal_Message_TicketActivity"/>
     </application>
 
 </manifest>
