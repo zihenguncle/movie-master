@@ -21,6 +21,8 @@ import android.widget.RadioGroup;
 
 import com.bw.movie.R;
 import com.bw.movie.login.LoginActivity;
+import com.bw.movie.splash_page.SplashActivity;
+import com.bw.movie.tools.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/*
+* 引导页
+* zhangjing
+* 20190125
+* */
 public class GuideActivity extends AppCompatActivity  {
     @BindView(R.id.guide_viewpager)
     ViewPager guide_viewpager;
@@ -54,6 +60,12 @@ public class GuideActivity extends AppCompatActivity  {
         // 初始化adapter
         adapter = new GuideViewPagerAdapter(views,this);
         guide_viewpager.setAdapter(adapter);
+        Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
+        if(first_open){
+            Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
+            startActivity(intent);
+            finish();
+        }
         guide_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -112,8 +124,9 @@ public class GuideActivity extends AppCompatActivity  {
     public void getViewClick(View v){
         switch (v.getId()){
             case R.id.btn_enter:
-                Intent intent=new Intent(GuideActivity.this,LoginActivity.class);
+                Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
                 startActivity(intent);
+                SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
                 finish();
                 break;
         }
@@ -127,8 +140,11 @@ public class GuideActivity extends AppCompatActivity  {
         }
     }
 
-
-
-
-
+   @Override
+    protected void onPause() {
+        super.onPause();
+        // 如果切换到后台，就设置下次不进入功能引导页
+        SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
+        finish();
     }
+}

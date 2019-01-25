@@ -1,5 +1,6 @@
 package com.bw.movie.splash_page;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import com.bw.movie.login.LoginActivity;
 import com.bw.movie.mvp.view.IView;
 import com.bw.movie.tools.NetWorkUtils;
 import com.bw.movie.tools.SharedPreferencesUtils;
+import com.bw.movie.tools.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,75 +44,70 @@ public class SplashActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        initData();
-
+        ButterKnife.bind(this);
+        isShowingMain();
     }
 
     private void isShowingMain() {
-        String versionName = getVersionName();
-        // String vn = sp.getString("versionname","0.0001");
-        String vn = (String) SharedPreferencesUtils.getParam(this, "versionname", "0.0001");
+        String appVersion = getAppVersion();
+        String version = (String) SharedPreferencesUtils.getParam(SplashActivity.this, "appVersion", "");
+      // Boolean enter_app = (Boolean) SharedPreferencesUtils.getParam(SplashActivity.this, "FIRST_OPEN", false);
         //判断版本号是否一致，一致的话2秒后进入主页面，否则进入引导页
-        if (versionName.equals(vn)) {
+        if(appVersion.equals(version)){
+            initData();
+        }else {
+            SharedPreferencesUtils.setParam(SplashActivity.this,"appVersion",appVersion);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    Intent intent=new Intent(SplashActivity.this, GuideActivity.class);
                     startActivity(intent);
                     finish();
                 }
-            }, DELAY_TIME);
+            },0);
 
-        } else {
-            SharedPreferencesUtils.setParam(this, "versionname", versionName);
-            if (versionName.equals(vn)) {
-                delayByTime();
-            }
         }
+
     }
 
-    public void initData() {
-        ButterKnife.bind(this);
 
+    public void initData() {
         if(!NetWorkUtils.hasNetwork(this)){
             relativeLayout_nowork.setVisibility(View.VISIBLE);
             relativeLayout_haswork.setVisibility(View.INVISIBLE);
         }else {
             relativeLayout_nowork.setVisibility(View.INVISIBLE);
             relativeLayout_haswork.setVisibility(View.VISIBLE);
-            //判断是进入主页面还是引导页
-        //    isShowingMain();
         delayByTime();
-
         }
 
     }
-    private String getVersionName(){
-        //用来管理手机的APK
-        PackageManager pm = getPackageManager();
-        try {
-            //得到知道的APK的功能清单文件
-            PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
-            return info.versionName;
-
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
 
     private void delayByTime() {
       new Handler().postDelayed(new Runnable() {
           @Override
           public void run() {
-              Intent intent=new Intent(SplashActivity.this, GuideActivity.class);
+              Intent intent=new Intent(SplashActivity.this, LoginActivity.class);
               startActivity(intent);
               finish();
           }
       },DELAY_TIME);
 
     }
+    // 软件-版本
+    public static String getAppVersion() {
 
-
+        String versionName = "";
+        Application app = (Application) MyApplication.getApplication();
+        try {
+            PackageManager pkgMng = app.getPackageManager();
+            PackageInfo pkgInfo = pkgMng
+                    .getPackageInfo(app.getPackageName(), 0);
+            versionName = pkgInfo.versionName;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        return versionName;
+    }
 }
