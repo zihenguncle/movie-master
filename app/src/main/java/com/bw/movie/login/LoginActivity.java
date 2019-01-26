@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.Login_Success_Activity;
 import com.bw.movie.mvp.utils.Apis;
@@ -66,20 +67,16 @@ public class LoginActivity extends BaseActivity {
     ImageView imageView_login_eye;
     @BindView(R.id.weixin)
     ImageView weixin;
-    // IWXAPI 是第三方app和微信通信的openapi接口
-    private IWXAPI api;
+    private static IWXAPI api;
     private static final String APP_ID = "wxb3852e6a6b7d9516";
-    private String code;
-
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
-        // 通过WXAPIFactory工厂，获取IWXAPI的实例
-        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-        // 将应用的appId注册到微信
+        //AppConst.WEIXIN.APP_ID是指你应用在微信开放平台上的AppID，记得替换。
+        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
+        // 将该app注册到微信
         api.registerApp(APP_ID);
-
 
     }
 
@@ -112,6 +109,9 @@ public class LoginActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     checkBox_remember.setChecked(true);
+                }else {
+                    SharedPreferencesUtils.clearData(LoginActivity.this,"phone");
+                    SharedPreferencesUtils.clearData(LoginActivity.this,"pass");
                 }
             }
         });
@@ -133,18 +133,14 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void weixinLogin() {
-       // 第一步.请求code
-        // send oauth request
+        if (!api.isWXAppInstalled()) {
+           ToastUtils.toast("您还未安装微信客户端");
+            return;
+        }
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo_test";
-        api.sendReq(req);
-       /* Intent intent = getIntent();
-        code = intent.getStringExtra("code");
-        Map<String,String> map=new HashMap<>();
-        map.put("code", code);
-        startRequestPost(Apis.URL_WEIXIN_LOGIN,map,LoginBean.class);*/
-
+        req.state = "diandi_wx_login";
+         api.sendReq(req);
     }
 
     //触摸事件

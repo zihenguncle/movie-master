@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bw.movie.loading.LoadingUtils;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.view.IView;
 

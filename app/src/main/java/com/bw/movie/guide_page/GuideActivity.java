@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.bw.movie.R;
@@ -40,10 +41,11 @@ public class GuideActivity extends AppCompatActivity  {
     ViewPager guide_viewpager;
     private List<View> views;
     private GuideViewPagerAdapter adapter;
-    @BindView(R.id.group)
-    RadioGroup group;
-    @BindView(R.id.btn_enter)
-    Button startBtn;
+    @BindView(R.id.dots)
+    LinearLayout dots;
+
+   @BindView(R.id.btn_enter)
+   Button startBtn;
 
     // 引导页图片资源
     private static final int[] pics = {R.layout.fragment_guide_first,
@@ -57,16 +59,13 @@ public class GuideActivity extends AppCompatActivity  {
         ButterKnife.bind(this);
         views = new ArrayList<View>();
         initImages();
-        // 初始化adapter
+        initDot(views.size());
+       // 初始化adapter
         adapter = new GuideViewPagerAdapter(views,this);
         guide_viewpager.setAdapter(adapter);
-        Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
-        if(first_open){
-            Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
-            startActivity(intent);
-            finish();
-        }
+       dots.getChildAt(0).setSelected(true);
         guide_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            private int cacheIndex = -1;
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -74,24 +73,20 @@ public class GuideActivity extends AppCompatActivity  {
 
             @Override
             public void onPageSelected(int i) {
-               switch (i){
-                   case 0:
-                       group.check(R.id.but1);
-                       startBtn.setVisibility(View.INVISIBLE);
-                       break;
-                   case 1:
-                       group.check(R.id.but2);
-                       startBtn.setVisibility(View.INVISIBLE);
-                       break;
-                   case 2:
-                       group.check(R.id.but3);
-                       startBtn.setVisibility(View.INVISIBLE);
-                       break;
-                   case 3:
-                       group.check(R.id.but4);
-                       startBtn.setVisibility(View.VISIBLE);
-                       break;
-               }
+               if(i==views.size()-1){
+                    startBtn.setVisibility(View.VISIBLE);
+                }else{
+                    startBtn.setVisibility(View.INVISIBLE);
+                    if(i<views.size()-1){
+                        dots.getChildAt(0).setSelected(false);
+                       dots.getChildAt(i).setSelected(true);
+                        if(cacheIndex>=0){
+                            dots.getChildAt(cacheIndex).setSelected(false);
+                        }
+                        cacheIndex=i;
+                    }
+                }
+
             }
 
             @Override
@@ -99,34 +94,42 @@ public class GuideActivity extends AppCompatActivity  {
 
             }
         });
-         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-             @Override
-             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                 switch (checkedId){
-                     case R.id.but1:
-                         guide_viewpager.setCurrentItem(0);
-                         break;
-                     case R.id.but2:
-                         guide_viewpager.setCurrentItem(1);
-                         break;
-                     case R.id.but3:
-                         guide_viewpager.setCurrentItem(2);
-                         break;
-                     case R.id.but4:
-                         guide_viewpager.setCurrentItem(3);
-                         break;
-                 }
-             }
-         });
+
+
+
+
+      /*  Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
+        if(first_open){
+            Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
+            startActivity(intent);
+            finish();
+        }*/
 
     }
-    @OnClick({R.id.btn_enter})
+
+    private void initDot(int size) {
+        dots.removeAllViews();
+        for (int i=0;i<size;i++){
+            ImageView imageView=new ImageView(this);
+            imageView.setBackgroundResource(R.drawable.guide_selector);
+            LinearLayout.LayoutParams params=
+                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+            int dimension = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+            params.leftMargin=dimension;
+            params.rightMargin=dimension;
+            dots.addView(imageView,params);
+
+        }
+    }
+
+  @OnClick({R.id.btn_enter})
     public void getViewClick(View v){
         switch (v.getId()){
             case R.id.btn_enter:
                 Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
                 startActivity(intent);
-                SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
+              //  SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
                 finish();
                 break;
         }
@@ -144,7 +147,7 @@ public class GuideActivity extends AppCompatActivity  {
     protected void onPause() {
         super.onPause();
         // 如果切换到后台，就设置下次不进入功能引导页
-        SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
+       // SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
         finish();
     }
 }
