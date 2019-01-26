@@ -63,47 +63,45 @@ public class GuideActivity extends AppCompatActivity  {
        // 初始化adapter
         adapter = new GuideViewPagerAdapter(views,this);
         guide_viewpager.setAdapter(adapter);
-       dots.getChildAt(0).setSelected(true);
+         dots.getChildAt(0).setSelected(true);
         guide_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            private int cacheIndex = -1;
+            private int index=0;
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
 
             @Override
-            public void onPageSelected(int i) {
-               if(i==views.size()-1){
+            public void onPageSelected(int position) {
+                if(position==3){
                     startBtn.setVisibility(View.VISIBLE);
-                }else{
+                }else {
                     startBtn.setVisibility(View.INVISIBLE);
-                    if(i<views.size()-1){
-                        dots.getChildAt(0).setSelected(false);
-                       dots.getChildAt(i).setSelected(true);
-                        if(cacheIndex>=0){
-                            dots.getChildAt(cacheIndex).setSelected(false);
-                        }
-                        cacheIndex=i;
-                    }
                 }
+             dots.getChildAt(position%dots.getChildCount()).setSelected(true);
+                //还原原来的点
+                if(index>=0){
+                    dots.getChildAt(index%dots.getChildCount()).setSelected(false);
+                }
+                index=position;
+
+
 
             }
 
             @Override
-            public void onPageScrollStateChanged(int i) {
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
 
 
-
-
-      /*  Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
+    Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
         if(first_open){
             Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
             startActivity(intent);
             finish();
-        }*/
+        }
 
     }
 
@@ -129,7 +127,7 @@ public class GuideActivity extends AppCompatActivity  {
             case R.id.btn_enter:
                 Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
                 startActivity(intent);
-              //  SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
+           SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
                 finish();
                 break;
         }
@@ -147,7 +145,7 @@ public class GuideActivity extends AppCompatActivity  {
     protected void onPause() {
         super.onPause();
         // 如果切换到后台，就设置下次不进入功能引导页
-       // SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
+    SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
         finish();
     }
 }

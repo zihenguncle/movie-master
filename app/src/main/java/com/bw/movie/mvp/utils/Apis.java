@@ -28,4 +28,10 @@ public class Apis {
     //tool/v1/verify/recordFeedBack  post  意见反馈
     public static final String URL_FEED_BACK="tool/v1/verify/recordFeedBack";
 
+    //推荐影院  get
+    public static final String URL_RECOMMEND_CINEAMS="cinema/v1/findRecommendCinemas?page=%d&count=%d";
+    //附近影院  get
+    public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+
+
 }

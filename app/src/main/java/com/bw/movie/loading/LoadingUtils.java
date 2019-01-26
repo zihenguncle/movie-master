@@ -14,10 +14,10 @@ import android.widget.TextView;
 import com.bw.movie.R;
 
 public class LoadingUtils {
-    public static Dialog createLoadingDialog(Context context, String msg) {
-      //*  LayoutInflater inflater = LayoutInflater.from(context);
-        //View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view*//*
-        View v = View.inflate(context, R.layout.dialog_loading, null);
+  /*  public static Dialog createLoadingDialog(Context context, String msg) {
+    // 得到加载view
+       // View v = View.inflate(context, R.layout.dialog_loading, null);
+        View v=View.inflate(context,R.layout.dialog_loading,null);
         LinearLayout layout = v.findViewById(R.id.dialog_loading_view);
         TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字
         tipTextView.setText(msg);// 设置加载信息
@@ -42,14 +42,14 @@ public class LoadingUtils {
         return loadingDialog;
     }
 
-    /**
+    *//**
      * 关闭dialog
      * @param mDialogUtils
-     */
+     *//*
 
     public static void closeDialog(Dialog mDialogUtils) {
         if (mDialogUtils != null && mDialogUtils.isShowing()) {
             mDialogUtils.dismiss();
         }
-    }
+    }*/
 }
