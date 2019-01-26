@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="130dp"
-    android:layout_height="165dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/banner_style_relative"
     >
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="165dp">
 
     <ImageView
         android:id="@+id/item_movie_iamge"
@@ -37,8 +40,6 @@
             />
     </RelativeLayout>
 
-
-
-
+    </RelativeLayout>
 
 </RelativeLayout>

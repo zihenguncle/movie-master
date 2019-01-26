@@ -98,15 +98,72 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/banner_tag"
                 ></View>
-            <View
+            <RadioGroup
                 android:id="@+id/banner_tag"
-                android:layout_width="20dp"
+                android:layout_width="200dp"
                 android:layout_height="3dp"
-                android:layout_marginTop="20dp"
                 android:layout_below="@+id/custom_recycle"
+                android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/banner_tag_item"
-                ></View>
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:id="@+id/but_one"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:checked="true"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_two"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_three"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_four"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_five"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_sex"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+                <RadioButton
+                    android:id="@+id/but_seveen"
+                    android:layout_width="20dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/banner_tag_style"
+                    android:layout_marginLeft="10dp"
+                    android:button="@null"
+                    />
+            </RadioGroup>
             <TextView
                 android:id="@+id/hot_text"
                 android:layout_width="match_parent"
