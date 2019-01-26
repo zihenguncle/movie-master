@@ -26,7 +26,7 @@
         android:text="电影详情"
         android:textSize="14sp"
         android:layout_toRightOf="@+id/details_image_head"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="35dp"
         android:textColor="@color/colorWhite"
         />
     <ImageView
@@ -67,6 +67,7 @@
         android:background="@drawable/details_button_radius"
         android:layout_marginLeft="24dp"
         android:layout_alignParentLeft="true"
+        android:layout_marginTop="40dp"
         />
 
     <TextView
@@ -81,6 +82,7 @@
         android:layout_toRightOf="@+id/details_details_button"
         android:gravity="center"
         android:background="@drawable/details_button_radius"
+        android:layout_marginTop="40dp"
         />
 
     <TextView
@@ -95,6 +97,7 @@
         android:layout_toRightOf="@+id/details_notice_button"
         android:gravity="center"
         android:background="@drawable/details_button_radius"
+        android:layout_marginTop="40dp"
         />
     <TextView
         android:id="@+id/details_video_button"
@@ -110,6 +113,7 @@
         android:layout_toRightOf="@+id/details_stage_button"
         android:gravity="center"
         android:background="@drawable/details_button_radius"
+        android:layout_marginTop="40dp"
         />
     <RelativeLayout
         android:layout_width="match_parent"

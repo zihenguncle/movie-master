@@ -41,21 +41,21 @@ public class HomeBannerBean {
     public static class ResultBean {
 
 
-        //private boolean followMovie;
+        private int followMovie;
         private int id;
         private String imageUrl;
         private String name;
         private int rank;
         private String summary;
 
-        /*public boolean isFollowMovie() {
+        public int getFollowMovie() {
             return followMovie;
         }
 
-        public void setFollowMovie(boolean followMovie) {
+        public void setFollowMovie(int followMovie) {
             this.followMovie = followMovie;
         }
-*/
+
         public int getId() {
             return id;
         }

@@ -14,9 +14,8 @@
         android:layout_height="165dp"
         />
     <RelativeLayout
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="36dp"
-        android:layout_marginLeft="5dp"
         android:layout_alignBottom="@+id/item_movie_iamge"
         android:background="@drawable/banner_style"
         >
@@ -37,6 +36,8 @@
             android:layout_toRightOf="@+id/item_movie_view"
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
     </RelativeLayout>
 

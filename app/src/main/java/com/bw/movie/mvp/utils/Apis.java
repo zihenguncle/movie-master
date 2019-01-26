@@ -28,4 +28,8 @@ public class Apis {
     //tool/v1/verify/recordFeedBack  post  意见反馈
     public static final String URL_FEED_BACK="tool/v1/verify/recordFeedBack";
 
+    //电影详情的接口
+    public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";
+
+
 }

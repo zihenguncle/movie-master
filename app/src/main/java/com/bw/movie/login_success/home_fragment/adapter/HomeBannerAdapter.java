@@ -52,7 +52,6 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.Vi
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(holder.iamge);
         holder.name.setText(data.get(position%data.size()).getName());
-        holder.date.setText(data.get(position%data.size()).getRank()+"分钟");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,8 +70,6 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.item_home_img)
         ImageView iamge;
-        @BindView(R.id.item_banner_date)
-        TextView date;
         @BindView(R.id.item_banner_name)
         TextView name;
         public ViewHolder(View itemView) {
