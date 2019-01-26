@@ -46,25 +46,32 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected abstract void failed(String error);
 
     protected void startRequestGet(String url,Class clazz){
-        //loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
-        iPresemter.startRequestGet(url,clazz);
+        if(iPresemter != null) {
+            if(loadingDialog == null){
+                loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+            }
+            iPresemter.startRequestGet(url,clazz);
+        }
     }
 
     protected void startRequestPost(String url, Map<String,String> map, Class clazz){
-        //loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
-        iPresemter.startRequestPost(url,map,clazz);
+        if(iPresemter != null) {
+            loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+            iPresemter.startRequestPost(url, map, clazz);
+        }
     }
 
     @Override
     public void onSuccessed(Object data) {
-        //LoadingUtils.closeDialog(loadingDialog);
+
         successed(data);
+        LoadingUtils.closeDialog(loadingDialog);
     }
 
     @Override
     public void onFailed(String error) {
-        //LoadingUtils.closeDialog(loadingDialog);
         failed(error);
+        LoadingUtils.closeDialog(loadingDialog);
     }
 
     @Override

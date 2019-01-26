@@ -47,6 +47,7 @@ public class MovieNoceAdapter extends RecyclerView.Adapter<MovieNoceAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull MovieNoceAdapter.ViewHolder viewHolder, final int i) {
+        viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(i%data.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))

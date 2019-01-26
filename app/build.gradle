@@ -58,5 +58,8 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
+    //头条适配
+    implementation 'me.jessyan:autosize:1.1.2'
+
 
 }

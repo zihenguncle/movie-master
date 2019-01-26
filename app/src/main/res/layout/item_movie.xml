@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/dp_130"
-    android:layout_height="@dimen/dp_165"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/banner_style_relative"
     >
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_165">
 
     <ImageView
         android:id="@+id/item_movie_iamge"
@@ -11,9 +15,8 @@
         android:layout_height="@dimen/dp_165"
         />
     <RelativeLayout
-        android:layout_width="@dimen/dp_120"
+        android:layout_width="@dimen/dp_130"
         android:layout_height="@dimen/dp_36"
-        android:layout_marginLeft="@dimen/dp_5"
         android:layout_alignBottom="@+id/item_movie_iamge"
         android:background="@drawable/banner_style"
         >
@@ -34,7 +37,10 @@
             android:layout_toRightOf="@+id/item_movie_view"
             android:layout_centerVertical="true"
             android:textColor="@color/colorWhite"
+            android:maxLines="1"
+            android:ellipsize="end"
             />
+    </RelativeLayout>
     </RelativeLayout>
 
 

@@ -46,6 +46,7 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.Vi
 
     @Override
     public void onBindViewHolder(HomeBannerAdapter.ViewHolder holder, final int position) {
+        holder.iamge.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(position%data.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
