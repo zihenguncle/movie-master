@@ -4,8 +4,8 @@
     >
 
     <corners
-        android:bottomLeftRadius="@dimen/dp_10"
-        android:bottomRightRadius="@dimen/dp_10"
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp"
         ></corners>
 
     <solid

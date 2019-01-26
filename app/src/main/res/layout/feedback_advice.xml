@@ -9,9 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="意见反馈"
-        android:layout_marginTop="@dimen/dp_30"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="14sp"
         android:textColor="#333333"
         />
 
@@ -27,20 +27,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#fff"
-        app:cardCornerRadius="@dimen/dp_4"
-        app:cardElevation="@dimen/dp_8"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
-        android:layout_marginTop="@dimen/dp_22"
-        app:contentPadding="@dimen/dp_8"
-        android:layout_marginLeft="@dimen/dp_18"
-        android:layout_marginRight="@dimen/dp_18"
+        android:layout_marginTop="22dp"
+        app:contentPadding="8dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
         >
         <EditText
             android:id="@+id/advice_feedback_content"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_64"
+            android:layout_height="64dp"
             android:layout_below="@id/feedback_advice"
-            android:textSize="@dimen/sp_12"
+            android:textSize="12dp"
             android:textColor="#999999"
             android:background="@null"
             android:hint="写下您对产品的感受吧!工作人员将会在第一时间评估处理"
@@ -49,14 +49,14 @@
 
     <Button
         android:id="@+id/feedback_advice_button_submit"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_25"
+        android:layout_width="48dp"
+        android:layout_height="25dp"
         android:text="提交"
         android:textColor="#ffffff"
         android:layout_below="@id/personal_device_feedback"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/personal_feeback_advice_selector"
         />
     </RelativeLayout>
@@ -66,12 +66,12 @@
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_140"
+        android:layout_marginTop="140dp"
         >
         <ImageView
             android:id="@+id/personal_success_imageview"
-            android:layout_width="@dimen/dp_70"
-            android:layout_height="@dimen/dp_70"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:background="@mipmap/success"
             android:layout_centerHorizontal="true"
             />
@@ -81,34 +81,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="反馈成功"
-            android:textSize="@dimen/sp_16"
+            android:textSize="16sp"
             android:textColor="#333333"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginTop="30dp"
             android:layout_below="@id/personal_success_imageview"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/personal_advice_success"
-            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginTop="30dp"
             android:text="感谢您对维度影院的关注与支持,我们会认真处理您的反馈,尽快修复和完善相关功能"
-            android:textSize="@dimen/sp_12"
+            android:textSize="12sp"
             android:gravity="center_horizontal"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/dp_24"
-            android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
             android:textColor="#666666"
             />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/personal_advice_back"
-        android:layout_width="@dimen/dp_60"
-        android:layout_height="@dimen/dp_60"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="20dp"
         android:background="@mipmap/com_icon_my_default"
         />
 

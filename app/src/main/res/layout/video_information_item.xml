@@ -5,30 +5,30 @@
 
     <RadioButton
         android:id="@+id/message_video_information"
-        android:layout_width="@dimen/dp_83"
-        android:layout_height="@dimen/dp_23"
+        android:layout_width="83dp"
+        android:layout_height="23dp"
         android:text="待付款"
         android:gravity="center"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="50dp"
         android:textColor="@drawable/text_color_selector"
-        android:layout_marginLeft="@dimen/dp_80"
-        android:textSize="@dimen/sp_14"
+        android:layout_marginLeft="80dp"
+        android:textSize="14sp"
         android:button="@null"
         android:background="@drawable/personal_feedback_selector_buuuton"
         />
 
     <RadioButton
         android:id="@+id/message_comption_information"
-        android:layout_width="@dimen/dp_83"
-        android:layout_height="@dimen/dp_23"
+        android:layout_width="83dp"
+        android:layout_height="23dp"
         android:text="已完成"
         android:gravity="center"
         android:button="@null"
         android:layout_toRightOf="@id/message_video_information"
-        android:layout_marginTop="@dimen/dp_50"
-        android:layout_marginLeft="@dimen/dp_32"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="32dp"
         android:textColor="@drawable/text_color_selector"
-        android:textSize="@dimen/sp_14"
+        android:textSize="14sp"
         android:background="@drawable/personal_feedback_selector_buuuton"
         />
 
@@ -36,10 +36,10 @@
         android:id="@+id/personal_message_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/message_comption_information"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginRight="@dimen/dp_24"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
 

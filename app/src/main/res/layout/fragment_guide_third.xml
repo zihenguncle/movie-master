@@ -4,32 +4,32 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/image_guide_third"
-        android:layout_width="@dimen/dp_205"
-        android:layout_height="@dimen/dp_205"
+        android:layout_width="205dp"
+        android:layout_height="205dp"
         android:background="@mipmap/icon3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_150"
+        android:layout_marginTop="150dp"
         />
     <TextView
         android:id="@+id/text_cinema"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="一场电影"
-        android:textSize="@dimen/sp_14"
+        android:textSize="14sp"
         android:textColor="#333333"
         android:layout_below="@+id/image_guide_third"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_60"
+        android:layout_marginTop="60dp"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="荡涤你的心灵"
-        android:textSize="@dimen/sp_14"
+        android:textSize="14sp"
         android:textColor="#333333"
         android:layout_below="@+id/text_cinema"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginTop="20dp"
         />
 
 </RelativeLayout>
