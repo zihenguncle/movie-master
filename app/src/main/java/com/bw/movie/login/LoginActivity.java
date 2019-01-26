@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -67,17 +68,9 @@ public class LoginActivity extends BaseActivity {
     ImageView imageView_login_eye;
     @BindView(R.id.weixin)
     ImageView weixin;
-    private static IWXAPI api;
-    private static final String APP_ID = "wxb3852e6a6b7d9516";
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
-        //AppConst.WEIXIN.APP_ID是指你应用在微信开放平台上的AppID，记得替换。
-        api = WXAPIFactory.createWXAPI(this, APP_ID, false);
-        // 将该app注册到微信
-        api.registerApp(APP_ID);
-
     }
 
 
@@ -133,14 +126,18 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void weixinLogin() {
-        if (!api.isWXAppInstalled()) {
-           ToastUtils.toast("您还未安装微信客户端");
+        if (MyApplication.api == null) {
+            MyApplication.api = WXAPIFactory.createWXAPI(this, MyApplication.APP_ID, true);
+        }
+        if (!MyApplication.api.isWXAppInstalled()) {
+            ToastUtils.toast("您手机尚未安装微信，请安装后再登录");
             return;
         }
-        final SendAuth.Req req = new SendAuth.Req();
+        MyApplication.api.registerApp(MyApplication.APP_ID);
+        SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
-        req.state = "diandi_wx_login";
-         api.sendReq(req);
+        req.state = "wechat_sdk_xb_live_state";//官方说明：用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），建议第三方带上该参数，可设置为简单的随机数加session进行校验
+        MyApplication.api.sendReq(req);
     }
 
     //触摸事件
@@ -197,8 +194,10 @@ public class LoginActivity extends BaseActivity {
              ToastUtils.toast(bean.getMessage());
              //用SharedPreferences保存sessionId，userId
             int userId = bean.getResult().getUserId();
+             Log.i("TAG","userId:"+userId+"");
             // String phone = bean.getResult().getUserInfo().getPhone();
              String sessionId = bean.getResult().getSessionId();
+             Log.i("TAG","sessionId"+sessionId);
              SharedPreferencesUtils.setParam(this,"userId",userId+"");
              SharedPreferencesUtils.setParam(this,"sessionId",sessionId);
              if(checkBox_remember.isChecked()){

@@ -125,6 +125,7 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
         switch (v.getId()){
             case R.id.message_ticket:
                 loadsData();
+
                 break;
             case R.id.message_movie:
                 loadData();

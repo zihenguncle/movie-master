@@ -48,7 +48,7 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected void startRequestGet(String url,Class clazz){
         if(iPresemter != null) {
             if(loadingDialog == null){
-                loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+              //  loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
             }
             iPresemter.startRequestGet(url,clazz);
         }
@@ -56,7 +56,7 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected void startRequestPost(String url, Map<String,String> map, Class clazz){
         if(iPresemter != null) {
-            loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+           // loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
             iPresemter.startRequestPost(url, map, clazz);
         }
     }
@@ -65,13 +65,13 @@ public abstract class BaseFragment extends Fragment implements IView {
     public void onSuccessed(Object data) {
 
         successed(data);
-        LoadingUtils.closeDialog(loadingDialog);
+       // LoadingUtils.closeDialog(loadingDialog);
     }
 
     @Override
     public void onFailed(String error) {
         failed(error);
-        LoadingUtils.closeDialog(loadingDialog);
+       // LoadingUtils.closeDialog(loadingDialog);
     }
 
     @Override
