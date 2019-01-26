@@ -1,14 +1,10 @@
-package com.bw.movie.login.wxapi;
+package com.bw.movie.wxapi;
 
 import android.content.Intent;
-import android.provider.SyncStateContract;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
-import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login.LoginBean;
 import com.bw.movie.login_success.Login_Success_Activity;
 import com.bw.movie.mvp.utils.Apis;
@@ -18,9 +14,6 @@ import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX;
-import com.tencent.mm.opensdk.modelmsg.WXAppExtendObject;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -29,11 +22,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
-
+    private static final int RETURN_MSG_TYPE_LOGIN = 1;
+    private static final int RETURN_MSG_TYPE_SHARE = 2;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
     private static final String APP_ID = "wxb3852e6a6b7d9516";
-    private String code;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -62,9 +55,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     protected void initData() {
-        Map<String,String> map=new HashMap<>();
-        map.put("code", code);
-        startRequestPost(Apis.URL_WEIXIN_LOGIN,map,LoginBean.class);
+
 
     }
 
@@ -95,16 +86,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onReq(BaseReq baseReq) {
-        switch (baseReq.getType()) {
-            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
 
-                break;
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
-
-                break;
-            default:
-                break;
-        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -119,23 +101,32 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     public void onResp(BaseResp resp) {
-        int errorCode = resp.errCode;
-        switch (errorCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                //用户同意
-                code = ((SendAuth.Resp) resp).code;
+      /*  LogUtils.sf(resp.errStr);
+        LogUtils.sf("错误码 : " + resp.errCode + "");*/
+        switch (resp.errCode) {
+
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
 
                 break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                //用户拒绝
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                //用户取消
-                break;
-            default:
+            case BaseResp.ErrCode.ERR_OK:
+                switch (resp.getType()) {
+                    case RETURN_MSG_TYPE_LOGIN:
+                        //拿到了微信返回的code,立马再去请求access_token
+                        String code = ((SendAuth.Resp) resp).code;
+                        ToastUtils.toast("code = " + code);
+
+                        //就在这个地方，用网络库什么的或者自己封的网络api，发请求去咯，注意是get请求
+
+                        break;
+
+                    case RETURN_MSG_TYPE_SHARE:
+                       /* UIUtils.showToast("微信分享成功");
+                        finish();*/
+                        break;
+                }
                 break;
         }
-        ToastUtils.toast(resp.errStr);
     }
 
 
