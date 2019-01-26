@@ -61,5 +61,9 @@ dependencies {
     //头条适配
     implementation 'me.jessyan:autosize:1.1.2'
 
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+
 
 }

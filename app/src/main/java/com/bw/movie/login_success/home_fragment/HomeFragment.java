@@ -78,6 +78,7 @@ public class HomeFragment extends BaseFragment {
         noce_recycle.setAdapter(noceAdapter);
     }
 
+    //布局管理器
     private void setLayout() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
