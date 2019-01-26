@@ -48,6 +48,7 @@ public class MovieDoingAdapter extends RecyclerView.Adapter<MovieDoingAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull MovieDoingAdapter.ViewHolder viewHolder, final int i) {
+        viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(i%data.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))

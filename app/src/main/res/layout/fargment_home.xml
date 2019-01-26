@@ -13,7 +13,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_186"
-                android:src="@mipmap/beijing2"
+                android:background="@mipmap/beijing2"
                 />
 
             <ImageView

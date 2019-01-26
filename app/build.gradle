@@ -28,7 +28,6 @@ android {
         }
     }
 
-
 }
 
 dependencies {
@@ -57,12 +56,10 @@ dependencies {
     implementation 'com.chenlittleping:recyclercoverflow:1.0.6'
     //微信
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
-    implementation 'org.greenrobot:eventbus:3.1.1'
     //头条适配
     implementation 'me.jessyan:autosize:1.1.2'
-
-
 
 
 }
