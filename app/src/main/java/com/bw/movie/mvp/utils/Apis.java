@@ -30,11 +30,41 @@ public class Apis {
 
     //推荐影院  get
     public static final String URL_RECOMMEND_CINEAMS="cinema/v1/findRecommendCinemas?page=%d&count=%d";
+
     //附近影院  get
     public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
 
     //电影详情
     public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";
+
+    //根据电影名称模糊查询电影院
+    public static final String URL_FIND_CINEMA="cinema/v1/findAllCinemas?page=%d&count=%d&cinemaName=%s";
+
+    //关注影院
+    public static final String URL_FOLLOW_CINEMA="cinema/v1/verify/followCinema?cinemaId=%d";
+
+    //取消关注影院
+    public static final String URL_CANCEL_FOLLOW_CINEMA="cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
+
+
+    //user/v1/verify/userSignIn   签到
+    public static final String URL_SIGN_IN="user/v1/verify/userSignIn";
+    //user/v1/verify/getUserInfoByUserId  个人用户的信息
+    public static final String URL_PERSONAL_MESSAGE="user/v1/verify/getUserInfoByUserId";
+    //user/v1/verify/modifyUserPwd  修改密码
+    public static final String URL_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
+
+    //根据影院ID查询该影院当前排期的电影列表
+    public static final String URL_MOVIE_AT_TIME="movie/v1/findMovieListByCinemaId?cinemaId=%d";
+
+    //根据电影ID和影院ID查询电影排期列表
+    public static final String URL_SCHEDULE_CINEMA="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
+
+
+
+
+
+
 
 
 }

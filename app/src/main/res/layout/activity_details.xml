@@ -52,7 +52,7 @@
         android:layout_width="259dp"
         android:layout_height="360dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/details_name"
+        android:layout_below="@id/details_name"
         android:layout_marginTop="30dp"
         />
     <TextView
