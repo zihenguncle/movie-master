@@ -33,5 +33,8 @@ public class Apis {
     //附近影院  get
     public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
 
+    //电影详情
+    public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";
+
 
 }

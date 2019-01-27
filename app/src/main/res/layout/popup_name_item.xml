@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/item_popop_actor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/colorGray"
+        />
+    <TextView
+        android:id="@+id/zi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="饰"
+        android:textColor="#6b0e3d"
+        android:textSize="12sp"
+        />
+    <TextView
+        android:id="@+id/item_popup_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="12sp"
+        android:textColor="@color/colorGray"
+        android:layout_marginRight="10dp"
+        />
+    <View
+        android:id="@+id/bian"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/popup_line_item"
+        android:layout_below="@+id/item_popop_actor"
+        android:layout_marginTop="10dp"
+        ></View>
+
+
+</RelativeLayout>

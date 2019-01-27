@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bw.movie.R;
 
 public class LoadingUtils {
-  /*  public static Dialog createLoadingDialog(Context context, String msg) {
+    public static Dialog createLoadingDialog(Context context, String msg) {
     // 得到加载view
        // View v = View.inflate(context, R.layout.dialog_loading, null);
         View v=View.inflate(context,R.layout.dialog_loading,null);
@@ -42,14 +42,13 @@ public class LoadingUtils {
         return loadingDialog;
     }
 
-    *//**
-     * 关闭dialog
-     * @param mDialogUtils
-     *//*
-
+    /*//**
+     关闭dialog
+     @param mDialogUtil
+*/
     public static void closeDialog(Dialog mDialogUtils) {
         if (mDialogUtils != null && mDialogUtils.isShowing()) {
             mDialogUtils.dismiss();
         }
-    }*/
+    }
 }

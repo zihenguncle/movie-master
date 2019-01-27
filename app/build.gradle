@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bw.movie"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -63,6 +63,9 @@ dependencies {
 
     //eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //视频播放器
+    implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
 
 
 

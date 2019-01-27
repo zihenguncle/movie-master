@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/details_top_radio"
     android:clipChildren="false"
     >
     <RelativeLayout
@@ -14,8 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:background="@color/colorWhite"
         android:layout_below="@+id/p"
+        android:background="@drawable/details_top_radio"
         >
         
         <ImageView
@@ -135,12 +134,91 @@
             android:layout_marginLeft="25dp"
             />
         <View
+            android:id="@+id/v"
             android:layout_width="20dp"
             android:layout_height="3dp"
             android:layout_below="@+id/jq"
             android:background="@drawable/banner_tag_item"
             android:layout_marginLeft="24dp"
+            android:layout_marginTop="6dp"
             ></View>
+        <TextView
+            android:id="@+id/popup_text_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/v"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:maxLines="4"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/yy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/popup_text_intro"
+            android:text="演职人员"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="25dp"
+            />
+        <View
+            android:id="@+id/v1"
+            android:layout_width="20dp"
+            android:layout_height="3dp"
+            android:layout_below="@+id/yy"
+            android:background="@drawable/banner_tag_item"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="6dp"
+            ></View>
+        <TextView
+            android:id="@+id/yynz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="演员名字"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_below="@+id/v1"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="12dp"
+            android:padding="10dp"
+            android:background="@drawable/actro_name_style"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="饰演角色"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_below="@+id/v1"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="12dp"
+            android:padding="10dp"
+            android:background="@drawable/juese_style"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/popup_details_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/yynz"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_above="@+id/ck"
+            android:layout_marginBottom="20dp"
+            ></android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/ck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下滑查看更多"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+
+            />
     </RelativeLayout>
 
 </RelativeLayout>
