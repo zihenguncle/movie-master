@@ -177,6 +177,7 @@ public class LoginActivity extends BaseActivity {
             ToastUtils.toast("登录密码6-20位");
         }else {
             pwd = EncryptUtil.encrypt(pass);
+            SharedPreferencesUtils.setParam(this,"OldPwd",pwd);
             // ToastUtils.toast(pwd);
             Map<String,String> map=new HashMap<>();
             map.put("phone", phone);

@@ -49,6 +49,13 @@ public class Apis {
     //查询用户关注的影院信息
     public static final String URL_FOLLOW_CINEMA_INFO="cinema/v1/verify/findCinemaPageList?page=%d&count=%d";
 
+    //user/v1/verify/userSignIn   签到
+    public static final String URL_SIGN_IN="user/v1/verify/userSignIn";
+    //user/v1/verify/getUserInfoByUserId  个人用户的信息
+    public static final String URL_PERSONAL_MESSAGE="user/v1/verify/getUserInfoByUserId";
+    //user/v1/verify/modifyUserPwd  修改密码
+    public static final String URL_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
+
 
 
 

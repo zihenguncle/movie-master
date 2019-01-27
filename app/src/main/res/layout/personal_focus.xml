@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
 
 
 
@@ -43,5 +46,22 @@
         android:layout_marginRight="24dp"
         ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/personal_reset_selector"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView
+            android:id="@+id/image_View_Back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="24dp"
+            android:background="@mipmap/com_icon_my_default"
+            />
+
+    </RelativeLayout>
 
 </RelativeLayout>

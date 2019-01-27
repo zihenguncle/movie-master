@@ -14,6 +14,7 @@ import com.bw.movie.login_success.person.personal_adapter.VideoAdapter;
 import com.bw.movie.login_success.person.personal_bean.CimeamaBean;
 import com.bw.movie.login_success.person.personal_bean.VideInformationBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.BindView;
@@ -47,7 +48,7 @@ public class Personal_Message_TicketActivity extends BaseActivity {
 
     @Override
     protected void failed(String error) {
-        TextUtils.isEmpty(error);
+        ToastUtils.toast(error);
     }
 
 
