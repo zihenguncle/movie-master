@@ -2,18 +2,33 @@ package com.bw.movie.login_success.person;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.person.person_activity.Personal_FeedBack_Advice_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Fragment_Focus_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
+import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
+import com.bw.movie.login_success.person.personal_bean.SignInBean;
+import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.ToastUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PersonalFragment extends BaseFragment{
+    @BindView(R.id.personal_top_image)
+    ImageView personalTopImage;
+    @BindView(R.id.personal_name)
+    TextView personalName;
     @Override
     protected int getViewById() {
         return R.layout.fargment_personal;
@@ -21,7 +36,7 @@ public class PersonalFragment extends BaseFragment{
 
     @Override
     protected void initData() {
-
+        startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
     }
 
     @Override
@@ -29,9 +44,17 @@ public class PersonalFragment extends BaseFragment{
         ButterKnife.bind(this,view);
     }
 
-    @OnClick({R.id.personal_meassage_my,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
+    @OnClick({R.id.personal_meassage_my,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
     public void onClick(View v){
         switch (v.getId()){
+            case R.id.personal_message_secede:
+                Intent intent1 = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent1);
+                getActivity().finish();
+                break;
+            case R.id.personal_sign_in:
+                startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
+                break;
             case R.id.personal_meassage_my:
                 Intent intent = new Intent(getContext(), Personal_Message_Activity.class);
                 startActivity(intent);
@@ -53,12 +76,33 @@ public class PersonalFragment extends BaseFragment{
     }
     @Override
     protected void successed(Object data) {
-
+        if (data instanceof SignInBean) {
+            SignInBean signInBean = (SignInBean) data;
+            if (signInBean.getStatus().equals("0000")) {
+                ToastUtils.toast(signInBean.getMessage());
+            } else {
+                ToastUtils.toast(signInBean.getMessage());
+            }
+        } else if (data instanceof PersonalMessageBean) {
+            PersonalMessageBean personalMessageBean = (PersonalMessageBean) data;
+            if (personalMessageBean.getStatus().equals("0000")) {
+                ToastUtils.toast(personalMessageBean.getMessage());
+                String headPic = personalMessageBean.getResult().getHeadPic();
+                Glide.with(this)
+                        .load(headPic)
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into(personalTopImage);
+                String nickName = personalMessageBean.getResult().getNickName();
+                personalName.setText(nickName);
+            } else {
+                ToastUtils.toast(personalMessageBean.getMessage());
+            }
+        }
     }
 
     @Override
     protected void failed(String error) {
-
+        ToastUtils.toast(error);
     }
 
 }

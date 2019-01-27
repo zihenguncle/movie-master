@@ -47,6 +47,13 @@ public class Apis {
     public static final String URL_CANCEL_FOLLOW_CINEMA="cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
 
 
+    //user/v1/verify/userSignIn   签到
+    public static final String URL_SIGN_IN="user/v1/verify/userSignIn";
+    //user/v1/verify/getUserInfoByUserId  个人用户的信息
+    public static final String URL_PERSONAL_MESSAGE="user/v1/verify/getUserInfoByUserId";
+    //user/v1/verify/modifyUserPwd  修改密码
+    public static final String URL_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
+
 
 
 
