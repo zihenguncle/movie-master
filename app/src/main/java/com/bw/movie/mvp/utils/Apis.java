@@ -60,6 +60,9 @@ public class Apis {
     //根据电影ID和影院ID查询电影排期列表
     public static final String URL_SCHEDULE_CINEMA="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
 
+    //查看影片评论
+    public static final String URL_SELECT_TAKE = "movie/v1/findAllMovieComment?movieId=%d&page=%d&count=%d";
+
 
 
 

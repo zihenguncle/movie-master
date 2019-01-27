@@ -24,10 +24,13 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_image;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_name;
+import com.bw.movie.login_success.home_fragment.adapter.Popup_take;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_video;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
+import com.bw.movie.login_success.home_fragment.bean.TakeBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
 import java.util.ArrayList;
@@ -36,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.PATCH;
 
 public class DetailsActivity extends BaseActivity {
 
@@ -60,6 +64,8 @@ public class DetailsActivity extends BaseActivity {
     private TextView p_address;
     private DetailsBean databean;
     private RecyclerView recyclerView;
+    private TakeBean takeBean;
+    private XRecyclerView p_xrecyclerView;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -110,14 +116,48 @@ public class DetailsActivity extends BaseActivity {
         }
     }
 
-    private void getTake(View popup3) {
 
+    int page;
+    Popup_take popup_take;
+    private void getTake(View popup3) {
+        page = 1;
+        p_xrecyclerView = popup3.findViewById(R.id.popup_take_recycle);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        p_xrecyclerView.setLayoutManager(linearLayoutManager);
+        p_xrecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                page = 1;
+                getTakeList();
+            }
+
+            @Override
+            public void onLoadMore() {
+                getTakeList();
+            }
+        });
+        getTakeList();
+        popup_take = new Popup_take(this);
+        p_xrecyclerView.setAdapter(popup_take);
+        ImageView back = popup3.findViewById(R.id.popup_image_take_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow_nocie.dismiss();
+                NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+            }
+        });
     }
+
+    private void getTakeList() {
+        startRequestGet(String.format(Apis.URL_SELECT_TAKE,shop_id,page,5),TakeBean.class);
+    }
+
 
     private void getStage(View popup2) {
         RecyclerView recyclerView_stage = popup2.findViewById(R.id.popup_stage_recycle);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
-        //layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView_stage.setLayoutManager(layoutManager);
         ImageView back = popup2.findViewById(R.id.popup_image_stage_back);
         List<String> posterList = databean.getResult().getPosterList();
@@ -210,6 +250,17 @@ public class DetailsActivity extends BaseActivity {
             name.setText(databean.getResult().getName());
             Glide.with(this).load(imageUrl).into(details_image);
             Glide.with(this).load(imageUrl).into(details_iamge_boss);
+        }
+        if(data instanceof TakeBean){
+            takeBean = (TakeBean) data;
+            if(page == 1){
+                popup_take.setData(((TakeBean) data).getResult());
+            }else {
+                popup_take.addData(((TakeBean) data).getResult());
+            }
+            page++;
+            p_xrecyclerView.loadMoreComplete();
+            p_xrecyclerView.refreshComplete();
         }
     }
 
