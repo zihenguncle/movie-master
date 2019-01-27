@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
@@ -24,7 +25,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/*
+* 推荐影院，附近影院，关注，取消关注
+* zhangjing
+* 20190127
+*
+* */
 public class NearbyCinemaFragment extends BaseFragment {
     @BindView(R.id.cinema_recyclerView)
     XRecyclerView xRecyclerView;
@@ -42,6 +48,8 @@ public class NearbyCinemaFragment extends BaseFragment {
     TextView textView;
     private int mPage;
     private RecommendAdapter recommendAdapter;
+    private String cinema_name;
+
     @Override
     protected int getViewById() {
         return R.layout.fargment_nearbycinema;
@@ -58,6 +66,23 @@ public class NearbyCinemaFragment extends BaseFragment {
         recommendAdapter=new RecommendAdapter(getActivity());
         xRecyclerView.setAdapter(recommendAdapter);
 
+     recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
+         @Override
+         public void getInformation(int id, int followCinema,int position) {
+             if(followCinema==1){
+                 //取消关注
+                 cancelCollection(id);
+                 recommendAdapter.update2(position);
+
+             }else {
+                 //关注
+                 collection(id);
+                 recommendAdapter.update(position);
+
+             }
+         }
+     });
+
         //允许刷新和加载
         xRecyclerView.setLoadingMoreEnabled(true);
         xRecyclerView.setPullRefreshEnabled(true);
@@ -67,23 +92,40 @@ public class NearbyCinemaFragment extends BaseFragment {
                 mPage=1;
                 getInfoCinema();
                 getInfoNearby();
+                getInfoFindCinema();
             }
 
             @Override
             public void onLoadMore() {
                 getInfoCinema();
                 getInfoNearby();
+                getInfoFindCinema();
             }
         });
         getInfoCinema();
 
     }
 
+    private void collection(int id) {
+         startRequestGet(String.format(Apis.URL_FOLLOW_CINEMA,id), FollowBean.class);
+    }
+
+    private void cancelCollection(int id) {
+         startRequestGet(String.format(Apis.URL_CANCEL_FOLLOW_CINEMA,id),FollowBean.class);
+    }
+
+    private void getInfoFindCinema() {
+        mPage=1;
+        startRequestGet(String.format(Apis.URL_FIND_CINEMA,mPage,1,cinema_name),RecommentBean.class);
+    }
+
     private void getInfoNearby() {
+        mPage=1;
         startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,mPage,5), RecommentBean.class);
     }
 
     private void getInfoCinema() {
+        mPage=1;
         startRequestGet(String.format(Apis.URL_RECOMMEND_CINEAMS,mPage,5), RecommentBean.class);
     }
     //进行搜索，如果输入框有信息进行搜索，否则收起
@@ -94,7 +136,9 @@ public class NearbyCinemaFragment extends BaseFragment {
             translationX.start();
             image_search.setClickable(true);
         }else {
-            ToastUtils.toast(edit_search.getText().toString());
+          //  ToastUtils.toast(edit_search.getText().toString());
+            cinema_name = edit_search.getText().toString();
+            getInfoFindCinema();
         }
     }
 
@@ -161,6 +205,15 @@ public class NearbyCinemaFragment extends BaseFragment {
                    ToastUtils.toast(bean.getMessage());
                }
 
+           }else if(data instanceof FollowBean){
+               FollowBean bean= (FollowBean) data;
+               if(bean.getStatus().equals("0000")){
+                   ToastUtils.toast(bean.getMessage());
+
+
+               }else {
+                   ToastUtils.toast(bean.getMessage());
+               }
            }
     }
 

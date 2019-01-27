@@ -50,12 +50,48 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
           viewHolder.textView_name.setText(list.get(i).getName());
           viewHolder.textView_address.setText(list.get(i).getAddress());
           viewHolder.textView_km.setText(list.get(i).getDistance()+"km");
         Glide.with(context).load(list.get(i).getLogo()).into(viewHolder.imageView);
+
+        if(list.get(i).getFollowCinema()==1){
+            viewHolder.imageView_collection.setImageResource(R.mipmap.com_icon_collection_selected);
+        }else {
+            viewHolder.imageView_collection.setImageResource(R.mipmap.com_icon_collection_default);
+        }
+
+        //点击/取消关注
+        viewHolder.imageView_collection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                   if(callBack!=null){
+                       if(list.get(i).getFollowCinema()==1){
+                           callBack.getInformation(list.get(i).getId(),list.get(i).getFollowCinema(),i);
+                       }else {
+                           callBack.getInformation(list.get(i).getId(),list.get(i).getFollowCinema(),i);
+                       }
+                   }
+            }
+        });
+
+        //跳转到用户关注的影院信息
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+    public void update(int position){
+        list.get(position).setFollowCinema(1);
+        notifyDataSetChanged();
+    }
+    public void update2(int position){
+        list.get(position).setFollowCinema(2);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -80,4 +116,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
             ButterKnife.bind(this,itemView);
         }
     }
+    public CallBack callBack;
+    public void setOnCallBack(CallBack myCallBack){
+        this.callBack=myCallBack;
+    }
+    public interface CallBack {
+        void getInformation(int id,int followCinema,int position);
+    }
+
 }

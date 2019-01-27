@@ -17,5 +17,4 @@ public class NetWorkUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isAvailable();
     }
 
-
 }

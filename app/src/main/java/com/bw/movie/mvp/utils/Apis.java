@@ -30,8 +30,29 @@ public class Apis {
 
     //推荐影院  get
     public static final String URL_RECOMMEND_CINEAMS="cinema/v1/findRecommendCinemas?page=%d&count=%d";
+
     //附近影院  get
     public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+
+    //电影详情
+    public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";
+
+    //根据电影名称模糊查询电影院
+    public static final String URL_FIND_CINEMA="cinema/v1/findAllCinemas?page=%d&count=%d&cinemaName=%s";
+
+    //关注影院
+    public static final String URL_FOLLOW_CINEMA="cinema/v1/verify/followCinema?cinemaId=%d";
+
+    //取消关注影院
+    public static final String URL_CANCEL_FOLLOW_CINEMA="cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
+
+    //查询用户关注的影院信息
+    public static final String URL_FOLLOW_CINEMA_INFO="cinema/v1/verify/findCinemaPageList?page=%d&count=%d";
+
+
+
+
+
 
 
 }
