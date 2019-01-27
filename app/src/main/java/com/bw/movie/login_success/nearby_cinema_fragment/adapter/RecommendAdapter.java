@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.nearby_cinema_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
+import com.bw.movie.login_success.nearby_cinema_fragment.activity.CinemaDtailActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 
 import java.util.ArrayList;
@@ -77,11 +79,14 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
             }
         });
 
+        final RecommentBean.ResultBean resultBean = list.get(i);
         //跳转到用户关注的影院信息
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent=new Intent(context, CinemaDtailActivity.class);
+                intent.putExtra("cinemaInfo",resultBean);
+                context.startActivity(intent);
             }
         });
     }

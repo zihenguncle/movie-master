@@ -46,8 +46,6 @@ public class Apis {
     //取消关注影院
     public static final String URL_CANCEL_FOLLOW_CINEMA="cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
 
-    //查询用户关注的影院信息
-    public static final String URL_FOLLOW_CINEMA_INFO="cinema/v1/verify/findCinemaPageList?page=%d&count=%d";
 
 
 
