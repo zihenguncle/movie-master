@@ -1,8 +1,9 @@
 package com.bw.movie.login_success.nearby_cinema_fragment.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RecommentBean {
+public class RecommentBean implements Serializable{
     private String message;
     private String status;
     private List<ResultBean> result;
@@ -31,7 +32,7 @@ public class RecommentBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
         private String address;
         private int commentTotal;
         private int distance;
