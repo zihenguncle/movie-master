@@ -3,6 +3,7 @@ package com.bw.movie.login_success.nearby_cinema_fragment;
 import android.animation.ObjectAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ import butterknife.OnClick;
 * */
 public class NearbyCinemaFragment extends BaseFragment {
     @BindView(R.id.cinema_recyclerView)
-    XRecyclerView xRecyclerView;
+    RecyclerView xRecyclerView;
     @BindView(R.id.recommend_cinema)
     RadioButton radioButton_recommend;
     @BindView(R.id.nearby_cinema)
@@ -46,7 +47,6 @@ public class NearbyCinemaFragment extends BaseFragment {
     ImageView image_search;
     @BindView(R.id.home_text_search)
     TextView textView;
-    private int mPage;
     private RecommendAdapter recommendAdapter;
     private String cinema_name;
 
@@ -57,7 +57,6 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        mPage=1;
         //布局管理器
          LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         manager.setOrientation(OrientationHelper.VERTICAL);
@@ -83,25 +82,6 @@ public class NearbyCinemaFragment extends BaseFragment {
          }
      });
 
-        //允许刷新和加载
-        xRecyclerView.setLoadingMoreEnabled(true);
-        xRecyclerView.setPullRefreshEnabled(true);
-        xRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh() {
-                mPage=1;
-                getInfoCinema();
-                getInfoNearby();
-                getInfoFindCinema();
-            }
-
-            @Override
-            public void onLoadMore() {
-                getInfoCinema();
-                getInfoNearby();
-                getInfoFindCinema();
-            }
-        });
         getInfoCinema();
 
     }
@@ -115,18 +95,18 @@ public class NearbyCinemaFragment extends BaseFragment {
     }
 
     private void getInfoFindCinema() {
-        mPage=1;
-        startRequestGet(String.format(Apis.URL_FIND_CINEMA,mPage,1,cinema_name),RecommentBean.class);
+
+        startRequestGet(String.format(Apis.URL_FIND_CINEMA,1,10,cinema_name),RecommentBean.class);
     }
 
     private void getInfoNearby() {
-        mPage=1;
-        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,mPage,5), RecommentBean.class);
+
+        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10), RecommentBean.class);
     }
 
     private void getInfoCinema() {
-        mPage=1;
-        startRequestGet(String.format(Apis.URL_RECOMMEND_CINEAMS,mPage,5), RecommentBean.class);
+
+        startRequestGet(String.format(Apis.URL_RECOMMEND_CINEAMS,1,10), RecommentBean.class);
     }
     //进行搜索，如果输入框有信息进行搜索，否则收起
     private void gotoSearch() {
@@ -193,14 +173,7 @@ public class NearbyCinemaFragment extends BaseFragment {
                RecommentBean bean= (RecommentBean) data;
                if(bean.getStatus().equals("0000")){
                    List<RecommentBean.ResultBean> result = bean.getResult();
-                   if(mPage==1){
-                       recommendAdapter.setList(result);
-                   }else {
-                       recommendAdapter.addList(result);
-                   }
-                   mPage++;
-                   xRecyclerView.refreshComplete();
-                   xRecyclerView.loadMoreComplete();
+                 recommendAdapter.setList(result);
                }else {
                    ToastUtils.toast(bean.getMessage());
                }

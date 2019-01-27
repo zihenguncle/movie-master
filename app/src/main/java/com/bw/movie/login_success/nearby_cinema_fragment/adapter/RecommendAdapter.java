@@ -31,16 +31,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
     }
 
     public void setList(List<RecommentBean.ResultBean> list) {
-        this.list .clear();
-        if(list!=null){
-            this.list.addAll(list);
-        }
-        notifyDataSetChanged();
-    }
-    public void addList(List<RecommentBean.ResultBean> list) {
-        if(list!=null){
-            this.list.addAll(list);
-        }
+        this.list = list;
         notifyDataSetChanged();
     }
 

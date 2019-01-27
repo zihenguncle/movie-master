@@ -101,15 +101,14 @@
         android:layout_below="@+id/relative_search"
         android:elevation="4dp"
         />
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/cinema_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/nearby_cinema"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/cinema_recyclerView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_below="@+id/nearby_cinema"
+       android:layout_marginTop="10dp"
+       android:layout_marginLeft="24dp"
+       android:layout_marginRight="24dp"></android.support.v7.widget.RecyclerView>
 
 
 </RelativeLayout>

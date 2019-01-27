@@ -54,6 +54,13 @@ public class Apis {
     //user/v1/verify/modifyUserPwd  修改密码
     public static final String URL_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
 
+    //根据影院ID查询该影院当前排期的电影列表
+    public static final String URL_MOVIE_AT_TIME="movie/v1/findMovieListByCinemaId?cinemaId=%d";
+
+    //根据电影ID和影院ID查询电影排期列表
+    public static final String URL_SCHEDULE_CINEMA="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
+
+
 
 
 
