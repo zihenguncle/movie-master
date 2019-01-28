@@ -66,9 +66,10 @@ public class Apis {
     //查看影片评论的回复
     public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?cinemasId=%d&page=%d&count=%d";
 
-
-
-
+    //URL_TICKET_LIST 购买
+    public static final String URL_TICKET_LIST ="movie/v1/findCinemasListByMovieId?movieId=%d";
+    //URL_TICKET_RECORD  购票记录  user/v1/verify/findUserBuyTicketRecordList
+    public static final String URL_TICKET_RECORD ="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 
 
 

@@ -34,7 +34,6 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
     private CimeamaAdapter cimeamaAdapter;
     private VideoAdapter videoAdapter;
 
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
@@ -55,32 +54,36 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
         messageMovie.setChecked(false);
         messageTicket.setChecked(true);
 
+        videoAdapter = new VideoAdapter(this);
+        personalMessageTitcket.setAdapter(videoAdapter);
+
+        cimeamaAdapter = new CimeamaAdapter(this);
+        personalMessageTitcket.setAdapter(cimeamaAdapter);
+
         personalMessageTitcket.setLoadingMoreEnabled(true);
         personalMessageTitcket.setPullRefreshEnabled(true);
         personalMessageTitcket.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 mPage=1;
-                loadData();
-                loadsData();
+                loadData(mPage);
+                loadsData(mPage);
             }
 
             @Override
             public void onLoadMore() {
-                loadData();
-                loadsData();
+                loadData(mPage);
+                loadsData(mPage);
             }
         });
-        loadsData();
+        loadsData(mPage);
     }
 
-    private void loadData(){
-        mPage=1;
+    private void loadData(int mPage){
         startRequestGet(String.format(Apis.URL_CIMEAMA,mPage,TYPA_CIMEAMA_COUNT),CimeamaBean.class);
     }
 
-    private void loadsData(){
-        mPage=1;
+    private void loadsData(int mPage){
         startRequestGet(String.format(Apis.URL_VIDE_INFORMATION,mPage,TYPA_CIMEAMA_COUNT),VideInformationBean.class);
     }
     @Override
@@ -89,8 +92,6 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
             CimeamaBean cimeamaBean=(CimeamaBean) data;
 
             if(cimeamaBean.getStatus().equals("0000")){
-                cimeamaAdapter = new CimeamaAdapter(this);
-                personalMessageTitcket.setAdapter(cimeamaAdapter);
                 if(mPage==1){
                     cimeamaAdapter.setDatas(cimeamaBean.getResult());
                 }else{
@@ -108,14 +109,11 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
             VideInformationBean videInformationBean= (VideInformationBean)data;
 
             if(videInformationBean.getStatus().equals("0000")){
-                videoAdapter = new VideoAdapter(this);
-                personalMessageTitcket.setAdapter(videoAdapter);
                 if(mPage==1){
                     videoAdapter.setDatas(videInformationBean.getResult());
                 }else{
                     videoAdapter.addDatas(videInformationBean.getResult());
                 }
-
                 mPage++;
                 personalMessageTitcket.loadMoreComplete();
                 personalMessageTitcket.refreshComplete();
@@ -133,18 +131,23 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
                 finish();
                 break;
             case com.bw.movie.R.id.message_ticket:
-                loadsData();
+                mPage=1;
+                loadsData(mPage);
                 messageMovie.setChecked(false);
                 messageTicket.setChecked(true);
                 break;
             case com.bw.movie.R.id.message_movie:
-               loadData();
+                mPage=1;
+               loadData(mPage);
                 messageTicket.setChecked(false);
                 messageMovie.setChecked(true);
                 break;
             default:break;
         }
     }
+
+
+
     @Override
     protected void failed(String error) {
         ToastUtils.toast(error);
