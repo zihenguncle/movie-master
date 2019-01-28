@@ -64,7 +64,6 @@ public class DetailsActivity extends BaseActivity {
     private TextView p_address;
     private DetailsBean databean;
     private RecyclerView recyclerView;
-    private TakeBean takeBean;
     private XRecyclerView p_xrecyclerView;
 
     @Override
@@ -252,7 +251,6 @@ public class DetailsActivity extends BaseActivity {
             Glide.with(this).load(imageUrl).into(details_iamge_boss);
         }
         if(data instanceof TakeBean){
-            takeBean = (TakeBean) data;
             if(page == 1){
                 popup_take.setData(((TakeBean) data).getResult());
             }else {

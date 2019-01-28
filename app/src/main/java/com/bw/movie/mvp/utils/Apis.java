@@ -63,6 +63,8 @@ public class Apis {
     //查看影片评论
     public static final String URL_SELECT_TAKE = "movie/v1/findAllMovieComment?movieId=%d&page=%d&count=%d";
 
+    //查看影片评论的回复
+    public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?cinemasId=%d&page=%d&count=%d";
 
 
 
