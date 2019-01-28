@@ -57,7 +57,7 @@ public class DetailsBean {
 
         private String director;
         private String duration;
-       // private int followMovie;
+        private int followMovie;
         private int id;
         private String imageUrl;
         private String movieTypes;
@@ -85,13 +85,13 @@ public class DetailsBean {
             this.duration = duration;
         }
 
-       /* public int getFollowMovie() {
+        public int getFollowMovie() {
             return followMovie;
         }
 
         public void setFollowMovie(int followMovie) {
             this.followMovie = followMovie;
-        }*/
+        }
 
         public int getId() {
             return id;

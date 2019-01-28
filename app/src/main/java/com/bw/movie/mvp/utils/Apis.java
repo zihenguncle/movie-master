@@ -64,13 +64,17 @@ public class Apis {
     public static final String URL_SELECT_TAKE = "movie/v1/findAllMovieComment?movieId=%d&page=%d&count=%d";
 
     //查看影片评论的回复
-    public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?cinemasId=%d&page=%d&count=%d";
+    public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
 
     //URL_TICKET_LIST 购买
     public static final String URL_TICKET_LIST ="movie/v1/findCinemasListByMovieId?movieId=%d";
     //URL_TICKET_RECORD  购票记录  user/v1/verify/findUserBuyTicketRecordList
     public static final String URL_TICKET_RECORD ="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 
+    //关注电影
+    public static final String URL_LOVEMOVIE = "movie/v1/verify/followMovie?movieId=%d";
 
+    //取消关注
+    public static final String URLNOLOVEMOVIE= "movie/v1/verify/cancelFollowMovie?movieId=%d";
 
 }
