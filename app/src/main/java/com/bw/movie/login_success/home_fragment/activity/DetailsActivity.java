@@ -86,7 +86,7 @@ public class DetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.details_back,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
+    @OnClick({R.id.details_back,R.id.details_gotopay,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
     public void onclick(View view){
             switch (view.getId()){
             //点击返回键
@@ -110,6 +110,10 @@ public class DetailsActivity extends BaseActivity {
                     View popup3 = getPopup(R.layout.popup_take);
                     getTake(popup3);
                     break;
+                case R.id.details_gotopay:
+                    Intent intent = new Intent(this, BuyTicketActivity.class);
+                    intent.putExtra("movieId",shop_id);
+                    startActivity(intent);
                 default:
                     break;
         }
@@ -137,7 +141,7 @@ public class DetailsActivity extends BaseActivity {
             }
         });
         getTakeList();
-        popup_take = new Popup_take(this);
+        popup_take = new Popup_take(this,shop_id);
         p_xrecyclerView.setAdapter(popup_take);
         ImageView back = popup3.findViewById(R.id.popup_image_take_back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -275,5 +279,11 @@ public class DetailsActivity extends BaseActivity {
         // 所以在Activity中onBackPress要交给NiceVideoPlayer先处理。
         if (NiceVideoPlayerManager.instance().onBackPressd()) return;
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        popup_take.detach();
     }
 }

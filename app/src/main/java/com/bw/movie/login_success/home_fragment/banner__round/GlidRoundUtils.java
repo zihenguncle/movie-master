@@ -43,8 +43,6 @@ public class GlidRoundUtils extends BitmapTransformation {
         paint.setShader(new BitmapShader(source, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
         paint.setAntiAlias(true);
         RectF rectF = new RectF(0f, 0f, source.getWidth(), source.getHeight());
-        Log.i("TAG",source.getWidth()+"");
-        Log.i("TAG",source.getHeight()+" ");
         canvas.drawRoundRect(rectF, radius, radius, paint);
         return result;
     }

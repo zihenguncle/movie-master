@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/details_top_radio"
     >
 
     <ImageView
@@ -97,6 +96,7 @@
         android:layout_below="@+id/v"
         android:layout_marginTop="10dp"
         android:text="共0条评论"
+        android:visibility="gone"
         />
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/item_xrecycle_item"
