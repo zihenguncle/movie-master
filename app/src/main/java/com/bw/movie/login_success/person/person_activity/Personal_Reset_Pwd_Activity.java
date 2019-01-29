@@ -1,10 +1,12 @@
 package com.bw.movie.login_success.person.person_activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,13 +39,13 @@ public class Personal_Reset_Pwd_Activity extends BaseActivity implements View.On
     @BindView(R.id.personal_reset_again_pwd)
     TextView personalResetAgainPwd;
     @BindView(R.id.personal_reset_pwd_textView)
-    TextView personalResetPwdTextView;
+    EditText personalResetPwdTextView;
     @BindView(R.id.personal_reset_view2)
     View personalResetView2;
     @BindView(R.id.personal_enter_again)
     TextView personalEnterAgain;
     @BindView(R.id.personal_enter_again_textView)
-    TextView personalEnterAgainTextView;
+    EditText personalEnterAgainTextView;
     private String pwd_again;
     @BindView(R.id.relative_layout)
     RelativeLayout relativeLayout;
@@ -58,42 +60,45 @@ public class Personal_Reset_Pwd_Activity extends BaseActivity implements View.On
         return R.layout.personal_reset_pwd;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initData() {
         final String oldPwd = SharedPreferencesUtils.getParam(this, "OldPwd", "0****0").toString();
         String decrypt = EncryptUtil.decrypt(oldPwd);
         String maskNumber = decrypt.substring(0,1)+"****"+decrypt.substring(5,decrypt.length());
         personalCurrentTextView.setText(maskNumber);
-        final String s = personalResetPwdTextView.getText().toString();
-        pwd_again = personalEnterAgainTextView.getText().toString();
 
-        if(TextUtils.isEmpty(s)||!RegexUtils.isPassword(s)||s.length()<6){
-            ToastUtils.toast("重置密码不能为空,长度为6位");
-        } else if(TextUtils.isEmpty(pwd_again)||!RegexUtils.isPassword(pwd_again)||s.length()<6) {
-            ToastUtils.toast("请再次输入密码不能为空,长度为6位");
-        }else {
-            relativeLayout.setOnTouchListener(new View.OnTouchListener() {
+        relativeLayout.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    relativeLayout.setFocusable(true);
-                    relativeLayout.setFocusableInTouchMode(true);
-                    relativeLayout.requestFocus();
-                    if (s.equals(pwd_again)) {
-                        String pwd = EncryptUtil.encrypt(s);
-                        String encrypt = EncryptUtil.encrypt(pwd_again);
-                        Map<String, String> params = new HashMap<>();
-                        params.put("oldPwd", oldPwd);
-                        params.put("newPwd", pwd);
-                        params.put("newPwd2", encrypt);
-                        startRequestPost(Apis.URL_UPDATE_PASSWORD, params, UpdatePwdBean.class);
-                    } else {
-                        ToastUtils.toast("请重新输入");
+
+                    final String s = personalResetPwdTextView.getText().toString();
+                    pwd_again = personalEnterAgainTextView.getText().toString();
+
+                    if (TextUtils.isEmpty(s) || !RegexUtils.isPassword(s) || s.length() < 6) {
+                        ToastUtils.toast("重置密码不能为空,长度为6位");
+                    } else if (TextUtils.isEmpty(pwd_again) || !RegexUtils.isPassword(pwd_again) || s.length() < 6) {
+                        ToastUtils.toast("请再次输入密码不能为空,长度为6位");
+                    }else{
+                        relativeLayout.setFocusable(true);
+                        relativeLayout.setFocusableInTouchMode(true);
+                        relativeLayout.requestFocus();
+                        if (s.equals(pwd_again)) {
+                            String pwd = EncryptUtil.encrypt(s);
+                            String encrypt = EncryptUtil.encrypt(pwd_again);
+                            Map<String, String> params = new HashMap<>();
+                            params.put("oldPwd", oldPwd);
+                            params.put("newPwd", pwd);
+                            params.put("newPwd2", encrypt);
+                           startRequestPost(Apis.URL_UPDATE_PASSWORD, params, UpdatePwdBean.class);
+                        } else {
+                            ToastUtils.toast("请重新输入");
+                        }
                     }
                     return false;
                 }
-            });
-        }
-    }
+    });
+}
 
     @Override
     protected void successed(Object data) {
@@ -101,9 +106,9 @@ public class Personal_Reset_Pwd_Activity extends BaseActivity implements View.On
             UpdatePwdBean updatePwdBean= (UpdatePwdBean) data;
             if (updatePwdBean.getStatus().equals("0000")){
                 ToastUtils.toast(updatePwdBean.getMessage());
-               /* Intent intent = new Intent(this, LoginActivity.class);
+               Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
-                finish();*/
+                finish();
             }else{
                 ToastUtils.toast(updatePwdBean.getMessage());
             }
