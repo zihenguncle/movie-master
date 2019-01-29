@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -23,8 +25,10 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.person.personal_bean.FileImageUntils;
 import com.bw.movie.login_success.person.personal_bean.HeanPicBean;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
+import com.bw.movie.login_success.person.personal_bean.UpdateBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.register.RegisterBean;
 import com.bw.movie.tools.SimpleDataUtils;
 import com.bw.movie.tools.ToastUtils;
 
@@ -61,6 +65,10 @@ public class Personal_Message_Activity extends BaseActivity {
     private String path=Environment.getExternalStorageDirectory()+"/image.png";
     private String files=Environment.getExternalStorageDirectory()+"/zld.png";
     private HeanPicBean heanPicBean;
+    private PersonalMessageBean personalMessageBean;
+    private String email;
+    private String nick;
+    private PopupWindow popupWindow;
 
 
     @Override
@@ -68,9 +76,13 @@ public class Personal_Message_Activity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({com.bw.movie.R.id.personal_reset_pwd, com.bw.movie.R.id.personal_message_back,R.id.personal_icon})
+    @OnClick({com.bw.movie.R.id.personal_reset_pwd,R.id.personal_nickName_textView, com.bw.movie.R.id.personal_message_back,R.id.personal_icon})
     public void onClick(View v){
         switch (v.getId()){
+            case R.id.personal_nickName_textView:
+                //修改用户信息的popwindow
+                updateMessage();
+                break;
             case R.id.personal_icon:
                 //点击头像弹出popwindow
                 popWindow();
@@ -84,6 +96,55 @@ public class Personal_Message_Activity extends BaseActivity {
                 break;
                 default:break;
         }
+    }
+
+    int gender;
+    //修改用户信息的popwindow
+    private void updateMessage() {
+        View view=View.inflate(this,R.layout.popwindow_update_message,null);
+        EditText update_nick=view.findViewById(R.id.update_nick);
+        EditText update_sex=view.findViewById(R.id.update_sex);
+        EditText update_email=view.findViewById(R.id.update_email);
+        Button button=view.findViewById(R.id.user_but);
+        popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.showAtLocation(view,
+                Gravity.CENTER, 0, 0);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setTouchable(true);
+        update_nick.setText(personalMessageBean.getResult().getNickName());
+        int sex = personalMessageBean.getResult().getSex();
+        if(sex==1){
+            update_sex.setText("男");
+        }else{
+            update_sex.setText("女");
+        }
+        update_email.setText(personalMessageBean.getResult().getEmail());
+
+        email = update_email.getText().toString();
+        nick = update_nick.getText().toString();
+        String sex1 = update_sex.getText().toString();
+        if(sex1.equals("男")){
+            gender=1;
+        }else{
+            gender=2;
+        }
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String,String> params=new HashMap<>();
+                params.put("nickName", nick);
+                params.put("sex",gender+"");
+                params.put("email", email);
+
+                startRequestPost(Apis.URL_UPDATE_INFORMMATION,params,UpdateBean.class);
+                popupWindow.dismiss();
+            }
+        });
+
+
+
     }
 
     //上传头像
@@ -141,7 +202,7 @@ public class Personal_Message_Activity extends BaseActivity {
     @Override
     protected void successed(Object data) {
         if(data instanceof PersonalMessageBean){
-            PersonalMessageBean personalMessageBean= (PersonalMessageBean) data;
+            personalMessageBean = (PersonalMessageBean) data;
             if(personalMessageBean.getStatus().equals("0000")){
                 String headPic = personalMessageBean.getResult().getHeadPic();
                 Glide.with(this)
@@ -174,6 +235,20 @@ public class Personal_Message_Activity extends BaseActivity {
                 EventBus.getDefault().postSticky(new MessageList("hendPic", heanPicBean.getHeadPath()));
             }else{
                 ToastUtils.toast(heanPicBean.getMessage());
+            }
+        }else if(data instanceof UpdateBean){
+            UpdateBean registerBean= (UpdateBean) data;
+            if (registerBean.getStatus().equals("0000")){
+                ToastUtils.toast(registerBean.getMessage());
+                personal_nickName.setText(registerBean.getResult().getNickName());
+                int sex = personalMessageBean.getResult().getSex();
+                if(sex==1){
+                    personal_sex.setText("男");
+                }else{
+                    personal_sex.setText("女");
+                }
+            }else{
+                ToastUtils.toast(registerBean.getMessage());
             }
         }
     }

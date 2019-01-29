@@ -88,5 +88,6 @@ public class Apis {
 
     //影院评论点赞
     public static final String URL_CINEMA_COMMENT_GRENT = "cinema/v1/verify/cinemaCommentGreat";
-
+    //修改用户信息
+    public static final String URL_UPDATE_INFORMMATION = "user/v1/verify/modifyUserInfo";
 }

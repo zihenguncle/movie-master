@@ -106,7 +106,7 @@ public class Personal_Reset_Pwd_Activity extends BaseActivity implements View.On
             UpdatePwdBean updatePwdBean= (UpdatePwdBean) data;
             if (updatePwdBean.getStatus().equals("0000")){
                 ToastUtils.toast(updatePwdBean.getMessage());
-               Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }else{
