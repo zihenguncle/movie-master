@@ -42,16 +42,16 @@ public class MovieBannerAdapter extends RecyclerView.Adapter<MovieBannerAdapter.
     public void onBindViewHolder(MovieBannerAdapter.ViewHolder holder, final int position) {
         holder.iamge.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
-                .load(data.get(position%data.size()).getImageUrl())
+                .load(data.get(position).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(holder.iamge);
-        holder.name.setText(data.get(position%data.size()).getName());
+        holder.name.setText(data.get(position).getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

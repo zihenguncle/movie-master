@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -29,6 +30,7 @@ import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeanone;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeantwo;
 import com.bw.movie.login_success.home_fragment.bean.HomeMovieBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.activity.ImageViewAnimationHelper;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 
@@ -71,9 +73,8 @@ public class HomeFragment extends BaseFragment {
     RecyclerView doing_recycle;
     @BindView(R.id.noce_movie_xrecycle)
     RecyclerView noce_recycle;
-
-    @BindView(R.id.banner_tag)
-    RadioGroup radiogroup;
+    @BindView(R.id.checked_layout)
+    LinearLayout checkedLayout;
     private List<HomeBannerBean.ResultBean> result;
 
     @Override
@@ -89,42 +90,17 @@ public class HomeFragment extends BaseFragment {
         doing_recycle.setAdapter(doingAdapter);
         noceAdapter = new MovieNoceAdapter(getActivity());
         noce_recycle.setAdapter(noceAdapter);
+        final ImageViewAnimationHelper imageViewAnimationHelper = new ImageViewAnimationHelper(getActivity(), checkedLayout, 2, 30);
         coverFlow_recycle.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
             @Override
             public void onItemSelected(int position) {
                int i = position%result.size();
-               setCuur(i);
+                imageViewAnimationHelper.startAnimation(position);
             }
         });
     }
 
-    private void setCuur(int i) {
-        switch (i){
-            case 0:
-                radiogroup.check(R.id.but_one);
-                break;
-            case 1:
-                radiogroup.check(R.id.but_two);
-                break;
-            case 2:
-                radiogroup.check(R.id.but_three);
-                break;
-            case 3:
-                radiogroup.check(R.id.but_four);
-                break;
-            case 4:
-                radiogroup.check(R.id.but_five);
-                break;
-            case 5:
-                radiogroup.check(R.id.but_sex);
-                break;
-            case 6:
-                radiogroup.check(R.id.but_seveen);
-                break;
-            default:
-                break;
-        }
-    }
+
     //布局管理器
     private void setLayout() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -204,6 +180,7 @@ public class HomeFragment extends BaseFragment {
             coverFlow_recycle.setAdapter(homeBannerAdapter);
             result = ((HomeBannerBean) data).getResult();
             noceAdapter.setData(((HomeBannerBean) data).getResult());
+            coverFlow_recycle.smoothScrollToPosition(4);
         }
 
         if(data instanceof HomeBannerBeantwo){

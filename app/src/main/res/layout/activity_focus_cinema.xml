@@ -62,86 +62,33 @@
         android:layout_height="260dp"
         android:layout_below="@+id/relative_focus"
         />
-    <View
-        android:layout_width="312dp"
+    <LinearLayout
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:layout_below="@+id/rcf_cinema_flow"
-        android:layout_marginTop="5dp"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/banner_tag"
-        ></View>
-    <RadioGroup
-        android:id="@+id/banner_tag"
-        android:layout_width="200dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/rcf_cinema_flow"
-        android:layout_centerHorizontal="true"
         android:orientation="horizontal"
-        >
-        <RadioButton
-            android:id="@+id/but_one"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:button="@null"
-            />
-        <RadioButton
-            android:id="@+id/but_two"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/rcf_cinema_flow"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp">
 
-            />
-        <RadioButton
-            android:id="@+id/but_three"
+        <LinearLayout
+            android:id="@+id/checked_layout"
             android:layout_width="20dp"
             android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
-            android:checked="true"
-            />
-        <RadioButton
-            android:id="@+id/but_four"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
-            />
-        <RadioButton
-            android:id="@+id/but_five"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
-            />
-        <RadioButton
-            android:id="@+id/but_sex"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
-            />
-        <RadioButton
-            android:id="@+id/but_seveen"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/banner_tag_style"
-            android:layout_marginLeft="10dp"
-            android:button="@null"
-            />
-    </RadioGroup>
+            android:background="@drawable/bg_dividing_line_title"
+            android:gravity="center"
+            android:orientation="horizontal"
+            ></LinearLayout>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/shedule_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/banner_tag"
+        android:layout_below="@+id/parent_layout"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
