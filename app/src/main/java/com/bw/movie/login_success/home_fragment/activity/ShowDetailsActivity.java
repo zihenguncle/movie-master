@@ -1,18 +1,29 @@
 package com.bw.movie.login_success.home_fragment.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
+import com.bw.movie.login_success.home_fragment.fargment.DoingFragment;
+import com.bw.movie.login_success.home_fragment.fargment.HotFragment;
+import com.bw.movie.login_success.home_fragment.fargment.TodoFragment;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,39 +31,36 @@ import butterknife.OnClick;
 
 public class ShowDetailsActivity extends BaseActivity implements View.OnClickListener {
 
-    @BindView(R.id.show_details_xrecycle)
-    XRecyclerView show_details_recycle;
+    @BindView(R.id.show_details_viewpager)
+    ViewPager show_details_viewpager;
     @BindView(R.id.show_details_hot)
     RadioButton showDetailsHot;
     @BindView(R.id.show_deltails_doing)
     RadioButton showDeltailsDoing;
     @BindView(R.id.show_deltails_todo)
     RadioButton showDeltailsTodo;
-    private int mPage;
-    private static final int TYPE_COUNT = 10;
-    private ShowDetailsAdapter showDetailsAdapter;
+    @BindView(R.id.show_details_radio)
+    RadioGroup show_details_radio;
+    private List<Fragment> list;
 
     @OnClick({R.id.show_details_hot, R.id.show_deltails_doing, R.id.show_deltails_todo})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.show_details_hot:
-                //热门电影
-                loadDataHot();
+                show_details_viewpager.setCurrentItem(0);
                 showDetailsHot.setChecked(true);
                 showDeltailsDoing.setChecked(false);
                 showDeltailsTodo.setChecked(false);
                 break;
             case R.id.show_deltails_doing:
-                //正在热映
-                loadDataDoing();
+                show_details_viewpager.setCurrentItem(1);
                 showDetailsHot.setChecked(false);
                 showDeltailsDoing.setChecked(true);
                 showDeltailsTodo.setChecked(false);
                 break;
             case R.id.show_deltails_todo:
-                //即将上映
-                loadDataTodo();
+                show_details_viewpager.setCurrentItem(2);
                 showDetailsHot.setChecked(false);
                 showDeltailsDoing.setChecked(false);
                 showDeltailsTodo.setChecked(true);
@@ -74,71 +82,110 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
-        mPage = 1;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
-        show_details_recycle.setLayoutManager(layoutManager);
-        showDetailsAdapter = new ShowDetailsAdapter(this);
-        show_details_recycle.setAdapter(showDetailsAdapter);
 
-        show_details_recycle.setLoadingListener(new XRecyclerView.LoadingListener() {
+        Intent intent = getIntent();
+        String hot = intent.getStringExtra("hot");
+        switch (hot){
+            case "1":
+                show_details_viewpager.setCurrentItem(0);
+                showDetailsHot.setChecked(true);
+                showDeltailsDoing.setChecked(false);
+                showDeltailsTodo.setChecked(false);
+                break;
+            case "2":
+                show_details_viewpager.setCurrentItem(1);
+                showDetailsHot.setChecked(false);
+                showDeltailsDoing.setChecked(true);
+                showDeltailsTodo.setChecked(false);
+                break;
+            case "3":
+                show_details_viewpager.setCurrentItem(2);
+                showDetailsHot.setChecked(false);
+                showDeltailsDoing.setChecked(false);
+                showDeltailsTodo.setChecked(true);
+                break;
+        }
+        list = new ArrayList<>();
+        list.add(new HotFragment());
+        list.add(new DoingFragment());
+        list.add(new TodoFragment());
+
+        show_details_viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onRefresh() {
-                mPage = 1;
-                //热门电影
-                loadDataHot();
-                //正在热映
-                loadDataDoing();
-                //即将上映
-                loadDataTodo();
+            public Fragment getItem(int i) {
+                return list.get(i);
             }
 
             @Override
-            public void onLoadMore() {
-                //热门电影
-                loadDataHot();
-                //正在热映
-                loadDataDoing();
-                //即将上映
-                loadDataTodo();
+            public int getCount() {
+                return list.size();
             }
         });
 
-    }
+        show_details_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
 
-    //热门电影
-    private void loadDataHot() {
-        startRequestGet(String.format(Apis.URL_HOTMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
-    }
+            }
 
-    //正在热映
-    private void loadDataDoing() {
-        startRequestGet(String.format(Apis.URL_DOINGMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
-    }
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        show_details_radio.check(R.id.show_details_hot);
+                        showDetailsHot.setChecked(true);
+                        showDeltailsDoing.setChecked(false);
+                        showDeltailsTodo.setChecked(false);
+                        break;
+                    case 1:
+                        show_details_radio.check(R.id.show_deltails_doing);
+                        showDetailsHot.setChecked(false);
+                        showDeltailsDoing.setChecked(true);
+                        showDeltailsTodo.setChecked(false);
+                        break;
+                    case 2:
+                        show_details_radio.check(R.id.show_deltails_todo);
+                        showDetailsHot.setChecked(false);
+                        showDeltailsDoing.setChecked(false);
+                        showDeltailsTodo.setChecked(true);
+                        break;
+                        default:break;
+                }
+            }
 
-    //即将上映
-    private void loadDataTodo() {
-        startRequestGet(String.format(Apis.URL_BANNER, mPage, TYPE_COUNT), HomeBannerBean.class);
-    }
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+
+        show_details_radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case 0:
+                        showDetailsHot.setChecked(true);
+                        showDeltailsDoing.setChecked(false);
+                        showDeltailsTodo.setChecked(false);
+                        break;
+                    case 1:
+                        showDetailsHot.setChecked(false);
+                        showDeltailsDoing.setChecked(true);
+                        showDeltailsTodo.setChecked(false);
+                        break;
+                    case 2:
+                        showDetailsHot.setChecked(false);
+                        showDeltailsDoing.setChecked(false);
+                        showDeltailsTodo.setChecked(true);
+                        break;
+                }
+            }
+        });
+}
 
     @Override
     protected void successed(Object data) {
-        if (data instanceof HomeBannerBean) {
-            HomeBannerBean homeBannerBean = (HomeBannerBean) data;
-            if (homeBannerBean.getStatus().equals("0000")) {
-                ToastUtils.toast(homeBannerBean.getMessage());
-                if (mPage == 1) {
-                    showDetailsAdapter.setDatas(homeBannerBean.getResult());
-                }else{
-                    showDetailsAdapter.addDatas(homeBannerBean.getResult());
-                }
-                mPage++;
-                show_details_recycle.loadMoreComplete();
-                show_details_recycle.refreshComplete();
-            } else {
-                ToastUtils.toast(homeBannerBean.getMessage());
-            }
-        }
+
     }
 
     @Override

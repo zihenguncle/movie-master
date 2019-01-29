@@ -5,14 +5,18 @@ import android.text.TextUtils;
 import com.bw.movie.application.MyApplication;
 import com.bw.movie.tools.SharedPreferencesUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -103,6 +107,25 @@ public class RetrofitManger {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(httpCallBack));
+    }
+
+    //上传头像
+    public void upLoadFile(String url,Map<String,String> params, HttpCallBack httpCallBack) {
+        baseApils.uploadFile(url,fileToMultipartBody(params))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver(httpCallBack));
+    }
+
+    public static MultipartBody fileToMultipartBody(Map<String,String> params) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            File file = new File(entry.getValue());
+            builder.addFormDataPart(entry.getKey(), "tp.png",
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file));
+        }
+        builder.setType(MultipartBody.FORM);
+        return builder.build();
     }
 
     private Observer getObserver(final HttpCallBack callBack) {

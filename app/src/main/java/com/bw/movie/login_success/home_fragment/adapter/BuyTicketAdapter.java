@@ -43,17 +43,56 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.titleBuyTicket.setText(mDatas.get(i).getName());
         viewHolder.addressBuyTicket.setText(mDatas.get(i).getAddress());
         String logo = mDatas.get(i).getLogo();
         Glide.with(mContext).load(logo).into(viewHolder.imageBuyTicket);
         viewHolder.buyTicketItemInstance.setText(mDatas.get(i).getDistance()+"km");
+
+        if(mDatas.get(i).getFollowCinema()==1){
+            viewHolder.buy_ticket_fouce.setImageResource(R.mipmap.com_icon_collection_selected);
+        }else {
+            viewHolder.buy_ticket_fouce.setImageResource(R.mipmap.com_icon_collection_default);
+        }
+        //关注
+        viewHolder.buy_ticket_fouce.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onClickLisener!=null){
+                    if(mDatas.get(i).getFollowCinema()==1) {
+                        onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
+                    }else{
+                        onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
+                    }
+                }
+            }
+        });
+        //影院的id
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onClick!=null){
+                    onClick.onCinema(mDatas.get(i).getId(),i);
+                }
+            }
+        });
+
+
     }
 
     @Override
     public int getItemCount() {
         return mDatas.size();
+    }
+
+    public void updateTrue(int position){
+        mDatas.get(position).setFollowCinema(1);
+        notifyDataSetChanged();
+    }
+    public void updateFalse(int position){
+        mDatas.get(position).setFollowCinema(2);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,9 +104,31 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
         TextView addressBuyTicket;
         @BindView(R.id.buy_ticket_item_instance)
         TextView buyTicketItemInstance;
+        @BindView(R.id.buy_ticket_focuse)
+        ImageView buy_ticket_fouce;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
     }
+
+    OnClickLisener onClickLisener;
+
+    OnsClick onClick;
+
+    public void setOnClickLisener(OnsClick onsClick){
+        this.onClick=onsClick;
+    }
+    public interface OnsClick {
+        void onCinema(int id,int position);
+    }
+
+    public void setOnClickLisener(OnClickLisener onClickLisener){
+        this.onClickLisener=onClickLisener;
+    }
+    public interface OnClickLisener {
+        void onSuccess(int id,int followCinema,int position);
+    }
+
 }
+

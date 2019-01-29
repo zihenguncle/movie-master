@@ -71,6 +71,8 @@ public class Apis {
     //URL_TICKET_RECORD  购票记录  user/v1/verify/findUserBuyTicketRecordList
     public static final String URL_TICKET_RECORD ="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 
+    //上传头像  user/v1/verify/uploadHeadPic
+    public static final String TYPR_INMAGE_XINXI="user/v1/verify/uploadHeadPic";
 
 
 }

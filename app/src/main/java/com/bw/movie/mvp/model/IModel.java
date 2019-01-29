@@ -7,4 +7,5 @@ import java.util.Map;
 public interface IModel {
     void requestDataGet(String url, Class clazz, MCallBack mCallBack);
     void requestDataPost(String url, Map<String,String> map, Class clazz,MCallBack mCallBack);
+    void postFiles(String dataUrl, Map<String, String> params, Class clazz, MCallBack mCallBack);
 }

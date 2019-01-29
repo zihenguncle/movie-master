@@ -5,4 +5,5 @@ import java.util.Map;
 public interface IPresenter {
     void startRequestGet(String url,Class clazz);
     void startRequestPost(String url, Map<String,String> map,Class clazz);
+    void postFiles(String dataUrl, Map<String, String> params, Class clazz);
 }

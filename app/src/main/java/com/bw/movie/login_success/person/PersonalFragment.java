@@ -85,7 +85,7 @@ public class PersonalFragment extends BaseFragment{
             }
         } else if (data instanceof PersonalMessageBean) {
             PersonalMessageBean personalMessageBean = (PersonalMessageBean) data;
-            if (personalMessageBean.getStatus().equals("0000")) {
+            if(personalMessageBean.getStatus().equals("0000")) {
                 ToastUtils.toast(personalMessageBean.getMessage());
                 String headPic = personalMessageBean.getResult().getHeadPic();
                 Glide.with(this)
@@ -94,7 +94,7 @@ public class PersonalFragment extends BaseFragment{
                         .into(personalTopImage);
                 String nickName = personalMessageBean.getResult().getNickName();
                 personalName.setText(nickName);
-            } else {
+            }else {
                 ToastUtils.toast(personalMessageBean.getMessage());
             }
         }

@@ -3,6 +3,9 @@ package com.bw.movie.application;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
+import android.support.annotation.RequiresApi;
 
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -18,6 +21,7 @@ public class MyApplication extends Application {
     private static Context context;
     public static String APP_ID="wxb3852e6a6b7d9516";
     public static IWXAPI api;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -44,6 +48,10 @@ public class MyApplication extends Application {
                 LogUtils.d(String.format(Locale.ENGLISH, "%s onAdaptAfter!", target.getClass().getName()));
             }
         }).setBaseOnWidth(false).setUseDeviceSize(true);
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
 
     }
 

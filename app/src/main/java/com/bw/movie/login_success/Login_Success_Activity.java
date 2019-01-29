@@ -42,7 +42,6 @@ public class Login_Success_Activity extends AppCompatActivity {
     @BindView(R.id.personal_fragment_true)
     RadioButton personalFragmentTrue;
     private List<Fragment> list;
-    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

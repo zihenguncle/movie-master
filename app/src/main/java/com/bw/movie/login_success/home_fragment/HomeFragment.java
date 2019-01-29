@@ -150,13 +150,20 @@ public class HomeFragment extends BaseFragment {
                     getSearch();
                 break;
             case R.id.hot_text:
-                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
+                Intent intent_hot = new Intent(getActivity(), ShowDetailsActivity.class);
+                intent_hot.putExtra("hot","1");
+                startActivity(intent_hot);
+
                 break;
             case R.id.doing_text:
-                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
+                Intent intent_doing = new Intent(getActivity(), ShowDetailsActivity.class);
+                intent_doing.putExtra("hot","2");
+                startActivity(intent_doing);
                 break;
             case R.id.noce_text:
-                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
+                Intent intent_noce = new Intent(getActivity(), ShowDetailsActivity.class);
+                intent_noce.putExtra("hot","3");
+                startActivity(intent_noce);
                 break;
                 default:
                     break;
