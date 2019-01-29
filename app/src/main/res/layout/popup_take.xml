@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/details_top_radio"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="500dp">
@@ -43,5 +45,25 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        <ImageView
+            android:id="@+id/item_take_back"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/icon_my_default"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/item_take_take"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@mipmap/icon_my_default"
+            />
+
 </RelativeLayout>
 </RelativeLayout>

@@ -96,7 +96,7 @@ public class CinemaDtailActivity extends BaseActivity {
     }
 
     @Override
-    protected int getViewById() {
+    protected int getViewById(){
         return R.layout.activity_focus_cinema;
     }
 

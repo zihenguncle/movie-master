@@ -28,6 +28,7 @@ import com.bw.movie.login_success.home_fragment.adapter.Popup_take;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_video;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 import com.bw.movie.login_success.home_fragment.bean.TakeBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -53,6 +54,8 @@ public class DetailsActivity extends BaseActivity {
     @BindView(R.id.details_name)
     TextView name;
 
+    @BindView(R.id.details_image_love)
+    ImageView love_image;
     private PopupWindow popupWindow_nocie;
     // 声明平移动画
     private TranslateAnimation animation;
@@ -86,7 +89,7 @@ public class DetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.details_back,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
+    @OnClick({R.id.details_back,R.id.details_gotopay,R.id.details_image_love,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
     public void onclick(View view){
             switch (view.getId()){
             //点击返回键
@@ -110,6 +113,24 @@ public class DetailsActivity extends BaseActivity {
                     View popup3 = getPopup(R.layout.popup_take);
                     getTake(popup3);
                     break;
+                case R.id.details_gotopay:
+                    Intent intent = new Intent(this, BuyTicketActivity.class);
+                    intent.putExtra("movieId",shop_id);
+                    intent.putExtra("movieName",databean.getResult().getName());
+                    startActivity(intent);
+                    break;
+                case R.id.details_image_love:
+                    if(databean.getResult().getFollowMovie()==1){
+                        startRequestGet(String.format(Apis.URLNOLOVEMOVIE,shop_id),FollowBean.class);
+                        love_image.setImageResource(R.mipmap.com_icon_collection_default);
+                        databean.getResult().setFollowMovie(2);
+                        startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                    }else {
+                        startRequestGet(String.format(Apis.URL_LOVEMOVIE,shop_id),FollowBean.class);
+                        love_image.setImageResource(R.mipmap.com_icon_collection_selected);
+                        databean.getResult().setFollowMovie(1);
+                        startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                    }
                 default:
                     break;
         }
@@ -118,6 +139,7 @@ public class DetailsActivity extends BaseActivity {
 
     int page;
     Popup_take popup_take;
+
     private void getTake(View popup3) {
         page = 1;
         p_xrecyclerView = popup3.findViewById(R.id.popup_take_recycle);
@@ -137,9 +159,25 @@ public class DetailsActivity extends BaseActivity {
             }
         });
         getTakeList();
-        popup_take = new Popup_take(this);
+        popup_take = new Popup_take(this,shop_id);
         p_xrecyclerView.setAdapter(popup_take);
         ImageView back = popup3.findViewById(R.id.popup_image_take_back);
+        final ImageView take_back = popup3.findViewById(R.id.item_take_back);
+        popup_take.setXrecycleData(new Popup_take.getXrecycleData() {
+            @Override
+            public void getdata() {
+                take_back.setVisibility(View.VISIBLE);
+            }
+        });
+        //点击取消查看回复
+        take_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_take.notifyDataSetChanged();
+                take_back.setVisibility(View.GONE);
+            }
+        });
+        //点击popup取消
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,6 +193,7 @@ public class DetailsActivity extends BaseActivity {
     }
 
 
+    //
     private void getStage(View popup2) {
         RecyclerView recyclerView_stage = popup2.findViewById(R.id.popup_stage_recycle);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
@@ -250,6 +289,11 @@ public class DetailsActivity extends BaseActivity {
             name.setText(databean.getResult().getName());
             Glide.with(this).load(imageUrl).into(details_image);
             Glide.with(this).load(imageUrl).into(details_iamge_boss);
+            if(databean.getResult().getFollowMovie()==1){
+                love_image.setImageResource(R.mipmap.com_icon_collection_selected);
+            }else {
+                love_image.setImageResource(R.mipmap.com_icon_collection_default);
+            }
         }
         if(data instanceof TakeBean){
             if(page == 1){
@@ -260,6 +304,9 @@ public class DetailsActivity extends BaseActivity {
             page++;
             p_xrecyclerView.loadMoreComplete();
             p_xrecyclerView.refreshComplete();
+        }
+        if(data instanceof FollowBean){
+            ToastUtils.toast(((FollowBean) data).getMessage());
         }
     }
 
@@ -276,5 +323,13 @@ public class DetailsActivity extends BaseActivity {
         // 所以在Activity中onBackPress要交给NiceVideoPlayer先处理。
         if (NiceVideoPlayerManager.instance().onBackPressd()) return;
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(popup_take != null){
+            popup_take.detach();
+        }
     }
 }

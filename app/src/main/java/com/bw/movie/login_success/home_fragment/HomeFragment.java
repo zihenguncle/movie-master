@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login_success.home_fragment.activity.ShowDetailsActivity;
 import com.bw.movie.login_success.home_fragment.adapter.HomeBannerAdapter;
 import com.bw.movie.login_success.home_fragment.adapter.MovieAdapter;
 import com.bw.movie.login_success.home_fragment.adapter.MovieDoingAdapter;
@@ -136,7 +138,7 @@ public class HomeFragment extends BaseFragment {
         noce_recycle.setLayoutManager(linearLayoutManager2);
     }
 
-    @OnClick({R.id.home_text_search,R.id.home_search})
+    @OnClick({R.id.home_text_search,R.id.home_search,R.id.hot_text,R.id.doing_text,R.id.noce_text})
     public void onClick(View v) {
         switch (v.getId()){
             //点击进行搜索
@@ -146,6 +148,15 @@ public class HomeFragment extends BaseFragment {
              //点击放大镜弹出搜索框
             case R.id.home_search:
                     getSearch();
+                break;
+            case R.id.hot_text:
+                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
+                break;
+            case R.id.doing_text:
+                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
+                break;
+            case R.id.noce_text:
+                startActivity(new Intent(getActivity(),ShowDetailsActivity.class));
                 break;
                 default:
                     break;
