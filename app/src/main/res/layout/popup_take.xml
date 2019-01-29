@@ -55,15 +55,51 @@
             android:background="@mipmap/icon_my_default"
             android:visibility="gone"
             />
+        
         <ImageView
-            android:id="@+id/item_take_take"
+            android:id="@+id/item_write_take"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_alignParentBottom="true"
+            android:background="@mipmap/com_icon_publish_default"
             android:layout_marginBottom="30dp"
-            android:layout_marginLeft="20dp"
-            android:background="@mipmap/icon_my_default"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
             />
+        <RelativeLayout
+            android:id="@+id/relative_take"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="#cccccc"
+            android:visibility="gone"
+            >
+            <EditText
+                android:id="@+id/edit_take"
+                android:layout_width="284dp"
+                android:layout_height="60dp"
+                android:textColor="@color/colorGray"
+                android:background="@drawable/dialog_write"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10sp"
+                android:hint="写评论"
+                />
+
+            <TextView
+                android:id="@+id/goto_take"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/edit_take"
+                android:layout_toRightOf="@+id/edit_take"
+                android:layout_marginLeft="15dp"
+                android:text="发送"
+                android:textSize="16sp"
+                android:textColor="#000"
+                />
+
+        </RelativeLayout>
+
 
 </RelativeLayout>
 </RelativeLayout>

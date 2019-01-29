@@ -2,9 +2,11 @@ package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
 import android.media.Image;
+import android.opengl.Visibility;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -37,7 +39,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     private int id;
     private IPresemterImpl iPresemter;
     private Popup_taketake popup_taketake;
-    private int commentId;
+//    private int commentId;
 
     public Popup_take(Context context, int id) {
         this.context = context;
@@ -70,7 +72,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     public static final String Time_Style = "yyyy-MM-dd HH:mm:ss";
     private int page;
     @Override
-    public void onBindViewHolder(@NonNull final Popup_take.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final Popup_take.ViewHolder viewHolder, final int i) {
         Glide.with(context).load(data.get(i).getCommentHeadPic()).into(viewHolder.itemTakeHeadimage);
         viewHolder.itemTakeName.setText(data.get(i).getCommentUserName());
         Glide.with(context).load(data.get(i).getCommentHeadPic())
@@ -82,44 +84,55 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         viewHolder.itemTakeContent.setText(data.get(i).getMovieComment());
         viewHolder.itemTakeCommentnum.setText(data.get(i).getReplyNum()+"");
         viewHolder.itemTakePraisenum.setText(data.get(i).getGreatNum()+"");
-        commentId = data.get(i).getCommentId();
+
         viewHolder.totalNum.setText("共"+data.get(i).getReplyNum()+"条评论");
         //设置适配器
         page=1;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         viewHolder.itemXrecycleItem.setLayoutManager(linearLayoutManager);
+        viewHolder.itemXrecycleItem.setVisibility(View.GONE);
+        viewHolder.totalNum.setVisibility(View.GONE);
         viewHolder.itemXrecycleItem.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 page=1;
-                getData();
+                int commentId = data.get(i).getCommentId();
+                getData(commentId);
             }
             @Override
             public void onLoadMore() {
-                getData();
+                int commentId = data.get(i).getCommentId();
+                getData(commentId);
             }
         });
-        getData();
+
         popup_taketake = new Popup_taketake(context);
         viewHolder.itemXrecycleItem.setAdapter(popup_taketake);
         viewHolder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHolder.itemXrecycleItem.setVisibility(View.VISIBLE);
+//                if(viewHolder.itemXrecycleItem.getVisibility()==View.VISIBLE){
+//                    viewHolder.itemXrecycleItem.setVisibility(View.GONE);
+//                    viewHolder.totalNum.setVisibility(View.GONE);
+//                }
+//                Log.i("dj", "onclick " + viewHolder.itemXrecycleItem);
+//                viewHolder.itemXrecycleItem.setVisibility(View.VISIBLE);
                 viewHolder.totalNum.setVisibility(View.VISIBLE);
+                int commentId = data.get(i).getCommentId();
+                getData(commentId);
                 if(xrecycleData != null){
-                    xrecycleData.getdata();
+                    xrecycleData.getdata(i);
                 }
             }
         });
-
-
     }
 
+    public void backTake(int position){
+        data.get(position).notifyAll();
+    }
 
-
-    private void getData(){
+    private void getData(int commentId){
         iPresemter.startRequestGet(String.format(Apis.URL_TAKE_TAKE,commentId,page,5),Take_Take_Bean.class);
     }
     @Override
@@ -155,13 +168,17 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
 
         @Override
         public void onSuccessed(Object data) {
-            Take_Take_Bean take_take_bean = (Take_Take_Bean) data;
+//            Take_Take_Bean take_take_bean = (Take_Take_Bean) data;
+            Popup_taketake popup_taketake = new Popup_taketake(context);
+            itemXrecycleItem.setAdapter(popup_taketake);
+            Log.i("dj", "onSuccess " + itemXrecycleItem);
             if(page==1){
                 popup_taketake.setData(((Take_Take_Bean) data).getResult());
             }else {
                 popup_taketake.addData(((Take_Take_Bean) data).getResult());
             }
             page++;
+            itemXrecycleItem.setVisibility(View.VISIBLE);
             itemXrecycleItem.loadMoreComplete();
             itemXrecycleItem.refreshComplete();
         }
@@ -182,7 +199,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         xrecycleData = getXrecycleData;
     }
     public interface getXrecycleData{
-        void getdata();
+        void getdata(int i);
     }
 
 }

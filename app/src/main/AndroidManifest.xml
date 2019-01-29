@@ -36,8 +36,8 @@
         <activity android:name=".login_success.person.person_activity.Personal_Reset_Pwd_Activity" />
         <activity android:name=".login_success.person.person_activity.Personal_Message_TicketActivity" />
         <activity android:name=".login_success.home_fragment.activity.DetailsActivity" />
-        <activity android:name=".login_success.home_fragment.activity.ShowDetailsActivity"/>
-        <activity android:name=".login_success.home_fragment.activity.BuyTicketActivity"/>
+        <activity android:name=".login_success.home_fragment.activity.ShowDetailsActivity" />
+        <activity android:name=".login_success.home_fragment.activity.BuyTicketActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
@@ -49,7 +49,9 @@
             android:name="design_height_in_dp"
             android:value="667" />
 
-        <activity android:name=".login_success.nearby_cinema_fragment.activity.CinemaDtailActivity"></activity>
+        <activity android:name=".login_success.nearby_cinema_fragment.activity.CinemaDtailActivity" />
+        <activity android:name=".login_success.home_fragment.activity.ImageBigActivity" />
+        <activity android:name=".login_success.home_fragment.activity.SchedActivity"></activity>
     </application>
 
 </manifest>

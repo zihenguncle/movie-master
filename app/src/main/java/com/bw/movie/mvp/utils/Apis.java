@@ -64,7 +64,7 @@ public class Apis {
     public static final String URL_SELECT_TAKE = "movie/v1/findAllMovieComment?movieId=%d&page=%d&count=%d";
 
     //查看影片评论的回复
-    public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?cinemasId=%d&page=%d&count=%d";
+    public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
 
     //URL_TICKET_LIST 购买
     public static final String URL_TICKET_LIST ="movie/v1/findCinemasListByMovieId?movieId=%d";
@@ -75,18 +75,21 @@ public class Apis {
     public static final String TYPR_INMAGE_XINXI="user/v1/verify/uploadHeadPic";
 
     //取消关注
-    public static final String URLNOLOVEMOVIE= "movie1erify/cancelFollowMovie?movieId=%d";
+    public static final String URLNOLOVEMOVIE= "movie/v1/verify/cancelFollowMovie?movieId=%d";
 
     //关注电影
-    public static final String URL_LOVEMOVIE = "movie1erify/followMovie?movieId=%d";
+    public static final String URL_LOVEMOVIE = "movie/v1/verify/followMovie?movieId=%d";
 
     //查询电影信息明细
-    public static final String URL_FIND_CINEMA_INFO = "cinema/v1/findCinemaInfo?cinemaId=%d";
+    public static final String URL_FIND_CINEMA_INFO = "cinema1/findCinemaInfo?cinemaId=%d";
 
     //查询影院用户评论列表
-    public static final String URL_FIND_CINEMA_COMMENT = "cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
+    public static final String URL_FIND_CINEMA_COMMENT = "cinema1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
 
-    //影院评论点赞
-    public static final String URL_CINEMA_COMMENT_GRENT = "cinema/v1/verify/cinemaCommentGreat";
+    //添加用户对影片的评论  ---入参movieId，commentContent
+    public static final String URL_WRITE_TAKE = "movie/v1/verify/movieComment";
+
+    //根据电影ID和影院ID查询电影排期列表--get
+    public static final String URL_SCHEDULE = "movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
 
 }

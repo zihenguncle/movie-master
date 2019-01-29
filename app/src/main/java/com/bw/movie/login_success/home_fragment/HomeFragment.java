@@ -129,7 +129,6 @@ public class HomeFragment extends BaseFragment {
                 Intent intent_hot = new Intent(getActivity(), ShowDetailsActivity.class);
                 intent_hot.putExtra("hot","1");
                 startActivity(intent_hot);
-
                 break;
             case R.id.doing_text:
                 Intent intent_doing = new Intent(getActivity(), ShowDetailsActivity.class);

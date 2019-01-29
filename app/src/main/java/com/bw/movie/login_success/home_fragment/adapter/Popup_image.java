@@ -34,8 +34,16 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Popup_image.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull Popup_image.ViewHolder viewHolder, final int i) {
         Glide.with(context).load(data.get(i)).into(viewHolder.imageView);
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(xrecycleData != null){
+                    xrecycleData.getdata(data.get(i));
+                }
+            }
+        });
     }
 
     @Override
@@ -51,4 +59,14 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
             ButterKnife.bind(this,itemView);
         }
     }
+
+    public getXrecycleData xrecycleData;
+
+    public void setXrecycleData(getXrecycleData getXrecycleData){
+        xrecycleData = getXrecycleData;
+    }
+    public interface getXrecycleData{
+        void getdata(String url);
+    }
+
 }
