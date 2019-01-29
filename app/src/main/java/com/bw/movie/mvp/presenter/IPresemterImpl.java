@@ -45,6 +45,22 @@ public class IPresemterImpl implements IPresenter{
             }
         });
     }
+
+    @Override
+    public void postFiles(String dataUrl, Map<String, String> params, Class clazz) {
+        iModelmpl.postFiles(dataUrl, params, clazz, new MCallBack() {
+            @Override
+            public void successData(Object data) {
+                iView.onSuccessed(data);
+            }
+
+            @Override
+            public void failData(String error) {
+                iView.onFailed(error);
+            }
+        });
+    }
+
     //解除绑定
     public void detachView(){
         if(iModelmpl!=null){

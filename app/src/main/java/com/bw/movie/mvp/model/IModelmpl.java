@@ -75,4 +75,36 @@ public class IModelmpl implements IModel {
             });
         }
     }
+
+    @Override
+    public void postFiles(String dataUrl, Map<String, String> params, final Class clazz, final MCallBack mCallBack) {
+        if(!NetWorkUtils.hasNetwork(MyApplication.getApplication() )){
+            ToastUtils.toast("当前网络不可用");
+        }else{
+            RetrofitManger.getInstance().upLoadFile(dataUrl, params, new RetrofitManger.HttpCallBack() {
+                @Override
+                public void onSuccess(String data) {
+                    try {
+                        Gson gson=new Gson();
+                        Object o = gson.fromJson(data, clazz);
+                        if(mCallBack!=null){
+                            mCallBack.successData(o);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        if(mCallBack!=null){
+                            mCallBack.failData(e.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFail(String error) {
+                    if(mCallBack!=null){
+                        mCallBack.failData(error);
+                    }
+                }
+            });
+        }
+    }
 }

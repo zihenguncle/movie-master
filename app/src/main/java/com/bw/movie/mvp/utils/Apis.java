@@ -66,17 +66,19 @@ public class Apis {
     //查看影片评论的回复
     public static final String URL_TAKE_TAKE = "movie/v1/findCommentReply?cinemasId=%d&page=%d&count=%d";
 
-    //查询电影信息明细
-    public static final String URL_FIND_CINEMA_INFO = "cinema/v1/findCinemaInfo?cinemaId=%d";
+    //URL_TICKET_LIST 购买
+    public static final String URL_TICKET_LIST ="movie/v1/findCinemasListByMovieId?movieId=%d";
+    //URL_TICKET_RECORD  购票记录  user/v1/verify/findUserBuyTicketRecordList
+    public static final String URL_TICKET_RECORD ="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 
-    //查询影院用户评论列表
-    public static final String URL_FIND_CINEMA_COMMENT = "cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
+    //上传头像  user/v1/verify/uploadHeadPic
+    public static final String TYPR_INMAGE_XINXI="user/v1/verify/uploadHeadPic";
 
+    //取消关注
+    public static final String URLNOLOVEMOVIE= "movie1erify/cancelFollowMovie?movieId=%d";
 
-
-
-
-
+    //关注电影
+    public static final String URL_LOVEMOVIE = "movie1erify/followMovie?movieId=%d";
 
 
 }
