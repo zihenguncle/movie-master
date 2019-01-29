@@ -116,6 +116,7 @@ public class DetailsActivity extends BaseActivity {
                 case R.id.details_gotopay:
                     Intent intent = new Intent(this, BuyTicketActivity.class);
                     intent.putExtra("movieId",shop_id);
+                    intent.putExtra("movieName",databean.getResult().getName());
                     startActivity(intent);
                     break;
                 case R.id.details_image_love:
