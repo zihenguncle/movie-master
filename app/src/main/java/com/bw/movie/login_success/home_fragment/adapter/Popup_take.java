@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,11 +37,13 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     private int id;
     private IPresemterImpl iPresemter;
     private Popup_taketake popup_taketake;
+    private int commentId;
 
     public Popup_take(Context context, int id) {
         this.context = context;
         this.id = id;
         data = new ArrayList<>();
+
     }
 
     public void setData(List<TakeBean.ResultBean> data) {
@@ -61,7 +64,6 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     @Override
     public Popup_take.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context,R.layout.popup_take_item,null);
-
         return new ViewHolder(view);
     }
 
@@ -80,6 +82,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         viewHolder.itemTakeContent.setText(data.get(i).getMovieComment());
         viewHolder.itemTakeCommentnum.setText(data.get(i).getReplyNum()+"");
         viewHolder.itemTakePraisenum.setText(data.get(i).getGreatNum()+"");
+        commentId = data.get(i).getCommentId();
         viewHolder.totalNum.setText("共"+data.get(i).getReplyNum()+"条评论");
         //设置适配器
         page=1;
@@ -92,7 +95,6 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
                 page=1;
                 getData();
             }
-
             @Override
             public void onLoadMore() {
                 getData();
@@ -101,26 +103,24 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         getData();
         popup_taketake = new Popup_taketake(context);
         viewHolder.itemXrecycleItem.setAdapter(popup_taketake);
-        /*viewHolder.itemTakeCommentnum.setOnClickListener(new View.OnClickListener() {
+        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewHolder.itemXrecycleItem.setVisibility(View.VISIBLE);
                 viewHolder.totalNum.setVisibility(View.VISIBLE);
-            }
-        });*/
-        viewHolder.itemTakeCommentnum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewHolder.itemXrecycleItem.setVisibility(View.VISIBLE);
-                viewHolder.totalNum.setVisibility(View.VISIBLE);
+                if(xrecycleData != null){
+                    xrecycleData.getdata();
+                }
             }
         });
+
+
     }
 
 
 
     private void getData(){
-        iPresemter.startRequestGet(String.format(Apis.URL_TAKE_TAKE,id,page,5),Take_Take_Bean.class);
+        iPresemter.startRequestGet(String.format(Apis.URL_TAKE_TAKE,commentId,page,5),Take_Take_Bean.class);
     }
     @Override
     public int getItemCount() {
@@ -145,6 +145,8 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         TextView totalNum;
         @BindView(R.id.item_xrecycle_item)
         XRecyclerView itemXrecycleItem;
+        @BindView(R.id.item_take_comment)
+        ImageView comment;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -174,13 +176,13 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         iPresemter = null;
     }
 
-   /* public getXrecycleData xrecycleData;
+    public getXrecycleData xrecycleData;
 
     public void setXrecycleData(getXrecycleData getXrecycleData){
         xrecycleData = getXrecycleData;
     }
     public interface getXrecycleData{
         void getdata();
-    }*/
+    }
 
 }
