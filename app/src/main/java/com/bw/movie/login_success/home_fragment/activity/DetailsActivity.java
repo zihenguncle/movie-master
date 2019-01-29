@@ -7,16 +7,19 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +38,9 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +73,7 @@ public class DetailsActivity extends BaseActivity {
     private DetailsBean databean;
     private RecyclerView recyclerView;
     private XRecyclerView p_xrecyclerView;
+    private EditText editText;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -139,8 +145,8 @@ public class DetailsActivity extends BaseActivity {
 
     int page;
     Popup_take popup_take;
-
-    private void getTake(View popup3) {
+    int position;
+    private void getTake(final View popup3) {
         page = 1;
         p_xrecyclerView = popup3.findViewById(R.id.popup_take_recycle);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -162,10 +168,15 @@ public class DetailsActivity extends BaseActivity {
         popup_take = new Popup_take(this,shop_id);
         p_xrecyclerView.setAdapter(popup_take);
         ImageView back = popup3.findViewById(R.id.popup_image_take_back);
+        final ImageView write_take = popup3.findViewById(R.id.item_write_take);
+        editText = popup3.findViewById(R.id.edit_take);
+        TextView send = popup3.findViewById(R.id.goto_take);
+        final RelativeLayout relativeLayout = popup3.findViewById(R.id.relative_take);
         final ImageView take_back = popup3.findViewById(R.id.item_take_back);
         popup_take.setXrecycleData(new Popup_take.getXrecycleData() {
             @Override
-            public void getdata() {
+            public void getdata(int i) {
+                position = i;
                 take_back.setVisibility(View.VISIBLE);
             }
         });
@@ -173,8 +184,9 @@ public class DetailsActivity extends BaseActivity {
         take_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popup_take.notifyDataSetChanged();
                 take_back.setVisibility(View.GONE);
+                //刷新数据，
+                popup_take.backTake(position);
             }
         });
         //点击popup取消
@@ -183,10 +195,44 @@ public class DetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 popupWindow_nocie.dismiss();
                 NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
-
+            }
+        });
+        write_take.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                write_take.setVisibility(View.GONE);
+                relativeLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                write_take.setVisibility(View.VISIBLE);
+                relativeLayout.setVisibility(View.GONE);
+                //String take = stringToUnicode(editText.getText().toString());
+                Log.i("TAG",editText.getText().toString());
+                Map<String,String> map = new HashMap<>();
+                map.put("movieId",shop_id+"");
+                map.put("commentContent",editText.getText().toString());
+                startRequestFilesPost(Apis.URL_WRITE_TAKE,map,FollowBean.class);
             }
         });
     }
+
+    /**
+     * 把中文字符串转换为十六进制Unicode编码字符串
+     *//*
+    public static String stringToUnicode(String s) {
+        String str = "";
+        for (int i = 0; i < s.length(); i++) {
+            int ch = (int) s.charAt(i);
+            if (ch > 255)
+                str += "\\u" + Integer.toHexString(ch);
+            else
+                str += String.valueOf(s.charAt(i));
+        }
+        return str;
+    }*/
 
     private void getTakeList() {
         startRequestGet(String.format(Apis.URL_SELECT_TAKE,shop_id,page,5),TakeBean.class);
@@ -201,6 +247,14 @@ public class DetailsActivity extends BaseActivity {
         ImageView back = popup2.findViewById(R.id.popup_image_stage_back);
         List<String> posterList = databean.getResult().getPosterList();
         Popup_image popup_image = new Popup_image(posterList,this);
+        popup_image.setXrecycleData(new Popup_image.getXrecycleData() {
+            @Override
+            public void getdata(String url) {
+                Intent intent = new Intent(DetailsActivity.this, ImageBigActivity.class);
+                intent.putExtra("image",url);
+                startActivity(intent);
+            }
+        });
         recyclerView_stage.setAdapter(popup_image);
         back.setOnClickListener(new View.OnClickListener() {
             @Override

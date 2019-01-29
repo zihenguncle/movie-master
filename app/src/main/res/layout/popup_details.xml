@@ -2,20 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/nonono_style"
+    android:clipChildren="false"
+
     >
-    <RelativeLayout
-        android:id="@+id/p"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:background="@drawable/nonono_style"
-        ></RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_below="@+id/p"
+        android:layout_marginTop="25dp"
         android:background="@drawable/details_top_radio"
         >
-        
+
         <ImageView
             android:id="@+id/popup_details_iamge"
             android:layout_width="111dp"

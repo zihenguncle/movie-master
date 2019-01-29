@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".login_success.home_fragment.activity.SchedActivity">
+
+    <TextView
+        android:id="@+id/sched_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="14sp"
+        android:textColor="@color/colorGray_9"
+        android:text="CGV影城"
+        />
+    <TextView
+        android:id="@+id/sched_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="24dp"
+        android:layout_below="@+id/sched_name"
+        android:text="this is address"
+        />
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:background="@mipmap/com_icon_navigation_default"
+        android:layout_marginTop="40dp"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="312dp"
+        android:layout_height="142dp"
+        android:background="@mipmap/beijing1"
+        android:layout_below="@+id/sched_address"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        >
+        
+        <ImageView
+            android:id="@+id/sched_image"
+            android:layout_width="103dp"
+            android:layout_height="130dp" />
+        
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
