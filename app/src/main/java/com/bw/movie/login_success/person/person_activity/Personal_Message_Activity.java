@@ -23,9 +23,12 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.person.personal_bean.FileImageUntils;
 import com.bw.movie.login_success.person.personal_bean.HeanPicBean;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.SimpleDataUtils;
 import com.bw.movie.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,6 +60,7 @@ public class Personal_Message_Activity extends BaseActivity {
     TextView peronsal_emails;
     private String path=Environment.getExternalStorageDirectory()+"/image.png";
     private String files=Environment.getExternalStorageDirectory()+"/zld.png";
+    private HeanPicBean heanPicBean;
 
 
     @Override
@@ -87,6 +91,7 @@ public class Personal_Message_Activity extends BaseActivity {
         View view=View.inflate(this,R.layout.popwindow_image,null);
         TextView text_camcme = view.findViewById(R.id.cancme);
         TextView text_pick = view.findViewById(R.id.pick);
+        final TextView dismiss = view.findViewById(R.id.text_dismiss);
         final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.showAtLocation(view,
@@ -95,6 +100,12 @@ public class Personal_Message_Activity extends BaseActivity {
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
 
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
         text_camcme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,11 +166,12 @@ public class Personal_Message_Activity extends BaseActivity {
                 ToastUtils.toast(personalMessageBean.getMessage());
             }
         }else if(data instanceof HeanPicBean){
-            HeanPicBean heanPicBean= (HeanPicBean) data;
+            heanPicBean = (HeanPicBean) data;
             if(heanPicBean.getStatus().equals("0000")){
                 Glide.with(this).load(heanPicBean.getHeadPath())
                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                         .into(personal_icon);
+                EventBus.getDefault().postSticky(new MessageList("hendPic", heanPicBean.getHeadPath()));
             }else{
                 ToastUtils.toast(heanPicBean.getMessage());
             }

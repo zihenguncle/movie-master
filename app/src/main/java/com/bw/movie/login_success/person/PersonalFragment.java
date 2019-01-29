@@ -17,8 +17,13 @@ import com.bw.movie.login_success.person.person_activity.Personal_Message_Activi
 import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
 import com.bw.movie.login_success.person.personal_bean.SignInBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,14 +39,28 @@ public class PersonalFragment extends BaseFragment{
         return R.layout.fargment_personal;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void receive(MessageList message) {
+        if (message.equals("hendPic")) {
+            String str = message.getStr().toString();
+            Glide.with(this).load(str)
+                    .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                    .into(personalTopImage);
+        }
+    }
+
     @Override
-    protected void initData() {
+    protected void initData(){
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
     }
 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @OnClick({R.id.personal_meassage_my,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
@@ -86,7 +105,6 @@ public class PersonalFragment extends BaseFragment{
         } else if (data instanceof PersonalMessageBean) {
             PersonalMessageBean personalMessageBean = (PersonalMessageBean) data;
             if(personalMessageBean.getStatus().equals("0000")) {
-                ToastUtils.toast(personalMessageBean.getMessage());
                 String headPic = personalMessageBean.getResult().getHeadPic();
                 Glide.with(this)
                         .load(headPic)
@@ -94,6 +112,7 @@ public class PersonalFragment extends BaseFragment{
                         .into(personalTopImage);
                 String nickName = personalMessageBean.getResult().getNickName();
                 personalName.setText(nickName);
+                startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
             }else {
                 ToastUtils.toast(personalMessageBean.getMessage());
             }
@@ -105,4 +124,9 @@ public class PersonalFragment extends BaseFragment{
         ToastUtils.toast(error);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
