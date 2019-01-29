@@ -95,7 +95,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemSelected(int position) {
                int i = position%result.size();
-                imageViewAnimationHelper.startAnimation(position);
+                imageViewAnimationHelper.startAnimation(position%result.size());
             }
         });
     }

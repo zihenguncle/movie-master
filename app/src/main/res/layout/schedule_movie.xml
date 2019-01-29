@@ -19,8 +19,8 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="text"
-             android:textColor="#999999"
-             android:textSize="16sp"
+             android:textColor="#666666"
+             android:textSize="12sp"
              />
         <TextView
             android:id="@+id/text_beginTime"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:text="text"
             android:layout_marginTop="30dp"
-            android:textColor="#000"
+            android:textColor="#333333"
             android:textSize="24sp"
             />
         <View
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="text"
             android:layout_marginTop="35dp"
-            android:textColor="#333333"
+            android:textColor="#666666"
             android:textSize="18sp"
             android:layout_marginLeft="100dp"
             />
@@ -53,8 +53,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥"
-            android:layout_marginTop="22dp"
-            android:textColor="#000"
+            android:layout_marginTop="25dp"
+            android:textColor="#666666"
             android:textSize="18sp"
             android:layout_marginLeft="200dp"
             />
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="text"
             android:layout_marginTop="14dp"
-            android:textColor="#e8175e"
+            android:textColor="#b11450"
             android:textSize="30sp"
             android:layout_marginLeft="220dp"
             />

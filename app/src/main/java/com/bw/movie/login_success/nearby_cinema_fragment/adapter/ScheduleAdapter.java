@@ -42,10 +42,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-           viewHolder.textView_screeningHall.setText(list.get(i).getScreeningHall());
-           viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
-           viewHolder.textView_text_endTime.setText(list.get(i).getEndTime()+"  end");
-           viewHolder.textView_fare.setText(list.get(i).getPrice()+"");
+        viewHolder.textView_screeningHall.setText(list.get(i).getScreeningHall());
+        viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
+        viewHolder.textView_text_endTime.setText(list.get(i).getEndTime()+"  end");
+        viewHolder.textView_fare.setText(list.get(i).getPrice()+"");
+
+
     }
 
     @Override

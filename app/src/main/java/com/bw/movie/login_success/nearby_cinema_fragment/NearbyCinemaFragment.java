@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,7 +20,6 @@ import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class NearbyCinemaFragment extends BaseFragment {
         recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followCinema,int position) {
-                if(followCinema==1){
+                if(followCinema==1 || followCinema==0){
                     //取消关注
                     cancelCollection(id);
                     recommendAdapter.update2(position);
@@ -95,7 +95,6 @@ public class NearbyCinemaFragment extends BaseFragment {
     }
 
     private void getInfoFindCinema() {
-
         startRequestGet(String.format(Apis.URL_FIND_CINEMA,1,10,cinema_name),RecommentBean.class);
     }
 
@@ -110,26 +109,23 @@ public class NearbyCinemaFragment extends BaseFragment {
     }
     //进行搜索，如果输入框有信息进行搜索，否则收起
     private void gotoSearch() {
-        if(TextUtils.isEmpty(edit_search.getText().toString())){
             ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", -600, 0);
             translationX.setDuration(500);
             translationX.start();
             image_search.setClickable(true);
-        }else {
-            // ToastUtils.toast(edit_search.getText().toString());
+             //ToastUtils.toast(edit_search.getText().toString());
             cinema_name = edit_search.getText().toString();
             getInfoFindCinema();
-        }
+            edit_search.setText("");
+
     }
 
     //搜索框出现
     private void getSearch() {
-        if(TextUtils.isEmpty(edit_search.getText().toString())){
-            ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", 0, -600);
-            translationX.setDuration(500);
-            translationX.start();
-            image_search.setClickable(false);
-        }
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", 0, -600);
+        translationX.setDuration(500);
+        translationX.start();
+        image_search.setClickable(false);
     }
 
     @Override
@@ -144,10 +140,16 @@ public class NearbyCinemaFragment extends BaseFragment {
             case R.id.recommend_cinema:
                 recommendCineam();
                 radioButton_nearby.setChecked(false);
+                ObjectAnimator anim = ObjectAnimator.ofFloat(xRecyclerView, "translationX",-700,0 );
+                anim.setDuration(300);
+                anim.start();
                 break;
             case R.id.nearby_cinema:
                 nearbyCinema();
                 radioButton_recommend.setChecked(false);
+                ObjectAnimator anim1 = ObjectAnimator.ofFloat(xRecyclerView, "translationX",700,0 );
+                anim1.setDuration(300);
+                anim1.start();
                 break;
             case R.id.home_text_search:
                 gotoSearch();
@@ -173,8 +175,13 @@ public class NearbyCinemaFragment extends BaseFragment {
             RecommentBean bean= (RecommentBean) data;
             if(bean.getStatus().equals("0000")){
                 List<RecommentBean.ResultBean> result = bean.getResult();
-                result.remove(result.size()-1);
+               // result.remove(result.size()-1);
                 recommendAdapter.setList(result);
+               /* for(int i=0;i<result.size();i++){
+                    if(result.get(i).getFollowCinema()==1){
+
+                    }
+                }*/
 
             }else {
                 ToastUtils.toast(bean.getMessage());
