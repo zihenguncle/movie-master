@@ -58,40 +58,40 @@ public class NearbyCinemaFragment extends BaseFragment {
     @Override
     protected void initData() {
         //布局管理器
-         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
+        LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         manager.setOrientation(OrientationHelper.VERTICAL);
         xRecyclerView.setLayoutManager(manager);
 
         recommendAdapter=new RecommendAdapter(getActivity());
         xRecyclerView.setAdapter(recommendAdapter);
 
-     recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
-         @Override
-         public void getInformation(int id, int followCinema,int position) {
-             if(followCinema==1){
-                 //取消关注
-                 cancelCollection(id);
-                 recommendAdapter.update2(position);
+        recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
+            @Override
+            public void getInformation(int id, int followCinema,int position) {
+                if(followCinema==1){
+                    //取消关注
+                    cancelCollection(id);
+                    recommendAdapter.update2(position);
 
-             }else {
-                 //关注
-                 collection(id);
-                 recommendAdapter.update(position);
+                }else {
+                    //关注
+                    collection(id);
+                    recommendAdapter.update(position);
 
-             }
-         }
-     });
+                }
+            }
+        });
 
         getInfoCinema();
 
     }
 
     private void collection(int id) {
-         startRequestGet(String.format(Apis.URL_FOLLOW_CINEMA,id), FollowBean.class);
+        startRequestGet(String.format(Apis.URL_FOLLOW_CINEMA,id), FollowBean.class);
     }
 
     private void cancelCollection(int id) {
-         startRequestGet(String.format(Apis.URL_CANCEL_FOLLOW_CINEMA,id),FollowBean.class);
+        startRequestGet(String.format(Apis.URL_CANCEL_FOLLOW_CINEMA,id),FollowBean.class);
     }
 
     private void getInfoFindCinema() {
@@ -116,7 +116,7 @@ public class NearbyCinemaFragment extends BaseFragment {
             translationX.start();
             image_search.setClickable(true);
         }else {
-          //  ToastUtils.toast(edit_search.getText().toString());
+            // ToastUtils.toast(edit_search.getText().toString());
             cinema_name = edit_search.getText().toString();
             getInfoFindCinema();
         }
@@ -164,31 +164,32 @@ public class NearbyCinemaFragment extends BaseFragment {
     }
 
     private void recommendCineam() {
-          getInfoCinema();
+        getInfoCinema();
     }
 
     @Override
     protected void successed(Object data) {
-           if(data instanceof RecommentBean){
-               RecommentBean bean= (RecommentBean) data;
-               if(bean.getStatus().equals("0000")){
-                   List<RecommentBean.ResultBean> result = bean.getResult();
-                   result.remove(result.size()-1);
-                 recommendAdapter.setList(result);
-               }else {
-                   ToastUtils.toast(bean.getMessage());
-               }
+        if(data instanceof RecommentBean){
+            RecommentBean bean= (RecommentBean) data;
+            if(bean.getStatus().equals("0000")){
+                List<RecommentBean.ResultBean> result = bean.getResult();
+                result.remove(result.size()-1);
+                recommendAdapter.setList(result);
 
-           }else if(data instanceof FollowBean){
-               FollowBean bean= (FollowBean) data;
-               if(bean.getStatus().equals("0000")){
-                   ToastUtils.toast(bean.getMessage());
+            }else {
+                ToastUtils.toast(bean.getMessage());
+            }
+
+        }else if(data instanceof FollowBean){
+            FollowBean bean= (FollowBean) data;
+            if(bean.getStatus().equals("0000")){
+                ToastUtils.toast(bean.getMessage());
 
 
-               }else {
-                   ToastUtils.toast(bean.getMessage());
-               }
-           }
+            }else {
+                ToastUtils.toast(bean.getMessage());
+            }
+        }
     }
 
     @Override

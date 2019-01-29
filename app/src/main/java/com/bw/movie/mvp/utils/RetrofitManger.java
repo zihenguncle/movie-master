@@ -65,11 +65,11 @@ public class RetrofitManger {
                         //把原来请求的数据原样放进去
                         builder.method(request.method(),request.body());
 
-
                         if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
                             builder.addHeader("userId",userId);
                             builder.addHeader("sessionId",sessionId);
                             builder.addHeader("sk","0110010010000");
+                            builder.addHeader("Content-Type","application/x-www-form-urlencoded");
                         }
 
                         //打包

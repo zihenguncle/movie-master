@@ -13,6 +13,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import com.bw.movie.login_success.nearby_cinema_fragment.adapter.CommentAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.MovieBannerAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.ScheduleAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.CinemaCommentBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.GreatBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.MovieDetailBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.MovieImageBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
@@ -34,7 +36,9 @@ import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +48,7 @@ import recycler.coverflow.RecyclerCoverFlow;
 /**
  * date:2018/1/28
  * author:zhangjing
- * function:影院详情
+ * function:影院详情,评论，档期
  */
 
 public class CinemaDtailActivity extends BaseActivity {
@@ -60,9 +64,6 @@ public class CinemaDtailActivity extends BaseActivity {
     @BindView(R.id.rcf_cinema_flow)
     RecyclerCoverFlow recyclerCoverFlow;
     MovieBannerAdapter movieBannerAdapter;
-    int flag;
-    @BindView(R.id.banner_tag)
-    RadioGroup radiogroup;
     @BindView(R.id.shedule_recycler)
     RecyclerView recyclerView;
     private List<MovieImageBean.ResultBean> result;
@@ -70,6 +71,8 @@ public class CinemaDtailActivity extends BaseActivity {
     @BindView(R.id.relative_focus)
     RelativeLayout relativeLayout_focus;
     private PopupWindow popupWindow_nocie;
+    @BindView(R.id.checked_layout)
+    LinearLayout checkedLayout;
     // 声明平移动画
     private TranslateAnimation animation;
     @BindView(R.id.cinema_detail_back)
@@ -114,53 +117,29 @@ public class CinemaDtailActivity extends BaseActivity {
 
         startRequestGet(String.format(Apis.URL_MOVIE_AT_TIME,cinemaInfo.getId()), MovieImageBean.class);
 
+        final ImageViewAnimationHelper imageViewAnimationHelper = new ImageViewAnimationHelper(this, checkedLayout, 2, 30);
         recyclerCoverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {//滑动监听
             @Override
             public void onItemSelected(int position) {
-                flag = position%result.size();
-                setCuur(flag);
-                movieId = result.get(flag).getId();
+                movieId = result.get(position).getId();
                 cinemasId = cinemaInfo.getId();
+                imageViewAnimationHelper.startAnimation(position);
                 startRequestGet(String.format(Apis.URL_SCHEDULE_CINEMA, cinemasId, movieId), ScheduleBean.class);
             }
         });
+
+
+
         scheduleAdapter=new ScheduleAdapter(this);
         recyclerView.setAdapter(scheduleAdapter);
 
     }
 
-    private void setCuur(int flag) {
-        switch (flag){
-            case 0:
-                radiogroup.check(R.id.but_one);
-                break;
-            case 1:
-                radiogroup.check(R.id.but_two);
-                break;
-            case 2:
-                radiogroup.check(R.id.but_three);
-                break;
-            case 3:
-                radiogroup.check(R.id.but_four);
-                break;
-            case 4:
-                radiogroup.check(R.id.but_five);
-                break;
-            case 5:
-                radiogroup.check(R.id.but_sex);
-                break;
-            case 6:
-                radiogroup.check(R.id.but_seveen);
-                break;
-            default:
-                break;
-        }
-    }
     @OnClick({R.id.relative_focus,R.id.cinema_detail_back})
     public void getViewClick(View view){
         switch (view.getId()){
             case R.id.relative_focus:
-              //  startRequestGet(String.format(Apis.URL_FIND_CINEMA_INFO,movieId), MovieDetailBean.class);
+                startRequestGet(String.format(Apis.URL_FIND_CINEMA_INFO,movieId), MovieDetailBean.class);
                 //弹出popupWindow
                 View popup = getPopup(R.layout.popup_cinema);
                 getPopupView(popup);
@@ -222,6 +201,17 @@ public class CinemaDtailActivity extends BaseActivity {
         commentAdapter=new CommentAdapter(this);
         recyclerView_comment.setAdapter(commentAdapter);
 
+        commentAdapter.setOnPraiseCallBack(new CommentAdapter.PraiseCallBack() {
+            @Override
+            public void getPraiseInfo(int commentId, int isGreat, int position) {
+                if(isGreat==0){
+                    addGreat(commentId);
+                    commentAdapter.addHand(position);
+
+                }
+            }
+        });
+
         recyclerView_comment.setPullRefreshEnabled(true);
         recyclerView_comment.setLoadingMoreEnabled(true);
 
@@ -240,11 +230,12 @@ public class CinemaDtailActivity extends BaseActivity {
             }
         });
 
+    }
 
-
-
-
-
+    private void addGreat(int commentId) {
+        Map<String,String> map=new HashMap<>();
+        map.put("commentId",commentId+"");
+        startRequestPost(Apis.URL_CINEMA_COMMENT_GRENT,map,GreatBean.class);
     }
 
     private void getMovieComment() {
@@ -281,10 +272,12 @@ public class CinemaDtailActivity extends BaseActivity {
            if(data instanceof MovieImageBean){
                MovieImageBean bean= (MovieImageBean) data;
                if(bean.getStatus().equals("0000")){
-                   result = bean.getResult();
-                  // result.get(0).getFare().
+                  result = bean.getResult();
+                   recyclerCoverFlow.smoothScrollToPosition(3);
                    movieBannerAdapter=new MovieBannerAdapter(result,this);
                    recyclerCoverFlow.setAdapter(movieBannerAdapter);
+                   recyclerCoverFlow.smoothScrollToPosition(1);
+
                }else {
                    ToastUtils.toast(bean.getMessage());
                }
@@ -320,6 +313,13 @@ public class CinemaDtailActivity extends BaseActivity {
                    mPage++;
                    recyclerView_comment.loadMoreComplete();
                    recyclerView_comment.refreshComplete();
+               }else {
+                   ToastUtils.toast(bean.getMessage());
+               }
+           }else if(data instanceof GreatBean){
+               GreatBean bean= (GreatBean) data;
+               if(bean.getStatus().equals("0000")){
+                   ToastUtils.toast(bean.getMessage());
                }else {
                    ToastUtils.toast(bean.getMessage());
                }

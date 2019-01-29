@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.CinemaCommentBean;
 import com.bw.movie.tools.SimpleDataUtils;
@@ -51,8 +53,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Glide.with(context).load(list.get(i).getCommentHeadPic()).into(viewHolder.imageView_pic);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        Glide.with(context).load(list.get(i).getCommentHeadPic()). apply(RequestOptions.bitmapTransform(new CircleCrop())).
+        into(viewHolder.imageView_pic);
         viewHolder.textView_name.setText(list.get(i).getCommentUserName());
         viewHolder.textView_content.setText(list.get(i).getCommentContent());
         viewHolder.textView_num.setText(list.get(i).getGreatNum()+"");
@@ -62,8 +65,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        //点赞
+        if(list.get(i).getIsGreat()==1){
+            viewHolder.imageView_praise.setImageResource(R.mipmap.com_icon_praise_selected);
+        }else {
+            viewHolder.imageView_praise.setImageResource(R.mipmap.com_icon_praise_default);
+        }
+        //点赞的点击事件
+        viewHolder.imageView_praise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    if(praiseCallBack!=null){
+                        if(list.get(i).getIsGreat()==1){
+                            praiseCallBack.getPraiseInfo(list.get(i).getCommentId(),list.get(i).getIsGreat(),i);
+                        }else {
+                            praiseCallBack.getPraiseInfo(list.get(i).getCommentId(),list.get(i).getIsGreat(),i);
+                        }
+
+                    }
+            }
+        });
 
     }
+    public void addHand(int position){
+        list.get(position).setIsGreat(1);
+        list.get(position).setGreatNum(list.get(position).getGreatNum()+1);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getItemCount() {
@@ -87,5 +116,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    //接口回调
+    public PraiseCallBack praiseCallBack;
+    public void setOnPraiseCallBack(PraiseCallBack callBack){
+        this.praiseCallBack=callBack;
+    }
+    public interface PraiseCallBack{
+        void getPraiseInfo(int commentId,int isGreat,int position);
     }
 }
