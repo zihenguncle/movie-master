@@ -1,5 +1,9 @@
 package com.bw.movie.tools;
 
+import android.text.InputFilter;
+import android.text.Spanned;
+
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegexUtils {
@@ -50,7 +54,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isUsername(String username) {
-            return Pattern.matches(REGEX_USERNAME, username);
+                return Pattern.matches(REGEX_USERNAME, username);
         }
 
         /**
@@ -60,7 +64,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isPassword(String password) {
-            return Pattern.matches(REGEX_PASSWORD, password);
+                return Pattern.matches(REGEX_PASSWORD, password);
         }
 
         /**
@@ -70,7 +74,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isMobile(String mobile) {
-            return Pattern.matches(REGEX_MOBILE, mobile);
+                return Pattern.matches(REGEX_MOBILE, mobile);
         }
 
         /**
@@ -80,7 +84,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isEmail(String email) {
-            return Pattern.matches(REGEX_EMAIL, email);
+                return Pattern.matches(REGEX_EMAIL, email);
         }
 
         /**
@@ -90,7 +94,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isChinese(String chinese) {
-            return Pattern.matches(REGEX_CHINESE, chinese);
+                return Pattern.matches(REGEX_CHINESE, chinese);
         }
 
         /**
@@ -100,7 +104,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isIDCard(String idCard) {
-            return Pattern.matches(REGEX_ID_CARD, idCard);
+                return Pattern.matches(REGEX_ID_CARD, idCard);
         }
 
         /**
@@ -110,7 +114,7 @@ public class RegexUtils {
          * @return 校验通过返回true，否则返回false
          */
         public static boolean isUrl(String url) {
-            return Pattern.matches(REGEX_URL, url);
+                return Pattern.matches(REGEX_URL, url);
         }
 
         /**
@@ -120,7 +124,7 @@ public class RegexUtils {
          * @return
          */
         public static boolean isIPAddr(String ipAddr) {
-            return Pattern.matches(REGEX_IP_ADDR, ipAddr);
+                return Pattern.matches(REGEX_IP_ADDR, ipAddr);
         }
 
 }

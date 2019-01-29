@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -23,6 +24,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
 
     @BindView(R.id.buy_ticket_recycle)
     RecyclerView buy_ticket_recycle;
+    @BindView(R.id.buy_ticket_file_name)
+    TextView buy_ticket_file_name;
     private BuyTicketAdapter buyTicketAdapter;
 
     @Override
@@ -39,6 +42,8 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     protected void initData() {
         Intent intent = getIntent();
         int movieId = intent.getIntExtra("movieId", 0);
+        String movieName = intent.getStringExtra("movieName");
+        buy_ticket_file_name.setText(movieName);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         buy_ticket_recycle.setLayoutManager(linearLayoutManager);

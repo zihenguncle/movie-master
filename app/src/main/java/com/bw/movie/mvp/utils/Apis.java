@@ -79,6 +79,9 @@ public class Apis {
 
     //关注电影
     public static final String URL_LOVEMOVIE = "movie1erify/followMovie?movieId=%d";
-
+    //查询电影信息明细
+    public static final String URL_FIND_CINEMA_INFO = "cinema1/findCinemaInfo?cinemaId=%d";
+    //查询影院用户评论列表
+    public static final String URL_FIND_CINEMA_COMMENT = "cinema1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
 
 }
