@@ -74,5 +74,11 @@ public class Apis {
     //上传头像  user/v1/verify/uploadHeadPic
     public static final String TYPR_INMAGE_XINXI="user/v1/verify/uploadHeadPic";
 
+    //取消关注
+    public static final String URLNOLOVEMOVIE= "movie1erify/cancelFollowMovie?movieId=%d";
+
+    //关注电影
+    public static final String URL_LOVEMOVIE = "movie1erify/followMovie?movieId=%d";
+
 
 }

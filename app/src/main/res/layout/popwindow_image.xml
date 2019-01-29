@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/popwindow_shape"
+    >
+
+    <TextView
+        android:id="@+id/cancme"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:text="相机"
+        android:gravity="center"
+        />
+    <View
+        android:id="@+id/xian"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#000"
+        android:layout_below="@id/cancme"
+        />
+    <TextView
+        android:id="@+id/pick"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/xian"
+        android:text="相册"
+        android:gravity="center"
+        android:textSize="20dp"
+        />
+
+
+
+</RelativeLayout>
