@@ -145,6 +145,7 @@ public class DetailsActivity extends BaseActivity {
             public void onClick(View v) {
                 popupWindow_nocie.dismiss();
                 NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+
             }
         });
     }

@@ -26,12 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-/*
-* 推荐影院，附近影院，关注，取消关注
-* zhangjing
-* 20190127
-*
-* */
+/**
+ * date:2018/1/27
+ * author:zhangjing
+ * function:推荐影院，附近影院，关注，取消关注
+ */
+
 public class NearbyCinemaFragment extends BaseFragment {
     @BindView(R.id.cinema_recyclerView)
     RecyclerView xRecyclerView;
@@ -173,6 +173,7 @@ public class NearbyCinemaFragment extends BaseFragment {
                RecommentBean bean= (RecommentBean) data;
                if(bean.getStatus().equals("0000")){
                    List<RecommentBean.ResultBean> result = bean.getResult();
+                   result.remove(result.size()-1);
                  recommendAdapter.setList(result);
                }else {
                    ToastUtils.toast(bean.getMessage());

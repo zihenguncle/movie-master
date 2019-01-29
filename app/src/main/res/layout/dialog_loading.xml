@@ -16,7 +16,6 @@
         android:paddingLeft="21dp"
         android:paddingRight="21dp"
         android:paddingTop="10dp"
-
         >
 
         <ProgressBar

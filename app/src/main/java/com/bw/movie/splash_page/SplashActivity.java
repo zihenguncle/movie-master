@@ -26,12 +26,12 @@ import com.bw.movie.tools.ToastUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+/**
+ * date:2018/1/23
+ * author:zhangjing
+ * function:启动页跳转到详情页
+ */
 
-/*
-* 启动页跳转到引导页
-* zhangjing
-* 20190123
-* */
 public class SplashActivity extends AppCompatActivity{
     @BindView(R.id.relative_haswork)
     RelativeLayout relativeLayout_haswork;

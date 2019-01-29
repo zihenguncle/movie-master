@@ -3,7 +3,6 @@ package com.bw.movie.login_success.nearby_cinema_fragment.bean;
 import java.util.List;
 
 public class ScheduleBean {
-
     private String message;
     private String status;
     private List<ResultBean> result;
@@ -33,10 +32,13 @@ public class ScheduleBean {
     }
 
     public static class ResultBean {
+
+
         private String beginTime;
         private String duration;
         private String endTime;
         private int id;
+        private double price;
         private String screeningHall;
         private int seatsTotal;
         private int seatsUseCount;
@@ -72,6 +74,14 @@ public class ScheduleBean {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
         }
 
         public String getScreeningHall() {

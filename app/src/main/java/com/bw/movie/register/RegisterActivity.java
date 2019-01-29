@@ -40,11 +40,12 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-/*
-* 注册页面，注册成功跳转到成功的页面
-* zhangjing
-* 20190124
-* */
+/**
+ * date:2018/1/24
+ * author:zhangjing
+ * function:注册页面，注册成功跳转到成功的页面
+ */
+
 public class RegisterActivity extends BaseActivity {
 
     @BindView(R.id.reg_name)

@@ -1,4 +1,4 @@
-package com.bw.movie.login.wxapi;
+package com.bw.movie.wxapi;
 
 public class WeiXinBean {
 

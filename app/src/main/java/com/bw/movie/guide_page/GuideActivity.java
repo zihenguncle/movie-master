@@ -31,11 +31,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-/*
-* 引导页
-* zhangjing
-* 20190125
-* */
+/**
+ * date:2018/1/25
+ * author:zhangjing
+ * function:引导页
+ */
+
+
 public class GuideActivity extends AppCompatActivity  {
     @BindView(R.id.guide_viewpager)
     ViewPager guide_viewpager;

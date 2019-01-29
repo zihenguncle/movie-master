@@ -1,31 +1,51 @@
 package com.bw.movie.login_success.nearby_cinema_fragment.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
-import com.bw.movie.login_success.home_fragment.adapter.HomeBannerAdapter;
+import com.bw.movie.login_success.nearby_cinema_fragment.adapter.CommentAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.MovieBannerAdapter;
+import com.bw.movie.login_success.nearby_cinema_fragment.adapter.ScheduleAdapter;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.CinemaCommentBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.MovieDetailBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.MovieImageBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.ScheduleBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.ToastUtils;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
+/**
+ * date:2018/1/28
+ * author:zhangjing
+ * function:影院详情
+ */
 
 public class CinemaDtailActivity extends BaseActivity {
     private RecommentBean.ResultBean cinemaInfo;
@@ -46,9 +66,26 @@ public class CinemaDtailActivity extends BaseActivity {
     @BindView(R.id.shedule_recycler)
     RecyclerView recyclerView;
     private List<MovieImageBean.ResultBean> result;
+    private ScheduleAdapter scheduleAdapter;
+    @BindView(R.id.relative_focus)
+    RelativeLayout relativeLayout_focus;
+    private PopupWindow popupWindow_nocie;
+    // 声明平移动画
+    private TranslateAnimation animation;
+    @BindView(R.id.cinema_detail_back)
+    ImageView imageView_back;
+    private ImageView imageView1;
+    private View v1;
+    private View v2;
+    private RelativeLayout  relative_detail;
+    private XRecyclerView recyclerView_comment;
+    private TextView textView_address1,textView_phone,textView_route,textView_movie_detail,textView_movie_comment;
+    private int movieId;
+    private int mPage;
+    private int cinemasId;
+    private CommentAdapter commentAdapter;
 
 
-    @Override
     protected void initView(Bundle savedInstanceState) {
         //绑定控件
         ButterKnife.bind(this);
@@ -73,21 +110,22 @@ public class CinemaDtailActivity extends BaseActivity {
 
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(OrientationHelper.VERTICAL);
+        recyclerView.setLayoutManager(manager);
 
         startRequestGet(String.format(Apis.URL_MOVIE_AT_TIME,cinemaInfo.getId()), MovieImageBean.class);
 
         recyclerCoverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {//滑动监听
             @Override
             public void onItemSelected(int position) {
-                flag = position;
+                flag = position%result.size();
                 setCuur(flag);
-                int id = result.get(position).getId();
-
+                movieId = result.get(flag).getId();
+                cinemasId = cinemaInfo.getId();
+                startRequestGet(String.format(Apis.URL_SCHEDULE_CINEMA, cinemasId, movieId), ScheduleBean.class);
             }
         });
-
-
-
+        scheduleAdapter=new ScheduleAdapter(this);
+        recyclerView.setAdapter(scheduleAdapter);
 
     }
 
@@ -118,20 +156,187 @@ public class CinemaDtailActivity extends BaseActivity {
                 break;
         }
     }
+    @OnClick({R.id.relative_focus,R.id.cinema_detail_back})
+    public void getViewClick(View view){
+        switch (view.getId()){
+            case R.id.relative_focus:
+              //  startRequestGet(String.format(Apis.URL_FIND_CINEMA_INFO,movieId), MovieDetailBean.class);
+                //弹出popupWindow
+                View popup = getPopup(R.layout.popup_cinema);
+                getPopupView(popup);
+                break;
+            case R.id.cinema_detail_back:
+                finish();
+                break;
+        }
+    }
+    //详情的获取id
+    private void getPopupView(View popupView){
+        textView_movie_detail = popupView.findViewById(R.id.text_movie_detail);
+        textView_movie_comment = popupView.findViewById(R.id.text_movie_comment);
+        imageView1 = popupView.findViewById(R.id.cinema_back);
+        v1 = popupView.findViewById(R.id.v1);
+        v2 = popupView.findViewById(R.id.v2);
+        relative_detail = popupView.findViewById(R.id.relative_detail);
+        recyclerView_comment = popupView.findViewById(R.id.recycler_comment);
+        textView_address1 = popupView.findViewById(R.id.text_address);
+        textView_phone = popupView.findViewById(R.id.text_phone);
+        textView_route = popupView.findViewById(R.id.take_route);
+        //详情
+        textView_movie_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getMovieDetail();
+                v1.setVisibility(View.VISIBLE);
+                v2.setVisibility(View.INVISIBLE);
+                recyclerView_comment.setVisibility(View.INVISIBLE);
+                relative_detail.setVisibility(View.VISIBLE);
+            }
+        });
+        //评论
+        textView_movie_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               getMovieComment();
+                v1.setVisibility(View.INVISIBLE);
+                v2.setVisibility(View.VISIBLE);
+                recyclerView_comment.setVisibility(View.VISIBLE);
+                relative_detail.setVisibility(View.INVISIBLE);
+
+            }
+        });
+        //返回
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow_nocie.dismiss();
+                NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+            }
+        });
+
+        mPage=1;
+        final LinearLayoutManager manager=new LinearLayoutManager(this);
+        manager.setOrientation(OrientationHelper.VERTICAL);
+        recyclerView_comment.setLayoutManager(manager);
+
+        commentAdapter=new CommentAdapter(this);
+        recyclerView_comment.setAdapter(commentAdapter);
+
+        recyclerView_comment.setPullRefreshEnabled(true);
+        recyclerView_comment.setLoadingMoreEnabled(true);
+
+        recyclerView_comment.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                mPage=1;
+                getMovieComment();
+
+            }
+
+            @Override
+            public void onLoadMore() {
+                getMovieComment();
+
+            }
+        });
+
+
+
+
+
+
+    }
+
+    private void getMovieComment() {
+        startRequestGet(String.format(Apis.URL_FIND_CINEMA_COMMENT,cinemasId,mPage,5), CinemaCommentBean.class);
+    }
+
+    //请求详情数据
+    private void getMovieDetail() {
+        startRequestGet(String.format(Apis.URL_FIND_CINEMA_INFO,movieId), MovieDetailBean.class);
+    }
+
+    //弹出popup
+    private View getPopup(int popup_view) {
+        View popupView = View.inflate(CinemaDtailActivity.this,popup_view,null);
+        animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(500);
+        popupWindow_nocie = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow_nocie.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow_nocie.setFocusable(true);
+        popupWindow_nocie.setOutsideTouchable(true);
+        popupWindow_nocie.showAtLocation(View.inflate(CinemaDtailActivity.this, popup_view, null),
+                Gravity.BOTTOM, 0, 0);
+        popupView.startAnimation(animation);
+
+        return popupView;
+
+    }
 
     @Override
     protected void successed(Object data) {
            if(data instanceof MovieImageBean){
                MovieImageBean bean= (MovieImageBean) data;
-               result = bean.getResult();
-               movieBannerAdapter=new MovieBannerAdapter(result,this);
-               recyclerCoverFlow.setAdapter(movieBannerAdapter);
+               if(bean.getStatus().equals("0000")){
+                   result = bean.getResult();
+                  // result.get(0).getFare().
+                   movieBannerAdapter=new MovieBannerAdapter(result,this);
+                   recyclerCoverFlow.setAdapter(movieBannerAdapter);
+               }else {
+                   ToastUtils.toast(bean.getMessage());
+               }
 
+           }else if(data instanceof ScheduleBean){
+               ScheduleBean bean= (ScheduleBean) data;
+              if(bean.getStatus().equals("0000")){
+                  List<ScheduleBean.ResultBean> result = bean.getResult();
+                  scheduleAdapter.setList(result);
+              }else {
+                  ToastUtils.toast(bean.getMessage());
+              }
+           }else if(data instanceof MovieDetailBean){
+               MovieDetailBean bean= (MovieDetailBean) data;
+               if(bean.getStatus().equals("0000")){
+                   MovieDetailBean.ResultBean result = bean.getResult();
+                   textView_address1.setText(result.getAddress());
+                   textView_phone.setText(result.getPhone());
+                   textView_route.setText(result.getVehicleRoute());
+
+               }else {
+                   ToastUtils.toast(bean.getMessage());
+               }
+           }else if(data instanceof CinemaCommentBean){
+               CinemaCommentBean bean= (CinemaCommentBean) data;
+               if(bean.getStatus().equals("0000")){
+                   List<CinemaCommentBean.ResultBean> result = bean.getResult();
+                   if(mPage==1){
+                       commentAdapter.setList(result);
+                   }else {
+                       commentAdapter.addList(result);
+                   }
+                   mPage++;
+                   recyclerView_comment.loadMoreComplete();
+                   recyclerView_comment.refreshComplete();
+               }else {
+                   ToastUtils.toast(bean.getMessage());
+               }
            }
     }
 
     @Override
     protected void failed(String error) {
-
+          ToastUtils.toast(error);
     }
+    @Override
+    public void onBackPressed() {
+        // 在全屏或者小窗口时按返回键要先退出全屏或小窗口，
+        // 所以在Activity中onBackPress要交给NiceVideoPlayer先处理。
+        if (NiceVideoPlayerManager.instance().onBackPressd()) return;
+        super.onBackPressed();
+    }
+
+
 }

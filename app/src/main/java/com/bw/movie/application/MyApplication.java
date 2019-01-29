@@ -16,14 +16,10 @@ import me.jessyan.autosize.utils.LogUtils;
 
 public class MyApplication extends Application {
     private static Context context;
-    public static String APP_ID="wxb3852e6a6b7d9516";
-    public static IWXAPI api;
     @Override
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
-        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
-        api.registerApp(APP_ID);
         /**
          * 屏幕适配
          */

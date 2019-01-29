@@ -84,7 +84,6 @@
             android:layout_width="20dp"
             android:layout_height="3dp"
             android:background="@drawable/banner_tag_style"
-            android:checked="true"
             android:button="@null"
             />
         <RadioButton
@@ -94,6 +93,7 @@
             android:background="@drawable/banner_tag_style"
             android:layout_marginLeft="10dp"
             android:button="@null"
+
             />
         <RadioButton
             android:id="@+id/but_three"
@@ -102,6 +102,7 @@
             android:background="@drawable/banner_tag_style"
             android:layout_marginLeft="10dp"
             android:button="@null"
+            android:checked="true"
             />
         <RadioButton
             android:id="@+id/but_four"
@@ -145,6 +146,14 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         ></android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/cinema_detail_back"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="20dp"
+        android:background="@mipmap/com_icon_my_default"
 
-
+        />
 </RelativeLayout>
