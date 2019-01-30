@@ -4,8 +4,12 @@
     android:layout_height="match_parent"
     >
 
-
-
+<RadioGroup
+    android:id="@+id/perosnal_fouce_radio"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
     <RadioButton
         android:id="@+id/message_ticket"
         android:layout_width="83dp"
@@ -34,28 +38,19 @@
         android:textSize="14sp"
         android:background="@drawable/personal_feedback_selector_buuuton"
         />
+</RadioGroup>
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/personal_message_titcket"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/message_ticket"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/personal_message"
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/personal_focus_viewpager"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/message_ticket"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_below="@id/perosnal_fouce_radio"
+        />
 
     <RelativeLayout
         android:id="@+id/personal_focus_back"

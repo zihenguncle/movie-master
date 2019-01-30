@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 
 import java.util.ArrayList;
@@ -51,10 +53,12 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, int i) {
-        String imageUrl = mDatas.get(i).getImageUrl();
-        Glide.with(mContext).load(imageUrl).into(viewHolder.show_detaile_item_img);
         viewHolder.show_details_item_title.setText(mDatas.get(i).getName());
         viewHolder.show_details_item_count.setText(mDatas.get(i).getSummary());
+        Glide.with(mContext)
+                .load(mDatas.get(i%mDatas.size()).getImageUrl())
+                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
+                .into(viewHolder.show_detaile_item_img);
     }
 
     @Override

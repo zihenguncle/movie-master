@@ -4,8 +4,6 @@ import android.animation.ObjectAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -68,7 +66,7 @@ public class NearbyCinemaFragment extends BaseFragment {
         recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followCinema,int position) {
-                if(followCinema==1 || followCinema==0){
+                if(followCinema==1){
                     //取消关注
                     cancelCollection(id);
                     recommendAdapter.update2(position);
@@ -150,6 +148,7 @@ public class NearbyCinemaFragment extends BaseFragment {
                 ObjectAnimator anim1 = ObjectAnimator.ofFloat(xRecyclerView, "translationX",700,0 );
                 anim1.setDuration(300);
                 anim1.start();
+
                 break;
             case R.id.home_text_search:
                 gotoSearch();
@@ -177,11 +176,6 @@ public class NearbyCinemaFragment extends BaseFragment {
                 List<RecommentBean.ResultBean> result = bean.getResult();
                // result.remove(result.size()-1);
                 recommendAdapter.setList(result);
-               /* for(int i=0;i<result.size();i++){
-                    if(result.get(i).getFollowCinema()==1){
-
-                    }
-                }*/
 
             }else {
                 ToastUtils.toast(bean.getMessage());
