@@ -92,4 +92,9 @@ public class Apis {
     //根据电影ID和影院ID查询电影排期列表--get
     public static final String URL_SCHEDULE = "movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
 
+    //影院评论点赞
+    public static final String URL_CINEMA_COMMENT_GRENT = "cinema1erify/cinemaCommentGreat";
+
+    //修改用户的信息 -post  URL_UPDATE_INFORMMATION
+    public static final String URL_UPDATE_INFORMMATION="user/v1/verify/modifyUserInfo";
 }

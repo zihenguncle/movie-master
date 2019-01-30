@@ -1,14 +1,21 @@
 package com.bw.movie.login_success.person.person_activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login_success.person.fragment.Cinema_Message;
+import com.bw.movie.login_success.person.fragment.Movie_Message;
 import com.bw.movie.login_success.person.personal_adapter.CimeamaAdapter;
 import com.bw.movie.login_success.person.personal_adapter.VideoAdapter;
 import com.bw.movie.login_success.person.personal_bean.CimeamaBean;
@@ -17,25 +24,26 @@ import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Personal_Fragment_Focus_Activity extends BaseActivity implements View.OnClickListener {
+public class Personal_Fragment_Focus_Activity extends BaseActivity{
 
     @BindView(com.bw.movie.R.id.message_ticket)
     RadioButton messageTicket;
     @BindView(com.bw.movie.R.id.message_movie)
     RadioButton messageMovie;
-    @BindView(com.bw.movie.R.id.personal_message_titcket)
-    XRecyclerView personalMessageTitcket;
-    @BindView(com.bw.movie.R.id.personal_message)
-    XRecyclerView perosnal_message;
-
-    public static final int TYPA_CIMEAMA_COUNT=10;
-    public int mPage;
-    private CimeamaAdapter cimeamaAdapter;
-    private VideoAdapter videoAdapter;
+    @BindView(R.id.personal_focus_viewpager)
+    ViewPager personal_focus_viewpager;
+    @BindView(R.id.perosnal_fouce_radio)
+    RadioGroup personal_fouce_radio;
+    private List<Fragment> list;
+    @BindView(R.id.image_View_Back)
+    ImageView image_back;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -47,129 +55,81 @@ public class Personal_Fragment_Focus_Activity extends BaseActivity implements Vi
         return com.bw.movie.R.layout.personal_focus;
     }
 
-    private void loadDataHot(){
-        mPage=1;
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(OrientationHelper.VERTICAL);
-        personalMessageTitcket.setLayoutManager(layoutManager);
-        videoAdapter = new VideoAdapter(this);
-        personalMessageTitcket.setAdapter(videoAdapter);
-        messageTicket.setChecked(false);
-        messageMovie.setChecked(true);
-        personalMessageTitcket.setLoadingMoreEnabled(true);
-        personalMessageTitcket.setPullRefreshEnabled(true);
-        personalMessageTitcket.setLoadingListener(new XRecyclerView.LoadingListener() {
-            @Override
-            public void onRefresh(){
-                mPage=1;
-                loadsData(mPage);
-            }
-
-            @Override
-            public void onLoadMore() {
-                mPage++;
-                loadsData(mPage);
-            }
-        });
-        loadsData(mPage);
-    }
 
     @Override
     protected void initData() {
-        mPage=1;
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
-        perosnal_message.setLayoutManager(linearLayoutManager);
-
-        messageMovie.setChecked(false);
-        messageTicket.setChecked(true);
-
-        cimeamaAdapter = new CimeamaAdapter(this);
-        perosnal_message.setAdapter(cimeamaAdapter);
-
-        perosnal_message.setLoadingMoreEnabled(true);
-        perosnal_message.setPullRefreshEnabled(true);
-        perosnal_message.setLoadingListener(new XRecyclerView.LoadingListener() {
+        list=new ArrayList<>();
+        list.add(new Movie_Message());
+        list.add(new Cinema_Message());
+        personal_focus_viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public void onRefresh(){
-                mPage=1;
-                loadData(mPage);
+            public Fragment getItem(int i) {
+                return list.get(i);
             }
 
             @Override
-            public void onLoadMore() {
-                mPage++;
-                loadData(mPage);
+            public int getCount() {
+                return list.size();
+            }
+        });
+        image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        messageTicket.setChecked(true);
+        messageMovie.setChecked(false);
+        personal_fouce_radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.message_ticket:
+                        personal_focus_viewpager.setCurrentItem(0);
+                        messageTicket.setChecked(true);
+                        messageMovie.setChecked(false);
+                        break;
+                    case R.id.message_movie:
+                        personal_focus_viewpager.setCurrentItem(1);
+                        messageTicket.setChecked(false);
+                        messageMovie.setChecked(true);
+                        break;
+                }
+            }
+        });
+        personal_focus_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        personal_fouce_radio.check(R.id.message_ticket);
+                        messageTicket.setChecked(true);
+                        messageMovie.setChecked(false);
+                        break;
+                    case 1:
+                        personal_fouce_radio.check(R.id.message_movie);
+                        messageTicket.setChecked(false);
+                        messageMovie.setChecked(true);
+                        default:break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
     }
 
-    private void loadData(int mPage){
-        startRequestGet(String.format(Apis.URL_CIMEAMA,mPage,TYPA_CIMEAMA_COUNT),CimeamaBean.class);
-    }
-
-    private void loadsData(int mPage){
-        startRequestGet(String.format(Apis.URL_VIDE_INFORMATION,mPage,TYPA_CIMEAMA_COUNT),VideInformationBean.class);
-    }
     @Override
     protected void successed(Object data) {
 
-        if (data instanceof CimeamaBean) {
-            CimeamaBean cimeamaBean = (CimeamaBean) data;
-            if (cimeamaBean.getStatus().equals("0000")) {
-                if (mPage == 1) {
-                    cimeamaAdapter.setDatas(cimeamaBean.getResult());
-                } else {
-                    cimeamaAdapter.addDatas(cimeamaBean.getResult());
-                }
-                perosnal_message.refreshComplete();
-                perosnal_message.loadMoreComplete();
-            } else {
-                    ToastUtils.toast(cimeamaBean.getMessage());
-             }
-        }else if(data instanceof VideInformationBean){
-            VideInformationBean videInformationBean= (VideInformationBean)data;
-            if(videInformationBean.getStatus().equals("0000")){
-                    if (mPage == 1) {
-                        videoAdapter.setDatas(videInformationBean.getResult());
-                    } else {
-                        videoAdapter.addDatas(videInformationBean.getResult());
-                    }
-                    personalMessageTitcket.loadMoreComplete();
-                    personalMessageTitcket.refreshComplete();
-                } else{
-                    ToastUtils.toast(videInformationBean.getMessage());
-                 }
-            }
-
-}
-
-    @OnClick({com.bw.movie.R.id.message_ticket, com.bw.movie.R.id.message_movie,R.id.image_View_Back})
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.image_View_Back:
-                finish();
-                break;
-            case com.bw.movie.R.id.message_ticket:
-                mPage=1;
-                loadsData(mPage);
-                perosnal_message.setVisibility(View.GONE);
-                personalMessageTitcket.setVisibility(View.VISIBLE);
-                initData();
-                break;
-            case com.bw.movie.R.id.message_movie:
-                mPage=1;
-                loadData(mPage);
-                perosnal_message.setVisibility(View.VISIBLE);
-                personalMessageTitcket.setVisibility(View.GONE);
-                loadDataHot();
-                break;
-            default:break;
-        }
     }
-
-
 
     @Override
     protected void failed(String error) {

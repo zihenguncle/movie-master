@@ -67,9 +67,7 @@ public class PersonalFragment extends BaseFragment{
     public void onClick(View v){
         switch (v.getId()){
             case R.id.personal_message_secede:
-                Intent intent1 = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent1);
-                getActivity().finish();
+               // getActivity().finish();
                 break;
             case R.id.personal_sign_in:
                 startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
