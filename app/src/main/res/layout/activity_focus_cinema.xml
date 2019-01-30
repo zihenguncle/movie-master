@@ -48,12 +48,13 @@
            />
        <ImageView
            android:id="@+id/focus_position"
-           android:layout_width="30dp"
-           android:layout_height="30dp"
+           android:layout_width="20dp"
+           android:layout_height="20dp"
            android:background="@mipmap/com_icon_navigation_default"
            android:layout_alignParentRight="true"
            android:layout_marginRight="20dp"
-           android:layout_marginTop="50dp"
+           android:layout_alignBottom="@+id/focus_name"
+           android:layout_marginTop="5dp"
            />
    </RelativeLayout>
     <recycler.coverflow.RecyclerCoverFlow
@@ -93,14 +94,22 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         ></android.support.v7.widget.RecyclerView>
-    <ImageView
-        android:id="@+id/cinema_detail_back"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <RelativeLayout
+        android:id="@+id/cinema_item_back"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/personal_reset_selector"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="24dp"
-        android:layout_marginBottom="20dp"
-        android:background="@mipmap/com_icon_my_default"
+        >
+        <ImageView
+            android:id="@+id/cinema_detail_back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="24dp"
+            android:layout_marginBottom="20dp"
+            android:background="@mipmap/com_icon_my_default"
+            />
+    </RelativeLayout>
 
-        />
 </RelativeLayout>

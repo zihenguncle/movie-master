@@ -32,7 +32,7 @@ public class Apis {
     public static final String URL_RECOMMEND_CINEAMS="cinema/v1/findRecommendCinemas?page=%d&count=%d";
 
     //附近影院  get
-    public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+    public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d&longitude=%s&latitude=%s";
 
     //电影详情
     public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";
@@ -81,10 +81,10 @@ public class Apis {
     public static final String URL_LOVEMOVIE = "movie/v1/verify/followMovie?movieId=%d";
 
     //查询电影信息明细
-    public static final String URL_FIND_CINEMA_INFO = "cinema/v1/findCinemaInfo?cinemaId=%d";
+    public static final String URL_FIND_CINEMA_INFO = "cinema1/findCinemaInfo?cinemaId=%d";
 
     //查询影院用户评论列表
-    public static final String URL_FIND_CINEMA_COMMENT = "cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
+    public static final String URL_FIND_CINEMA_COMMENT = "cinema1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
 
     //添加用户对影片的评论  ---入参movieId，commentContent
     public static final String URL_WRITE_TAKE = "movie/v1/verify/movieComment";
@@ -98,6 +98,7 @@ public class Apis {
     //修改用户信息
     public static final String URL_UPDATE_INFORMMATION = "user/v1/verify/modifyUserInfo";
 
-    //tool/v1/findNewVersion  新版本
-    public static final String URL_UPDATE_CODE="tool/v1/findNewVersion";
+    //评论点赞
+    public static final String URL_TAKE_LOVE = "movie/v1/verify/movieCommentGreat";
+
 }

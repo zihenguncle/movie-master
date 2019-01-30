@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import com.bw.movie.loading.LoadingUtils;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.view.IView;
+import com.bw.movie.tools.NetWorkUtils;
+import com.bw.movie.tools.ToastUtils;
 
 import java.util.Map;
 
@@ -45,19 +47,31 @@ public abstract class BaseFragment extends Fragment implements IView {
     protected abstract void successed(Object data);
     protected abstract void failed(String error);
 
-    protected void startRequestGet(String url,Class clazz){
-        if(iPresemter != null) {
-            if(loadingDialog == null){
-                loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+    protected void startRequestGet(String url,Class clazz) {
+        if (!NetWorkUtils.hasNetwork(getActivity())) {
+            ToastUtils.toast("当前网络不可用");
+            NetWorkUtils.setNetworkMethod(getActivity());
+            return;
+        } else {
+            if (iPresemter != null) {
+                if (loadingDialog == null) {
+                    loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+                }
+                iPresemter.startRequestGet(url, clazz);
             }
-            iPresemter.startRequestGet(url,clazz);
         }
     }
 
-    protected void startRequestPost(String url, Map<String,String> map, Class clazz){
-        if(iPresemter != null) {
-           loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
-            iPresemter.startRequestPost(url, map, clazz);
+    protected void startRequestPost(String url, Map<String,String> map, Class clazz) {
+        if (!NetWorkUtils.hasNetwork(getActivity())) {
+            ToastUtils.toast("当前网络不可用");
+            NetWorkUtils.setNetworkMethod(getActivity());
+            return;
+        } else {
+            if (iPresemter != null) {
+                loadingDialog = LoadingUtils.createLoadingDialog(getActivity(), "加载中.....");
+                iPresemter.startRequestPost(url, map, clazz);
+            }
         }
     }
 

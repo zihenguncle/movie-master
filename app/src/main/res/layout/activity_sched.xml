@@ -7,7 +7,7 @@
     tools:context=".login_success.home_fragment.activity.SchedActivity">
 
     <TextView
-        android:id="@+id/sched_name"
+        android:id="@+id/sched_cinemas_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="24dp"
-        android:layout_below="@+id/sched_name"
+        android:layout_below="@+id/sched_cinemas_name"
         android:text="this is address"
         />
     <ImageView
@@ -31,27 +31,145 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="24dp"
         android:background="@mipmap/com_icon_navigation_default"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="35dp"
         />
 
 
     <RelativeLayout
         android:id="@+id/relative"
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="142dp"
         android:background="@mipmap/beijing1"
         android:layout_below="@+id/sched_address"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginLeft="24dp"
         >
-        
+
         <ImageView
             android:id="@+id/sched_image"
             android:layout_width="103dp"
-            android:layout_height="130dp" />
-        
+            android:layout_height="130dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
+            />
+        <TextView
+            android:id="@+id/sched_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/sched_image"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="20dp"
+            android:text="this is name"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/leixing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/sched_image"
+            android:text="类型:"
+            android:layout_below="@+id/sched_name"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/sched_movieTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/leixing"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_alignBottom="@+id/leixing"
+            />
+
+        <TextView
+            android:id="@+id/daoyan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/sched_image"
+            android:text="导演:"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/leixing"
+            android:layout_marginLeft="20dp"
+            />
+        <TextView
+            android:id="@+id/sched_director"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/daoyan"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/leixing"
+            android:layout_marginLeft="10dp"
+            android:layout_alignBottom="@+id/daoyan"
+            />
+        <TextView
+            android:id="@+id/shichang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/sched_image"
+            android:text="时长:"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/daoyan"
+            />
+        <TextView
+            android:id="@+id/sched_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/shichang"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/daoyan"
+            android:layout_marginLeft="10dp"
+            android:layout_alignBottom="@id/shichang"
+            />
+        <TextView
+            android:id="@+id/chandi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/sched_image"
+            android:text="产地:"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/shichang"
+            />
+        <TextView
+            android:id="@+id/sched_movie_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/chandi"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/shichang"
+            android:layout_marginLeft="10dp"
+            android:layout_alignBottom="@+id/chandi"
+            />
     </RelativeLayout>
-
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/sched_recycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relative"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="10dp"
+        ></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

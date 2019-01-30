@@ -80,6 +80,23 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
                 .into(viewHolder.itemTakeHeadimage);
         SimpleDateFormat dateFormat = new SimpleDateFormat(Time_Style, Locale.getDefault());
         String format = dateFormat.format(data.get(i).getCommentTime());
+
+        if(data.get(i).getIsGreat()==0){
+            viewHolder.praise.setImageResource(R.mipmap.com_icon_praise_default);
+        }else {
+            viewHolder.praise.setImageResource(R. mipmap.com_icon_praise_selected);
+        }
+
+        //评论点赞
+        viewHolder.praise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mytakr !=null){
+                    mytakr.getlove(data.get(i).getCommentId(),i);
+                }
+            }
+        });
+
         viewHolder.itemTakeDate.setText(format);
         viewHolder.itemTakeContent.setText(data.get(i).getMovieComment());
         viewHolder.itemTakeCommentnum.setText(data.get(i).getReplyNum()+"");
@@ -128,6 +145,12 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         });
     }
 
+    public void setLove(int page){
+        data.get(page).setIsGreat(1);
+        data.get(page).setGreatNum(data.get(page).getGreatNum()+1);
+        notifyDataSetChanged();
+    }
+
     public void backTake(int position){
         data.get(position).notifyAll();
     }
@@ -160,6 +183,8 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         XRecyclerView itemXrecycleItem;
         @BindView(R.id.item_take_comment)
         ImageView comment;
+        @BindView(R.id.item_take_praise)
+        ImageView praise;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
@@ -168,7 +193,6 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
 
         @Override
         public void onSuccessed(Object data) {
-//            Take_Take_Bean take_take_bean = (Take_Take_Bean) data;
             Popup_taketake popup_taketake = new Popup_taketake(context);
             itemXrecycleItem.setAdapter(popup_taketake);
             Log.i("dj", "onSuccess " + itemXrecycleItem);
@@ -200,6 +224,15 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     }
     public interface getXrecycleData{
         void getdata(int i);
+    }
+
+    public loveTake mytakr;
+    public void setLoveTake(loveTake loveTake){
+        mytakr = loveTake;
+    }
+
+    public interface loveTake{
+        void getlove(int id,int position);
     }
 
 }

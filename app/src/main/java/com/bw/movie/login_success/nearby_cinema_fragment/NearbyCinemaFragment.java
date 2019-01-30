@@ -70,12 +70,10 @@ public class NearbyCinemaFragment extends BaseFragment {
                     //取消关注
                     cancelCollection(id);
                     recommendAdapter.update2(position);
-
                 }else {
                     //关注
                     collection(id);
                     recommendAdapter.update(position);
-
                 }
             }
         });
@@ -98,7 +96,7 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     private void getInfoNearby() {
 
-        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10), RecommentBean.class);
+        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10,"116.30551391385724","40.04571807462411"), RecommentBean.class);
     }
 
     private void getInfoCinema() {
@@ -148,7 +146,6 @@ public class NearbyCinemaFragment extends BaseFragment {
                 ObjectAnimator anim1 = ObjectAnimator.ofFloat(xRecyclerView, "translationX",700,0 );
                 anim1.setDuration(300);
                 anim1.start();
-
                 break;
             case R.id.home_text_search:
                 gotoSearch();
