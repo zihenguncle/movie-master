@@ -3,6 +3,9 @@ package com.bw.movie.login_success.nearby_cinema_fragment.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,10 +45,36 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.textView_screeningHall.setText(list.get(i).getScreeningHall());
-        viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
-        viewHolder.textView_text_endTime.setText(list.get(i).getEndTime()+"  end");
-        viewHolder.textView_fare.setText(list.get(i).getPrice()+"");
+        SpannableString spannableString = new SpannableString(list.get(i).getPrice()+"");
+        RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
+        RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.8f);
+        RelativeSizeSpan sizeSpan03 = new RelativeSizeSpan(0.6f);
+        RelativeSizeSpan sizeSpan04 = new RelativeSizeSpan(0.6f);
+        spannableString.setSpan(sizeSpan01, 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(sizeSpan02, 1, 2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(sizeSpan03, 2, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(sizeSpan04, 3, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+        if(list.get(i).getStatus()==2){
+            viewHolder.textView_screeningHall.setText("该电影排期已过期");
+            viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
+            viewHolder.textView_text_endTime.setText(list.get(i).getEndTime());
+            viewHolder.textView_fare.setText(spannableString);
+            viewHolder.imageView_next.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.textView_screeningHall.setText(list.get(i).getScreeningHall());
+            viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
+            viewHolder.textView_text_endTime.setText(list.get(i).getEndTime());
+            viewHolder.textView_fare.setText(spannableString);
+            viewHolder.imageView_next.setVisibility(View.VISIBLE);
+        }
+        viewHolder.imageView_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 
     @Override

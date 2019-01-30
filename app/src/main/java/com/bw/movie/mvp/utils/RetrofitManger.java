@@ -68,7 +68,7 @@ public class RetrofitManger {
                         if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
                             builder.addHeader("userId",userId);
                             builder.addHeader("sessionId",sessionId);
-                            builder.addHeader("sk","0110010010000");
+                            builder.addHeader("ak","0110010010000");
                             builder.addHeader("Content-Type","application/x-www-form-urlencoded");
                         }
 

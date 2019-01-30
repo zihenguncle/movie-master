@@ -209,6 +209,7 @@ public class LoginActivity extends BaseActivity {
              }
              Intent intent=new Intent(LoginActivity.this, Login_Success_Activity.class);
              startActivity(intent);
+             finish();
          }else {
              ToastUtils.toast(bean.getMessage());
          }

@@ -118,10 +118,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/personal_fragment_my_focus"
-            android:layout_width="100dp"
-            android:layout_height="86dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            >
             <ImageView
                 android:id="@+id/personal_record_attention"
                 android:layout_width="24dp"
@@ -140,11 +144,15 @@
                 android:layout_below="@id/personal_record_attention"
                 android:layout_marginLeft="20dp"
                 />
-        </RelativeLayout>
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/personal_fragment_ticket_record"
-            android:layout_width="100dp"
-            android:layout_height="86dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            >
             <ImageView
                 android:id="@+id/personal_ticket_record"
                 android:layout_width="24dp"
@@ -153,7 +161,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -164,7 +171,7 @@
                 android:layout_below="@id/personal_ticket_record"
                 android:layout_marginLeft="10dp"
                 />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -175,7 +182,7 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="8dp"
+        app:contentPadding="4dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_below="@id/personal_record"
@@ -185,11 +192,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
         >
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/personal_feedback_advice"
-            android:layout_width="100dp"
-            android:layout_height="86dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
             <ImageView
                 android:id="@+id/personal_advice_feedback"
                 android:layout_width="24dp"
@@ -198,7 +210,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="30dp"
                 />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -209,10 +220,14 @@
                 android:layout_below="@id/personal_advice_feedback"
                 android:layout_marginLeft="20dp"
                 />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="86dp">
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
             <ImageView
                 android:id="@+id/personal_latest_version"
                 android:layout_width="24dp"
@@ -232,12 +247,15 @@
                 android:layout_below="@id/personal_latest_version"
                 android:layout_marginLeft="10dp"
                 />
-        </RelativeLayout>
-
-        <RelativeLayout
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/personal_message_secede"
-            android:layout_width="100dp"
-            android:layout_height="86dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
             <ImageView
                 android:id="@+id/personal_log_out"
                 android:layout_width="24dp"
@@ -257,7 +275,7 @@
                 android:layout_below="@id/personal_log_out"
                 android:layout_marginLeft="10dp"
                 />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
     </android.support.v7.widget.CardView>
 

@@ -1,9 +1,14 @@
 package com.bw.movie.login_success.person;
 
+import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -15,8 +20,10 @@ import com.bw.movie.login_success.person.person_activity.Personal_FeedBack_Advic
 import com.bw.movie.login_success.person.person_activity.Personal_Fragment_Focus_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
+import com.bw.movie.login_success.person.person_activity.UpdateAppActivity;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
 import com.bw.movie.login_success.person.personal_bean.SignInBean;
+import com.bw.movie.login_success.person.personal_bean.UpdateCodeBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
@@ -34,6 +41,10 @@ public class PersonalFragment extends BaseFragment{
     ImageView personalTopImage;
     @BindView(R.id.personal_name)
     TextView personalName;
+    @BindView(R.id.personal_fragment_update_xin_code)
+    RelativeLayout personal_update_code;
+    @BindView(R.id.personal_latest_version)
+    ImageView imageView_perosnal;
     @Override
     protected int getViewById() {
         return R.layout.fargment_personal;
@@ -63,9 +74,15 @@ public class PersonalFragment extends BaseFragment{
         }
     }
 
-    @OnClick({R.id.personal_meassage_my,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
+    @OnClick({R.id.personal_meassage_my,R.id.personal_fragment_update_xin_code,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
     public void onClick(View v){
         switch (v.getId()){
+            case R.id.personal_fragment_update_xin_code:
+                ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
+                rotation.setDuration(2000);
+                rotation.start();
+                startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
+                break;
             case R.id.personal_message_secede:
                // getActivity().finish();
                 break;
@@ -113,6 +130,50 @@ public class PersonalFragment extends BaseFragment{
                 startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
             }else {
                 ToastUtils.toast(personalMessageBean.getMessage());
+            }
+        }else if(data instanceof UpdateCodeBean){
+            UpdateCodeBean updateCodeBean= (UpdateCodeBean) data;
+            if(updateCodeBean.getStatus().equals("0000")){
+                ToastUtils.toast(updateCodeBean.getMessage());
+                if(updateCodeBean.getFlag()==1){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("有新版本，需要更新");
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), UpdateAppActivity.class);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(), "你点击了不是", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    builder.show();
+
+                }else if(updateCodeBean.getFlag()==2){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("有新版本，需要更新");
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(), UpdateAppActivity.class);
+                            startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getContext(), "你点击了不是", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.show();
+                }
+            }else{
+                ToastUtils.toast(updateCodeBean.getMessage());
             }
         }
     }
