@@ -252,7 +252,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#333333"
-                android:text="推出登录"
+                android:text="退出登录"
                 android:textSize="12sp"
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/personal_log_out"

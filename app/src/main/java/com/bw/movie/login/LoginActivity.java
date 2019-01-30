@@ -94,7 +94,6 @@ public class LoginActivity extends BaseActivity {
         if(c_auto_login){
             Intent intent=new Intent(LoginActivity.this, Login_Success_Activity.class);
             startActivity(intent);
-            finish();
         }
         checkBox_auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -158,7 +157,6 @@ public class LoginActivity extends BaseActivity {
     private void intentRegisterPage() {
         Intent intent=new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void login() {
@@ -211,7 +209,6 @@ public class LoginActivity extends BaseActivity {
              }
              Intent intent=new Intent(LoginActivity.this, Login_Success_Activity.class);
              startActivity(intent);
-             finish();
          }else {
              ToastUtils.toast(bean.getMessage());
          }
