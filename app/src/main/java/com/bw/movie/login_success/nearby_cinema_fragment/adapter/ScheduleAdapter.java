@@ -46,8 +46,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
         viewHolder.textView_text_endTime.setText(list.get(i).getEndTime()+"  end");
         viewHolder.textView_fare.setText(list.get(i).getPrice()+"");
-
-
     }
 
     @Override

@@ -52,8 +52,7 @@
         android:layout_below="@id/personal_name"
         android:layout_marginTop="12dp"
         android:textSize="14sp"
-        android:paddingLeft="18dp"
-        android:paddingTop="2dp"
+        android:gravity="center"
         />
 
     <android.support.v7.widget.CardView

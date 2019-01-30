@@ -73,7 +73,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
             @Override
             public void onClick(View v) {
                 if(onClick!=null){
-                    onClick.onCinema(mDatas.get(i).getId(),i);
+                    onClick.onCinema(mDatas.get(i).getId(),i,mDatas.get(i).getName(),mDatas.get(i).getAddress());
                 }
             }
         });
@@ -120,7 +120,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
         this.onClick=onsClick;
     }
     public interface OnsClick {
-        void onCinema(int id,int position);
+        void onCinema(int id,int position,String name,String address);
     }
 
     public void setOnClickLisener(OnClickLisener onClickLisener){

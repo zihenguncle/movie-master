@@ -11,9 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bw.movie.application.MyApplication;
 import com.bw.movie.loading.LoadingUtils;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.view.IView;
+import com.bw.movie.tools.NetWorkUtils;
+import com.bw.movie.tools.ToastUtils;
 
 import java.util.Map;
 
@@ -28,8 +31,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getViewById());
-        initView(savedInstanceState);
         iPresemter = new IPresemterImpl(this);
+        initView(savedInstanceState);
         initData();
         stateNetWork();
 
@@ -44,27 +47,44 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
     protected abstract void successed(Object data);
     protected abstract void failed(String error);
 
-    protected void startRequestGet(String url,Class clazz){
-       if(loadingDialog == null){
-            loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+    protected void startRequestGet(String url,Class clazz) {
+        if (!NetWorkUtils.hasNetwork(this)) {
+            ToastUtils.toast("当前网络不可用");
+            NetWorkUtils.setNetworkMethod(this);
+            return;
+        } else {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+            }
+            iPresemter.startRequestGet(url, clazz);
         }
-        iPresemter.startRequestGet(url,clazz);
     }
 
-    protected void startRequestPost(String url, Map<String,String> map,Class clazz){
-       if(loadingDialog == null) {
-            loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+    protected void startRequestPost(String url, Map<String,String> map,Class clazz) {
+        if (!NetWorkUtils.hasNetwork(this)) {
+            ToastUtils.toast("当前网络不可用");
+            NetWorkUtils.setNetworkMethod(this);
+            return;
+        } else {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+            }
+            iPresemter.startRequestPost(url, map, clazz);
         }
-        iPresemter.startRequestPost(url,map,clazz);
     }
 
-    protected void startRequestFilesPost(String url, Map<String,String> map,Class clazz){
-        if(loadingDialog == null) {
-            loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+    protected void startRequestFilesPost(String url, Map<String,String> map,Class clazz) {
+        if (!NetWorkUtils.hasNetwork(this)) {
+            ToastUtils.toast("当前网络不可用");
+            NetWorkUtils.setNetworkMethod(this);
+            return;
+        } else {
+            if (loadingDialog == null) {
+                loadingDialog = LoadingUtils.createLoadingDialog(this, "加载中.....");
+            }
+            iPresemter.postFiles(url, map, clazz);
         }
-        iPresemter.postFiles(url,map,clazz);
     }
-
 
     @Override
     public void onSuccessed(Object data) {
