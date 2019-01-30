@@ -153,7 +153,7 @@ public class Personal_Message_Activity extends BaseActivity {
         TextView text_camcme = view.findViewById(R.id.cancme);
         TextView text_pick = view.findViewById(R.id.pick);
         final TextView dismiss = view.findViewById(R.id.text_dismiss);
-        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final PopupWindow popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.showAtLocation(view,
                 Gravity.BOTTOM, 0, 0);

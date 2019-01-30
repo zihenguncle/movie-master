@@ -32,7 +32,7 @@ public class Apis {
     public static final String URL_RECOMMEND_CINEAMS="cinema/v1/findRecommendCinemas?page=%d&count=%d";
 
     //附近影院  get
-    public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+    public static final String URL_NEARBY_CINEAMS="cinema/v1/findNearbyCinemas?page=%d&count=%d&longitude=%s&latitude=%s";
 
     //电影详情
     public static final String URL_MOVE_DATEILS ="movie/v1/findMoviesDetail?movieId=%d";

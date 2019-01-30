@@ -93,6 +93,7 @@
         android:background="@null"
         android:textColor="#ffffff"
         android:layout_below="@+id/view_reg_sex"
+        android:inputType="date"
         />
     <View
         android:id="@+id/view_reg_date"
@@ -126,6 +127,7 @@
         android:background="@null"
         android:textColor="#ffffff"
         android:layout_below="@+id/view_reg_date"
+        android:inputType="number"
         />
     <View
         android:id="@+id/view_reg_phone"
