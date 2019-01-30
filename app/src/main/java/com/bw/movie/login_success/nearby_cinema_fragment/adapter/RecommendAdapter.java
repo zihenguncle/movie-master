@@ -51,7 +51,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
           viewHolder.textView_address.setText(list.get(i).getAddress());
           viewHolder.textView_km.setText(list.get(i).getDistance()+"km");
         Glide.with(context).load(list.get(i).getLogo()).into(viewHolder.imageView);
-        if(list.get(i).getFollowCinema()==1 || list.get(i).getFollowCinema()==0){
+        if(list.get(i).getFollowCinema()==1){
             viewHolder.imageView_collection.setImageResource(R.mipmap.com_icon_collection_selected);
         }else {
             viewHolder.imageView_collection.setImageResource(R.mipmap.com_icon_collection_default);

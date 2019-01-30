@@ -40,6 +40,7 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.bw.movie.R;
 import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login.LoginBean;
 import com.bw.movie.login_success.Login_Success_Activity;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.RegexUtils;
@@ -83,6 +84,8 @@ public class RegisterActivity extends BaseActivity {
     Button button_register;
     private int gender;
     private TimePickerView pvTime;
+    private String phone;
+    private String pwd;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -171,7 +174,7 @@ public class RegisterActivity extends BaseActivity {
     private void register()  {
         String name = editText_name.getText().toString();
         String sex = editText_sex.getText().toString();
-        String phone = editText_phone.getText().toString();
+        phone = editText_phone.getText().toString();
         String email = editText_email.getText().toString();
         String pass = editText_pass.getText().toString();
         String date = editText_birth_date.getText().toString();
@@ -198,12 +201,12 @@ public class RegisterActivity extends BaseActivity {
         }else if(!RegexUtils.isPassword(pass)){
             ToastUtils.toast("登录密码6位");
         }else {
-          String pwd = EncryptUtil.encrypt(pass);
+            pwd = EncryptUtil.encrypt(pass);
             Map<String,String> map=new HashMap<>();
             map.put("nickName",name);
-            map.put("phone",phone);
-            map.put("pwd",pwd);
-            map.put("pwd2",pwd);
+            map.put("phone", phone);
+            map.put("pwd", pwd);
+            map.put("pwd2", pwd);
             map.put("sex",gender+"");
             map.put("birthday",date);
             map.put("email",email);
@@ -217,6 +220,10 @@ public class RegisterActivity extends BaseActivity {
         RegisterBean bean= (RegisterBean) data;
             if(bean.getStatus().equals("0000")){
                 ToastUtils.toast(bean.getMessage());
+                Map<String,String> map=new HashMap<>();
+                map.put("phone", phone);
+                map.put("pwd", pwd);
+                startRequestPost(Apis.URL_LOGIN,map,LoginBean.class);
                 Intent intent=new Intent(RegisterActivity.this, Login_Success_Activity.class);
                 startActivity(intent);
                 finish();
