@@ -212,6 +212,7 @@
                 />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/personal_fragment_update_xin_code"
             android:layout_width="100dp"
             android:layout_height="86dp">
             <ImageView

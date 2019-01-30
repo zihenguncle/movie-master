@@ -38,6 +38,7 @@
         <activity android:name=".login_success.home_fragment.activity.DetailsActivity" />
         <activity android:name=".login_success.home_fragment.activity.ShowDetailsActivity" />
         <activity android:name=".login_success.home_fragment.activity.BuyTicketActivity" />
+        <activity android:name=".login_success.person.person_activity.UpdateAppActivity"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />

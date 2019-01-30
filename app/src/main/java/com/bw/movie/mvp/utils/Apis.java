@@ -98,4 +98,6 @@ public class Apis {
     //修改用户信息
     public static final String URL_UPDATE_INFORMMATION = "user/v1/verify/modifyUserInfo";
 
+    //tool/v1/findNewVersion  新版本
+    public static final String URL_UPDATE_CODE="tool/v1/findNewVersion";
 }
