@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.person.personal_bean.VideInformationBean;
 import com.bw.movie.tools.SimpleDataUtils;
 
@@ -57,8 +59,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String imageUrl = mDatas.get(i).getImageUrl();
-        Glide.with(mContext).load(imageUrl).into(viewHolder.videoTicketItemImageview);
+        Glide.with(mContext)
+                .load(mDatas.get(i%mDatas.size()).getImageUrl())
+                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
+                .into(viewHolder.videoTicketItemImageview);
         viewHolder.videoTicketItemName.setText(mDatas.get(i).getName());
         viewHolder.videoTicketItemTitle.setText(mDatas.get(i).getSummary());
         try {
