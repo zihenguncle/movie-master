@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ public class PersonalFragment extends BaseFragment{
     @BindView(R.id.personal_name)
     TextView personalName;
     @BindView(R.id.personal_fragment_update_xin_code)
-    RelativeLayout personal_update_code;
+    LinearLayout personal_update_code;
     @BindView(R.id.personal_latest_version)
     ImageView imageView_perosnal;
     @Override
@@ -81,7 +82,7 @@ public class PersonalFragment extends BaseFragment{
                 ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
                 rotation.setDuration(2000);
                 rotation.start();
-                startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
+               // startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
                // getActivity().finish();
