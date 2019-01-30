@@ -14,9 +14,6 @@ import java.util.Map;
 public class IModelmpl implements IModel {
     @Override
     public void requestDataGet(String url, final Class clazz, final MCallBack mCallBack) {
-        if(!NetWorkUtils.hasNetwork(MyApplication.getApplication() )){
-            ToastUtils.toast("当前网络不可用");
-        }else {
              RetrofitManger.getInstance().getRequest(url, new RetrofitManger.HttpCallBack() {
                  @Override
                  public void onSuccess(String data) {
@@ -42,13 +39,11 @@ public class IModelmpl implements IModel {
                  }
              });
         }
-    }
+
 
     @Override
     public void requestDataPost(String url, Map<String, String> map, final Class clazz, final MCallBack mCallBack) {
-        if(!NetWorkUtils.hasNetwork(MyApplication.getApplication() )){
-            ToastUtils.toast("当前网络不可用");
-        }else{
+
             RetrofitManger.getInstance().postRequest(url, map, new RetrofitManger.HttpCallBack() {
                 @Override
                 public void onSuccess(String data) {
@@ -73,14 +68,11 @@ public class IModelmpl implements IModel {
                     }
                 }
             });
-        }
+
     }
 
     @Override
     public void postFiles(String dataUrl, Map<String, String> params, final Class clazz, final MCallBack mCallBack) {
-        if(!NetWorkUtils.hasNetwork(MyApplication.getApplication() )){
-            ToastUtils.toast("当前网络不可用");
-        }else{
             RetrofitManger.getInstance().upLoadFile(dataUrl, params, new RetrofitManger.HttpCallBack() {
                 @Override
                 public void onSuccess(String data) {
@@ -105,6 +97,6 @@ public class IModelmpl implements IModel {
                     }
                 }
             });
-        }
+
     }
 }

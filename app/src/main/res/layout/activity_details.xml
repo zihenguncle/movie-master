@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/details_image"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="25dp"
+       android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         >
         <TextView

@@ -12,6 +12,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.adapter.BuyTicketAdapter;
 import com.bw.movie.login_success.home_fragment.bean.BuyTicketBean;
+import com.bw.movie.login_success.home_fragment.bean.SchedBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
@@ -27,6 +28,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.buy_ticket_file_name)
     TextView buy_ticket_file_name;
     private BuyTicketAdapter buyTicketAdapter;
+    private BuyTicketBean buyTicketBean;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initData() {
         Intent intent = getIntent();
-        int movieId = intent.getIntExtra("movieId", 0);
+        final int movieId = intent.getIntExtra("movieId", 0);
         String movieName = intent.getStringExtra("movieName");
         buy_ticket_file_name.setText(movieName);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -67,11 +69,15 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         });
         buyTicketAdapter.setOnClickLisener(new BuyTicketAdapter.OnsClick() {
             @Override
-            public void onCinema(int id, int position) {
-                ToastUtils.toast("得到"+id);
+            public void onCinema(int id, int position,String name,String address) {
+                Intent intent1 = new Intent(BuyTicketActivity.this, SchedActivity.class);
+                intent1.putExtra("movieId",movieId);
+                intent1.putExtra("cinemasId",id);
+                intent1.putExtra("name",name);
+                intent1.putExtra("address",address);
+                startActivity(intent1);
             }
         });
-
     }
 
     private void collection(int id) {
@@ -85,7 +91,7 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void successed(Object data) {
         if(data instanceof BuyTicketBean){
-            BuyTicketBean buyTicketBean= (BuyTicketBean) data;
+            buyTicketBean = (BuyTicketBean) data;
             if(buyTicketBean.getStatus().equals("0000")){
                 ToastUtils.toast(buyTicketBean.getMessage());
                 buyTicketAdapter.setDatas(buyTicketBean.getResult());

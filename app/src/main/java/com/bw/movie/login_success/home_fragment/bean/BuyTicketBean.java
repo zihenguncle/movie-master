@@ -1,8 +1,9 @@
 package com.bw.movie.login_success.home_fragment.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BuyTicketBean {
+public class BuyTicketBean implements Serializable {
 
     /**
      * result : [{"address":"北京市崇文区崇文门外大街18号国瑞城首层、地下二层","commentTotal":0,"distance":0,"followCinema":0,"id":9,"logo":"http://mobile.bwstudent.com/images/movie/logo/blh.jpg","name":"北京百老汇影城国瑞购物中心店"},{"address":"北京市海淀区远大路1号B座5层魔影国际影城","commentTotal":0,"distance":0,"followCinema":0,"id":4,"logo":"http://mobile.bwstudent.com/images/movie/logo/mygj.jpg","name":"魔影国际影城"},{"address":"东城区滨河路乙1号雍和航星园74-76号楼","commentTotal":0,"distance":0,"followCinema":0,"id":1,"logo":"http://mobile.bwstudent.com/images/movie/logo/qcgx.jpg","name":"青春光线电影院"}]
@@ -38,7 +39,7 @@ public class BuyTicketBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable{
         /**
          * address : 北京市崇文区崇文门外大街18号国瑞城首层、地下二层
          * commentTotal : 0

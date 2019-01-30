@@ -45,7 +45,6 @@ public class SplashActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-        isShowingMain();
     }
 
     private void isShowingMain() {
@@ -70,11 +69,18 @@ public class SplashActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isShowingMain();
+    }
 
     public void initData() {
         if(!NetWorkUtils.hasNetwork(this)){
             relativeLayout_nowork.setVisibility(View.VISIBLE);
             relativeLayout_haswork.setVisibility(View.INVISIBLE);
+            NetWorkUtils.setNetworkMethod(this);
+            return;
         }else {
             relativeLayout_nowork.setVisibility(View.INVISIBLE);
             relativeLayout_haswork.setVisibility(View.VISIBLE);

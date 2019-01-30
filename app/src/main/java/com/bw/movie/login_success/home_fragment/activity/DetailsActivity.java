@@ -180,13 +180,25 @@ public class DetailsActivity extends BaseActivity {
                 take_back.setVisibility(View.VISIBLE);
             }
         });
+
+        //点赞
+        popup_take.setLoveTake(new Popup_take.loveTake() {
+            @Override
+            public void getlove(int id, int position) {
+                Map<String,String> map = new HashMap<>();
+                map.put("commentId",id+"");
+                startRequestPost(Apis.URL_TAKE_LOVE,map,FollowBean.class);
+                popup_take.setLove(position);
+            }
+        });
+
         //点击取消查看回复
         take_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 take_back.setVisibility(View.GONE);
                 //刷新数据，
-                popup_take.backTake(position);
+                //popup_take.backTake(position);
             }
         });
         //点击popup取消
@@ -204,35 +216,32 @@ public class DetailsActivity extends BaseActivity {
                 relativeLayout.setVisibility(View.VISIBLE);
             }
         });
+        //点击发送请求
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 write_take.setVisibility(View.VISIBLE);
                 relativeLayout.setVisibility(View.GONE);
-                //String take = stringToUnicode(editText.getText().toString());
-                Log.i("TAG",editText.getText().toString());
+                String edit_write = editText.getText().toString();
+                /**
+                 * 字符串转换unicode
+                 */
+                StringBuffer unicode = new StringBuffer();
+                for (int i = 0; i < edit_write.length(); i++) {
+                    // 取出每一个字符
+                    char c = edit_write.charAt(i);
+                    // 转换为unicode
+                    unicode.append("\\u" + Integer.toHexString(c));
+                }
+                String gototake = unicode.toString();
+
                 Map<String,String> map = new HashMap<>();
                 map.put("movieId",shop_id+"");
-                map.put("commentContent",editText.getText().toString());
-                startRequestFilesPost(Apis.URL_WRITE_TAKE,map,FollowBean.class);
+                map.put("commentContent",gototake);
+                startRequestPost(Apis.URL_WRITE_TAKE,map,FollowBean.class);
             }
         });
     }
-
-    /**
-     * 把中文字符串转换为十六进制Unicode编码字符串
-     *//*
-    public static String stringToUnicode(String s) {
-        String str = "";
-        for (int i = 0; i < s.length(); i++) {
-            int ch = (int) s.charAt(i);
-            if (ch > 255)
-                str += "\\u" + Integer.toHexString(ch);
-            else
-                str += String.valueOf(s.charAt(i));
-        }
-        return str;
-    }*/
 
     private void getTakeList() {
         startRequestGet(String.format(Apis.URL_SELECT_TAKE,shop_id,page,5),TakeBean.class);
@@ -277,6 +286,12 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow_nocie.dismiss();
+                NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+            }
+        });
+        popupWindow_nocie.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
                 NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
             }
         });
