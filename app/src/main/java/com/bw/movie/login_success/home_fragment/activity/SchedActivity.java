@@ -78,7 +78,7 @@ public class SchedActivity extends BaseActivity {
 
         //请求电影的数据
         startRequestGet(String.format(URL_MOVE_DATEILS, movieId), DetailsBean.class);
-        //请求排期
+        //请求排期哈
         startRequestGet(String.format(URL_SCHEDULE, cinemasId, movieId), SchedBean.class);
     }
 
