@@ -118,7 +118,7 @@
                 android:layout_height="24dp"
                 android:src="@mipmap/cinema_detail_icon_route_default"
                 android:layout_below="@+id/image_phone"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="22dp"
                 android:layout_marginLeft="5dp"
                 />
             <TextView
