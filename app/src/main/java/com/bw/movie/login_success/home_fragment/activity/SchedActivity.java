@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login_success.home_fragment.adapter.SchedAdapter;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 import com.bw.movie.login_success.home_fragment.bean.SchedBean;
@@ -46,7 +47,7 @@ public class SchedActivity extends BaseActivity {
     TextView schedMovieAddress;
     @BindView(R.id.sched_recycle)
     RecyclerView schedRecycle;
-
+    SchedAdapter adapter;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -80,6 +81,8 @@ public class SchedActivity extends BaseActivity {
         startRequestGet(String.format(URL_MOVE_DATEILS, movieId), DetailsBean.class);
         //请求排期哈
         startRequestGet(String.format(URL_SCHEDULE, cinemasId, movieId), SchedBean.class);
+        adapter = new SchedAdapter(this);
+        schedRecycle.setAdapter(adapter);
     }
 
 
@@ -89,7 +92,7 @@ public class SchedActivity extends BaseActivity {
             setMovieData((DetailsBean) data);
         }
         if (data instanceof SchedBean) {
-
+            adapter.setData(((SchedBean) data).getResult());
         }
 
     }

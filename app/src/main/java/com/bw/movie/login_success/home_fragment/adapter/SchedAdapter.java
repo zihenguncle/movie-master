@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.bean.SchedBean;
@@ -12,6 +13,7 @@ import com.bw.movie.login_success.home_fragment.bean.SchedBean;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> {
@@ -38,7 +40,10 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull SchedAdapter.ViewHolder viewHolder, int i) {
-
+        viewHolder.screeninghall.setText(data.get(i).getScreeningHall());
+        viewHolder.begintime.setText(data.get(i).getBeginTime());
+        viewHolder.endtime.setText(data.get(i).getEndTime());
+        viewHolder.fare.setText(0.12+"");
     }
 
     @Override
@@ -47,6 +52,17 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.text_screeningHall)
+        TextView screeninghall;
+        @BindView(R.id.text_screening)
+        TextView screening;
+        @BindView(R.id.text_beginTime)
+        TextView begintime;
+        @BindView(R.id.text_endTime)
+        TextView endtime;
+        @BindView(R.id.text_fare)
+        TextView fare;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
