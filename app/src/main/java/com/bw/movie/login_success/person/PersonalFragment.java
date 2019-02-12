@@ -82,7 +82,7 @@ public class PersonalFragment extends BaseFragment{
                 ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
                 rotation.setDuration(2000);
                 rotation.start();
-               // startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
+                //startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
                // getActivity().finish();

@@ -17,11 +17,16 @@
         android:orientation="horizontal"
         android:alpha="0.7"
         >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+
         <RelativeLayout
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             >
         <RadioButton
             android:layout_width="60dp"
@@ -42,12 +47,17 @@
             />
 
         </RelativeLayout>
+        </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
         <RelativeLayout
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
             >
         <RadioButton
             android:layout_width="60dp"
@@ -68,11 +78,16 @@
                 android:background="@mipmap/com_icon_cinema_selected"
                 />
         </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        >
         <RelativeLayout
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
             >
         <RadioButton
             android:layout_width="60dp"
@@ -94,6 +109,7 @@
 
         </RelativeLayout>
 
+    </LinearLayout>
     </LinearLayout>
 
 

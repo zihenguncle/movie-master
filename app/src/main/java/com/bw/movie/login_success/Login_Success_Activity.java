@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Login_Success_Activity extends AppCompatActivity {
+public class  Login_Success_Activity extends AppCompatActivity {
 
     @BindView(R.id.login_success_viewpager)
     ViewPager loginSuccessViewpager;
