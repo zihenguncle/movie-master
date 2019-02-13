@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/system_information_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="系统消息   (0条未读)"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="14sp"
+
+        />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/system_information"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/system_information_count"
+        ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/personal_reset_selector"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView
+            android:id="@+id/system_information_back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="24dp"
+            android:background="@mipmap/com_icon_my_default"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>
