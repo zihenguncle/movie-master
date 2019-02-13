@@ -8,6 +8,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -42,6 +43,20 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
 
         showDetailsAdapter = new ShowDetailsAdapter(getContext());
         todo_fragment.setAdapter(showDetailsAdapter);
+        showDetailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
+            @Override
+            public void getInformation(int id, int followMovie, int position) {
+                //取消关注
+                if(followMovie==1){
+                    cancelMovie(id);
+                    showDetailsAdapter.updateChoose(position);
+                }else {
+                    //关注
+                    loveMovie(id);
+                    showDetailsAdapter.updateSelect(position);
+                }
+            }
+        });
 
         todo_fragment.setPullRefreshEnabled(true);
         todo_fragment.setLoadingMoreEnabled(true);
@@ -58,6 +73,14 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
             }
         });
         loadDataTodo();
+    }
+    private void loveMovie(int id) {
+        startRequestGet(String.format(Apis.URL_LOVEMOVIE,id),FollowBean.class);
+    }
+
+
+    private void cancelMovie(int id) {
+        startRequestGet(String.format(Apis.URLNOLOVEMOVIE,id), FollowBean.class);
     }
 
     //即将上映
@@ -87,6 +110,16 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
                 ToastUtils.toast(homeBannerBean.getMessage());
             }
 
+        }
+        if(data instanceof FollowBean){
+            FollowBean bean= (FollowBean) data;
+            if(bean.getStatus().equals("0000")){
+                ToastUtils.toast(bean.getMessage());
+
+
+            }else {
+                ToastUtils.toast(bean.getMessage());
+            }
         }
     }
 

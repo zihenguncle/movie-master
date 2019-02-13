@@ -81,10 +81,13 @@ public class Apis {
     public static final String URL_LOVEMOVIE = "movie/v1/verify/followMovie?movieId=%d";
 
     //查询电影信息明细
-    public static final String URL_FIND_CINEMA_INFO = "cinema1/findCinemaInfo?cinemaId=%d";
+    //http://172.17.8.100/movieApi/cinema/v1/findCinemaInfo
+    public static final String URL_FIND_CINEMA_INFO = "cinema/v1/findCinemaInfo?cinemaId=%d";
+
 
     //查询影院用户评论列表
-    public static final String URL_FIND_CINEMA_COMMENT = "cinema1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
+    //http://172.17.8.100/movieApi/cinema/v1/findAllCinemaComment
+    public static final String URL_FIND_CINEMA_COMMENT = "cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
 
     //添加用户对影片的评论  ---入参movieId，commentContent
     public static final String URL_WRITE_TAKE = "movie/v1/verify/movieComment";
