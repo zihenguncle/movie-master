@@ -69,7 +69,7 @@ public class Personal_Reset_Pwd_Activity extends BaseActivity implements View.On
         personalCurrentTextView.setText(maskNumber);
 
         relativeLayout.setOnTouchListener(new View.OnTouchListener() {
-                @Override
+                @Override 
                 public boolean onTouch(View v, MotionEvent event) {
 
                     final String s = personalResetPwdTextView.getText().toString();

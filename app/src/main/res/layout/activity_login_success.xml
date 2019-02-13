@@ -15,6 +15,7 @@
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:background="@drawable/personal_reset_selector"
         android:alpha="0.7"
         >
         <LinearLayout

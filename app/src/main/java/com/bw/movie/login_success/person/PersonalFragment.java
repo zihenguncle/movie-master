@@ -2,8 +2,12 @@ package com.bw.movie.login_success.person;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,7 +25,7 @@ import com.bw.movie.login_success.person.person_activity.Personal_FeedBack_Advic
 import com.bw.movie.login_success.person.person_activity.Personal_Fragment_Focus_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
-import com.bw.movie.login_success.person.person_activity.UpdateAppActivity;
+import com.bw.movie.login_success.person.person_activity.System_Information;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
 import com.bw.movie.login_success.person.personal_bean.SignInBean;
 import com.bw.movie.login_success.person.personal_bean.UpdateCodeBean;
@@ -46,6 +50,7 @@ public class PersonalFragment extends BaseFragment{
     LinearLayout personal_update_code;
     @BindView(R.id.personal_latest_version)
     ImageView imageView_perosnal;
+    private static final String Url="http://172.17.8.100/media/movie.apk";
     @Override
     protected int getViewById() {
         return R.layout.fargment_personal;
@@ -75,22 +80,28 @@ public class PersonalFragment extends BaseFragment{
         }
     }
 
-    @OnClick({R.id.personal_meassage_my,R.id.personal_fragment_update_xin_code,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
+    @OnClick({R.id.personal_meassage_my,R.id.system_information_push,R.id.personal_fragment_update_xin_code,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.personal_fragment_update_xin_code:
                 ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
                 rotation.setDuration(2000);
                 rotation.start();
-                //startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
+                startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
                // getActivity().finish();
+                break;
+            case R.id.system_information_push:
+                //TODO:展示系统消息
+                Intent information = new Intent(getContext(), System_Information.class);
+                startActivity(information);
                 break;
             case R.id.personal_sign_in:
                 startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
                 break;
             case R.id.personal_meassage_my:
+
                 Intent intent = new Intent(getContext(), Personal_Message_Activity.class);
                 startActivity(intent);
                 break;
@@ -137,45 +148,41 @@ public class PersonalFragment extends BaseFragment{
             if(updateCodeBean.getStatus().equals("0000")){
                 ToastUtils.toast(updateCodeBean.getMessage());
                 if(updateCodeBean.getFlag()==1){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("有新版本，需要更新");
                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(getContext(), UpdateAppActivity.class);
-                            startActivity(intent);
+                            String replace = Url.replace("172.17.8.100", "mobile.bwstudent.com");
+                            openBrowser(getContext(),replace);
                             dialog.dismiss();
                         }
                     });
                     builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getContext(), "你点击了不是", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
                     });
-
                     builder.show();
-
                 }else if(updateCodeBean.getFlag()==2){
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("有新版本，需要更新");
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(getContext(), UpdateAppActivity.class);
-                            startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getContext(), "你点击了不是", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-                    });
+                    builder.setMessage("没新版本，不需要更新");
                     builder.show();
                 }
             }else{
                 ToastUtils.toast(updateCodeBean.getMessage());
             }
+        }
+    }
+
+    public static void openBrowser(Context context, String url){
+        final Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            final ComponentName componentName = intent.resolveActivity(context.getPackageManager()); // 打印Log   ComponentName到底是什么
+            context.startActivity(Intent.createChooser(intent, "请选择浏览器"));
+        } else {
+            Toast.makeText(context.getApplicationContext(), "请下载浏览器", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -100,7 +100,12 @@ public class Apis {
 
     //评论点赞
     public static final String URL_TAKE_LOVE = "movie/v1/verify/movieCommentGreat";
-
-
-
+    //更新版本
+    public static final String URL_UPDATE_CODE="tool/v1/findNewVersion";
+    //查询消息
+    public static final String URL_SELECT_INFORMATION="tool/v1/verify/findAllSysMsgList?page=%d&count=%d";
+    //未读取的消息数量
+    public static final String URL_READ_COUNT="tool/v1/verify/findUnreadMessageCount";
+    //修改读取的状态
+    public static final String URL_UPDATE_READ="tool/v1/verify/changeSysMsgStatus?id=%s";
 }

@@ -16,6 +16,7 @@
         android:background="@drawable/mine_bancakgroud"
         />
     <ImageView
+        android:id="@+id/system_information_push"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@mipmap/my_icon_remind_default"

@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.person.personal_bean.CimeamaBean;
 
 import java.util.ArrayList;
@@ -53,16 +55,15 @@ public class CimeamaAdapter extends RecyclerView.Adapter<CimeamaAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        String logo = mData.get(i).getLogo();
-
-        Glide.with(mContext).load(logo).into(viewHolder.cimeamaItemImage);
+        Glide.with(mContext).load(mData.get(i%mData.size()).getLogo())
+                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
+                .into(viewHolder.cimeamaItemImage);
         viewHolder.cimeamaItemTextName.setText(mData.get(i).getName());
         viewHolder.cimeamaItemTextTitle.setText(mData.get(i).getAddress());
-
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount(){
         return mData.size();
     }
 
