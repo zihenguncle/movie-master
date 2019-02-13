@@ -101,6 +101,7 @@ public class Apis {
     //评论点赞
     public static final String URL_TAKE_LOVE = "movie/v1/verify/movieCommentGreat";
 
-
+    //购票选座------post
+    public static final String URL_SELECT_SEAT = "movie/v1/verify/buyMovieTicket";
 
 }

@@ -53,6 +53,7 @@
         <activity android:name=".login_success.nearby_cinema_fragment.activity.CinemaDtailActivity" />
         <activity android:name=".login_success.home_fragment.activity.ImageBigActivity" />
         <activity android:name=".login_success.home_fragment.activity.SchedActivity"></activity>
+        <activity android:name=".login_success.home_fragment.activity.CinemaSeatTableActivity"></activity>
     </application>
 
 </manifest>

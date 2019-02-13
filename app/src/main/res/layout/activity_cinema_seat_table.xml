@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="186dp"
+        android:background="@mipmap/beijing2"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/seat_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/colorGray_9"
+            android:text="CGV影城"
+            />
+        <TextView
+            android:id="@+id/seat_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/seat_table"
+            android:text="this is address"
+            android:textColor="@color/colorGray_9"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+        <TextView
+            android:id="@+id/movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_below="@+id/seat_address"
+            android:textColor="@color/colorWhite"
+            android:text="this is name"
+            />
+        <LinearLayout
+            android:layout_width="312dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shape_seat_table_sp"
+            android:alpha="0.6"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_below="@+id/movie_name"
+            >
+
+            <TextView
+                android:id="@+id/cinema_seat_table_text_beginTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="#333"
+                android:layout_marginLeft="30dp"
+                android:text="xxx"
+                />
+
+            <TextView
+                android:id="@+id/cinema_seat_table_text_endTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="#333"
+                android:layout_marginLeft="30dp"
+                android:text="xxx"/>
+
+            <TextView
+                android:id="@+id/cinema_seat_table_text_hall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:textColor="#333"
+                android:layout_marginLeft="30dp"
+                android:text="xxx"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="312dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="130dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+
+            >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/rectangle3copy5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:text="可选"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/rectangle3copy18"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:text="选中"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/rectangle3copy12"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:text="已售"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/guanyingqu"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#fff"
+                android:layout_marginLeft="10dp"
+                android:text="最佳观影区"/>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="172dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/rectangle16"
+            android:layout_marginLeft="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+
+    </RelativeLayout>
+
+    <com.bw.movie.login_success.home_fragment.seattable.SeatTable
+        android:id="@+id/seatView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="50dp"
+        />
+
+    <LinearLayout
+        android:layout_width="312dp"
+        android:layout_height="73dp"
+        android:background="@drawable/shape_seat_table_sp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#333"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="10dp"
+            android:text="合计:  ￥"/>
+
+        <TextView
+            android:id="@+id/item_cinema_seat_text_price"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:textColor="#b11450"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="0"
+            />
+
+        <ImageView
+            android:id="@+id/item_cinema_detail_img_v"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@mipmap/group2"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="15dp"
+            />
+
+        <ImageView
+            android:id="@+id/item_cinema_detail_img_x"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@mipmap/group3"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="20dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>

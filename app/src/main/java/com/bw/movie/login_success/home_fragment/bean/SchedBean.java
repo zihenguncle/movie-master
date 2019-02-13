@@ -59,6 +59,15 @@ public class SchedBean {
         private int seatsTotal;
         private int seatsUseCount;
         private int status;
+        private double price;
+
+        public double getPrice() {
+            return price;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
 
         public String getBeginTime() {
             return beginTime;

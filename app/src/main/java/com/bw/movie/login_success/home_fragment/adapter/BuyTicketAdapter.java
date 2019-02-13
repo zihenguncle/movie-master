@@ -60,11 +60,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
             @Override
             public void onClick(View v) {
                 if(onClickLisener!=null){
-                    if(mDatas.get(i).getFollowCinema()==1) {
-                        onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
-                    }else{
-                        onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
-                    }
+                    onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
                 }
             }
         });

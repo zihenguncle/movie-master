@@ -146,8 +146,10 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     }
 
     public void setLove(int page){
-        data.get(page).setIsGreat(1);
-        data.get(page).setGreatNum(data.get(page).getGreatNum()+1);
+        if(data.get(page).getIsGreat()==0){
+            data.get(page).setIsGreat(1);
+            data.get(page).setGreatNum(data.get(page).getGreatNum()+1);
+        }
         notifyDataSetChanged();
     }
 
