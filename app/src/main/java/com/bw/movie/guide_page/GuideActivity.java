@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 
 import com.bw.movie.R;
 import com.bw.movie.login.LoginActivity;
+import com.bw.movie.login_success.Login_Success_Activity;
 import com.bw.movie.splash_page.SplashActivity;
 import com.bw.movie.tools.SharedPreferencesUtils;
 
@@ -98,7 +99,7 @@ public class GuideActivity extends AppCompatActivity  {
 
     Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
         if(first_open){
-            Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
+            Intent intent=new Intent(GuideActivity.this, Login_Success_Activity.class);
             startActivity(intent);
             finish();
         }
@@ -125,7 +126,7 @@ public class GuideActivity extends AppCompatActivity  {
     public void getViewClick(View v){
         switch (v.getId()){
             case R.id.btn_enter:
-                Intent intent=new Intent(GuideActivity.this, SplashActivity.class);
+                Intent intent=new Intent(GuideActivity.this, Login_Success_Activity.class);
                 startActivity(intent);
            SharedPreferencesUtils.setParam(GuideActivity.this,"FIRST_OPEN",true);
                 finish();

@@ -9,6 +9,7 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -43,6 +44,20 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
 
         detailsAdapter = new ShowDetailsAdapter(getContext());
         doing_fragment_recycle.setAdapter(detailsAdapter);
+        detailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
+            @Override
+            public void getInformation(int id, int followMovie, int position) {
+                //取消关注
+                if(followMovie==1){
+                    cancelMovie(id);
+                    detailsAdapter.updateChoose(position);
+                }else {
+                    //关注
+                    loveMovie(id);
+                    detailsAdapter.updateSelect(position);
+                }
+            }
+        });
 
         doing_fragment_recycle.setPullRefreshEnabled(true);
         doing_fragment_recycle.setLoadingMoreEnabled(true);
@@ -61,7 +76,14 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
         loadDataDoing();
 
     }
+    private void loveMovie(int id) {
+        startRequestGet(String.format(Apis.URL_LOVEMOVIE,id),FollowBean.class);
+    }
 
+
+    private void cancelMovie(int id) {
+        startRequestGet(String.format(Apis.URLNOLOVEMOVIE,id), FollowBean.class);
+    }
     //正在热映
     private void loadDataDoing() {
         startRequestGet(String.format(Apis.URL_DOINGMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
@@ -89,6 +111,16 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
                 ToastUtils.toast(homeBannerBean.getMessage());
             }
 
+        }
+        if(data instanceof FollowBean){
+            FollowBean bean= (FollowBean) data;
+            if(bean.getStatus().equals("0000")){
+                ToastUtils.toast(bean.getMessage());
+
+
+            }else {
+                ToastUtils.toast(bean.getMessage());
+            }
         }
     }
 

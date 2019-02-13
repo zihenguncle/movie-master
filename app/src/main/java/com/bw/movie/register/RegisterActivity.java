@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -100,6 +101,9 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        //关闭软键盘
+        editText_birth_date.setInputType(InputType.TYPE_NULL);
+        editText_sex.setInputType(InputType.TYPE_NULL);
 
     }
     @OnClick({R.id.but_register,R.id.reg_birth_date,R.id.reg_sex})
@@ -118,6 +122,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void getDate() {
+
         Calendar selectedDate = Calendar.getInstance();
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();

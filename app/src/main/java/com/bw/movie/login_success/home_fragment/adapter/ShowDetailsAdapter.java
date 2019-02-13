@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.activity.DetailsActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
+import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,13 +55,47 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.show_details_item_title.setText(mDatas.get(i).getName());
         viewHolder.show_details_item_count.setText(mDatas.get(i).getSummary());
         Glide.with(mContext)
                 .load(mDatas.get(i%mDatas.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
                 .into(viewHolder.show_detaile_item_img);
+
+        //判断是否关注
+        if(mDatas.get(i).getFollowMovie()==1){
+            viewHolder.show_details_item_image.setImageResource(R.mipmap.com_icon_collection_selected);
+        }else {
+            viewHolder.show_details_item_image.setImageResource(R.mipmap.com_icon_collection_default);
+        }
+        //点击/取消关注
+        viewHolder.show_details_item_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(callBack!=null){
+                    callBack.getInformation(mDatas.get(i).getId(),mDatas.get(i).getFollowMovie(),i);
+                }
+            }
+        });
+
+        //跳转到详情页面
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent intent=new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("id",mDatas.get(i).getId());
+               mContext.startActivity(intent);
+            }
+        });
+    }
+    public void updateSelect(int position){
+        mDatas.get(position).setFollowMovie(1);
+        notifyDataSetChanged();
+    }
+    public void updateChoose(int position){
+        mDatas.get(position).setFollowMovie(2);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -79,5 +116,12 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    public CallBack callBack;
+    public void setOnCallBack(CallBack myCallBack){
+        this.callBack=myCallBack;
+    }
+    public interface CallBack {
+        void getInformation(int id,int followMovie,int position);
     }
 }

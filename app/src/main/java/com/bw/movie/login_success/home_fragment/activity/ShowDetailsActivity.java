@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.home_fragment.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,9 +8,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -42,8 +47,14 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.show_details_radio)
     RadioGroup show_details_radio;
     private List<Fragment> list;
+    @BindView(R.id.show_details_home_search)
+    ImageView image_search;
+    @BindView(R.id.show_details_relative_search)
+    RelativeLayout relative_search;
+    @BindView(R.id.show_details_edit_search)
+    EditText edit_search;
 
-    @OnClick({R.id.show_details_hot, R.id.show_deltails_doing, R.id.show_deltails_todo})
+    @OnClick({R.id.show_details_hot, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -65,9 +76,34 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
                 showDeltailsDoing.setChecked(false);
                 showDeltailsTodo.setChecked(true);
                 break;
+            case R.id.show_details_home_search:
+                getSearch();
+                break;
+            case R.id.show_details_text_search:
+                gotoSearch();
+                break;
             default:
                 break;
         }
+    }
+
+    private void gotoSearch() {
+        if(TextUtils.isEmpty(edit_search.getText().toString())){
+            ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", -600, 0);
+            translationX.setDuration(500);
+            translationX.start();
+            image_search.setClickable(true);
+        }else {
+            ToastUtils.toast(edit_search.getText().toString());
+        }
+    }
+
+    //点击放大镜弹出搜索框
+    private void getSearch() {
+        ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", 0, -600);
+        translationX.setDuration(500);
+        translationX.start();
+        image_search.setClickable(false);
     }
 
     @Override

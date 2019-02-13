@@ -61,6 +61,7 @@
         android:background="@null"
         android:textColor="#ffffff"
         android:layout_below="@+id/view_reg_name"
+        android:focusable="false"
         />
     <View
         android:id="@+id/view_reg_sex"
@@ -94,6 +95,7 @@
         android:textColor="#ffffff"
         android:layout_below="@+id/view_reg_sex"
         android:inputType="date"
+        android:focusable="false"
         />
     <View
         android:id="@+id/view_reg_date"
