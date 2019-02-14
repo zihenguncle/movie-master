@@ -3,65 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#fff"
         app:cardCornerRadius="4dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="15dp"
-        app:cardElevation="4dp"
+        app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         app:contentPadding="5dp"
         >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image_buy_ticket"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                />
+            <TextView
+                android:id="@+id/title_buy_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="90dp"
+                />
+            <TextView
+                android:id="@+id/address_buy_ticket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:layout_marginTop="35dp"
+                android:layout_marginLeft="90dp"
+                android:maxLines="2"
+                android:layout_marginRight="20dp"
 
-        <ImageView
-            android:id="@+id/image_buy_ticket"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="10dp"
-            />
-        <TextView
-            android:id="@+id/title_buy_ticket"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="100dp"
-            android:text="名字"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            />
-        <TextView
-            android:id="@+id/address_buy_ticket"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:layout_marginLeft="100dp"
-            android:textSize="12sp"
-            android:textColor="#333333"
-            android:text="2343234"
-            />
-        <TextView
-            android:id="@+id/buy_ticket_item_instance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="62dp"
-            android:layout_marginBottom="10dp"
-            android:text="123456"
-            android:textSize="12sp"
-            android:textColor="#333333"
-            />
-        <ImageView
-            android:id="@+id/buy_ticket_focuse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/com_icon_collection_default"
-            android:layout_marginTop="65dp"
-            android:layout_marginLeft="280dp"
-            />
+                />
+            <TextView
+                android:id="@+id/buy_ticket_item_instance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="text"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:layout_marginTop="70dp"
+                android:layout_marginLeft="90dp"
+                android:layout_marginBottom="10dp"
+                />
+            <ImageView
+                android:id="@+id/buy_ticket_focuse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/com_icon_collection_default"
+                android:layout_alignBottom="@+id/buy_ticket_item_instance"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                />
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
-
 </RelativeLayout>
+

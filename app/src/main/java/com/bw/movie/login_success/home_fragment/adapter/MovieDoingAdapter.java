@@ -41,13 +41,13 @@ public class MovieDoingAdapter extends RecyclerView.Adapter<MovieDoingAdapter.Vi
 
     @NonNull
     @Override
-    public MovieDoingAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.item_movie,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieDoingAdapter.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(i%data.size()).getImageUrl())

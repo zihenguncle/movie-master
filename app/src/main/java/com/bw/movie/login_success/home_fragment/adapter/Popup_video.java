@@ -32,13 +32,13 @@ public class Popup_video extends RecyclerView.Adapter<Popup_video.ViewHolder> {
 
     @NonNull
     @Override
-    public Popup_video.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context,R.layout.popup_notice_item,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Popup_video.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.videoView.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
         viewHolder.videoView.setUp(data.get(i).getVideoUrl(), null);
         TxVideoPlayerController controller = new TxVideoPlayerController(context);

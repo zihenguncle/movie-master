@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.activity.CinemaSeatTableActivity;
 import com.bw.movie.login_success.home_fragment.bean.SchedBean;
 
 import java.util.ArrayList;
@@ -33,17 +35,25 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
 
     @NonNull
     @Override
-    public SchedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.item_sched,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SchedAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.screeninghall.setText(data.get(i).getScreeningHall());
         viewHolder.begintime.setText(data.get(i).getBeginTime());
         viewHolder.endtime.setText(data.get(i).getEndTime());
-        viewHolder.fare.setText(0.12+"");
+        viewHolder.fare.setText(data.get(i).getPrice()+"");
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(movieName != null){
+                    movieName.setFloat(data.get(i).getBeginTime(),data.get(i).getEndTime(),data.get(i).getScreeningHall(),data.get(i).getPrice());
+                }
+            }
+        });
     }
 
     @Override
@@ -67,5 +77,13 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    setMovieName movieName;
+    public void setName(setMovieName name){
+        movieName = name;
+    }
+    public interface setMovieName{
+        void setFloat(String starttime, String endtime, String num, double price);
     }
 }
