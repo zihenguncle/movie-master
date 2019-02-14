@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.person.person_activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,8 +9,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -109,7 +112,7 @@ public class Personal_Message_Activity extends BaseActivity {
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         popupWindow.showAtLocation(view,
-                Gravity.CENTER, 0, 0);
+                Gravity.TOP, 0, 0);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
@@ -137,14 +140,43 @@ public class Personal_Message_Activity extends BaseActivity {
                 params.put("nickName", nick);
                 params.put("sex",gender+"");
                 params.put("email", email);
-
                 startRequestPost(Apis.URL_UPDATE_INFORMMATION,params,UpdateBean.class);
                 popupWindow.dismiss();
             }
         });
 
+        update_nick.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                showKeyBoard();
+            }
+        });
+        /*update_sex.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                showKeyBoard();
+            }
+        });
 
+        update_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                showKeyBoard();
+            }
+        });*/
+        update_nick.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // 此方法可以监听到删除键和回车键
+                return false;
+            }
+        });
+    }
 
+    private void showKeyBoard(){
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//这里给它设置了弹出的时间，
+        imm.toggleSoftInput(1000, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     //上传头像
