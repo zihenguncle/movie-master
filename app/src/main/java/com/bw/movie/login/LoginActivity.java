@@ -207,8 +207,6 @@ public class LoginActivity extends BaseActivity {
              if(checkBox_auto_login.isChecked()){
                  SharedPreferencesUtils.setParam(LoginActivity.this,"c_auto_login",true);
              }
-             Intent intent=new Intent(LoginActivity.this, Login_Success_Activity.class);
-             startActivity(intent);
              finish();
          }else {
              ToastUtils.toast(bean.getMessage());
