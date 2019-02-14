@@ -54,7 +54,10 @@ public class SplashActivity extends AppCompatActivity{
     //读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE
+
+    };
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 1;
 
@@ -68,14 +71,12 @@ public class SplashActivity extends AppCompatActivity{
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
             }
+            else {
+                isShowingMain();
+            }
         }
 
-        boolean flag = (boolean) SharedPreferencesUtils.getParam(SplashActivity.this, "flag", false);
 
-      if(flag){
-          initData();
-      }
-      SharedPreferencesUtils.clearData(this,"flag");
 
     }
     @Override
@@ -83,7 +84,6 @@ public class SplashActivity extends AppCompatActivity{
        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
        if (requestCode == REQUEST_PERMISSION_CODE) {
            isShowingMain();
-          SharedPreferencesUtils.setParam(SplashActivity.this,"flag",true);
        }
     }
 
@@ -109,11 +109,6 @@ public class SplashActivity extends AppCompatActivity{
 
         }
 
-    }
-
-  @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     public void initData() {

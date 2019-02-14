@@ -68,7 +68,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             viewHolder.textView_fare.setText(spannableString);
             viewHolder.imageView_next.setVisibility(View.VISIBLE);
         }
-        viewHolder.imageView_next.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
