@@ -44,7 +44,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         SpannableString spannableString = new SpannableString(list.get(i).getPrice()+"");
         RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
         RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.8f);
@@ -71,6 +71,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(movieName != null){
+                    movieName.setFloat(list.get(i).getBeginTime(),list.get(i).getEndTime(),list.get(i).getScreeningHall(),list.get(i).getPrice());
+                }
 
             }
         });
@@ -98,4 +101,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             ButterKnife.bind(this,itemView);
         }
     }
+    setMovieName movieName;
+    public void setName(setMovieName name){
+        movieName = name;
+    }
+    public interface setMovieName{
+        void setFloat(String starttime, String endtime, String num, double price);
+    }
+
+
+
 }
