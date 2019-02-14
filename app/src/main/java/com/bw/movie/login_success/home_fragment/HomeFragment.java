@@ -80,8 +80,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        //关闭软键盘
-        edit_search.setInputType(InputType.TYPE_NULL);
 
         startRequestGet(String.format(Apis.URL_BANNER,1,10),HomeBannerBean.class);
         setLayout();

@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.person.personal_bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CimeamaBean {
