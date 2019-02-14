@@ -138,7 +138,6 @@ public class CinemaDtailActivity extends BaseActivity {
             @Override
             public void setFloat(String starttime, String endtime, String num, double price) {
                 Intent intent = new Intent(CinemaDtailActivity.this, CinemaSeatTableActivity.class);
-
                 //开始的时间,结束时间
                 intent.putExtra("start",starttime);
                 intent.putExtra("end",endtime);

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -79,6 +80,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        //关闭软键盘
+        edit_search.setInputType(InputType.TYPE_NULL);
 
         startRequestGet(String.format(Apis.URL_BANNER,1,10),HomeBannerBean.class);
         setLayout();
@@ -99,7 +102,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
     }
-
 
     //布局管理器
     private void setLayout() {
