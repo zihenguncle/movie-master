@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<RadioGroup
+    android:id="@+id/perosnal_fouce_radio"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+    <RadioButton
+        android:id="@+id/message_ticket"
+        android:layout_width="83dp"
+        android:layout_height="23dp"
+        android:text="电影"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:textColor="@drawable/text_color_selector"
+        android:layout_marginLeft="80dp"
+        android:textSize="14sp"
+        android:button="@null"
+        android:background="@drawable/personal_feedback_selector_buuuton"
+        />
+
+    <RadioButton
+        android:id="@+id/message_movie"
+        android:layout_width="83dp"
+        android:layout_height="23dp"
+        android:text="影院"
+        android:gravity="center"
+        android:button="@null"
+        android:layout_toRightOf="@id/message_ticket"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="32dp"
+        android:textColor="@drawable/text_color_selector"
+        android:textSize="14sp"
+        android:background="@drawable/personal_feedback_selector_buuuton"
+        />
+</RadioGroup>
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/personal_focus_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/perosnal_fouce_radio"
+        />
+
+    <RelativeLayout
+        android:id="@+id/personal_focus_back"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/personal_reset_selector"
+        android:layout_alignParentBottom="true"
+        >
+        <ImageView
+            android:id="@+id/image_View_Back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="24dp"
+            android:background="@mipmap/com_icon_my_default"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

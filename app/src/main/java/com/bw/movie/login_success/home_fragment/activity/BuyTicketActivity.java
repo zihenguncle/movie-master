@@ -93,11 +93,11 @@ public class BuyTicketActivity extends BaseActivity implements View.OnClickListe
         if(data instanceof BuyTicketBean){
             buyTicketBean = (BuyTicketBean) data;
             if(buyTicketBean.getStatus().equals("0000")){
-                ToastUtils.toast(buyTicketBean.getMessage());
+                //ToastUtils.toast(buyTicketBean.getMessage());
                 buyTicketAdapter.setDatas(buyTicketBean.getResult());
-            }else{
-                ToastUtils.toast(buyTicketBean.getMessage());
-            }
+               }//else{
+////                //ToastUtils.toast(buyTicketBean.getMessage());
+////            }
         }else if(data instanceof FollowBean){
             FollowBean bean= (FollowBean) data;
             if(bean.getStatus().equals("0000")){

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.bw.movie.custom.NoScrollViewPager
+        android:id="@+id/login_success_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ></com.bw.movie.custom.NoScrollViewPager>
+
+    <LinearLayout
+        android:id="@+id/login_success_group"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:alpha="0.7"
+        >
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            >
+        <RadioButton
+            android:layout_width="60dp"
+            android:gravity="center"
+            android:button="@null"
+            android:visibility="gone"
+            android:layout_height="60dp"
+            android:id="@+id/home_fragment"
+            android:background="@mipmap/com_icon_film_fault"
+            />
+            <RadioButton
+            android:layout_width="70dp"
+            android:gravity="center"
+            android:button="@null"
+            android:layout_height="70dp"
+            android:id="@+id/home_fragment_true"
+            android:background="@mipmap/com_icon_film_selected"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            >
+        <RadioButton
+            android:layout_width="60dp"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_height="60dp"
+            android:id="@+id/nearby_cinema_fragment"
+            android:background="@mipmap/com_icon_cinema_default"
+            />
+
+            <RadioButton
+                android:layout_width="70dp"
+                android:gravity="center"
+                android:button="@null"
+                android:visibility="gone"
+                android:layout_height="70dp"
+                android:id="@+id/nearby_cinema_fragment_true"
+                android:background="@mipmap/com_icon_cinema_selected"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            >
+        <RadioButton
+            android:layout_width="60dp"
+            android:button="@null"
+            android:gravity="center"
+            android:layout_height="60dp"
+            android:id="@+id/personal_fragment"
+            android:background="@mipmap/com_icon_my_default_my"
+            />
+            <RadioButton
+                android:layout_width="70dp"
+                android:gravity="center"
+                android:button="@null"
+                android:visibility="gone"
+                android:layout_height="70dp"
+                android:id="@+id/personal_fragment_true"
+                android:background="@mipmap/com_icon_my_selected"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

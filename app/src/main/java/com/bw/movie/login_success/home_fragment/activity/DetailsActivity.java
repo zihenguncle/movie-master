@@ -365,14 +365,19 @@ public class DetailsActivity extends BaseActivity {
             }
         }
         if(data instanceof TakeBean){
-            if(page == 1){
-                popup_take.setData(((TakeBean) data).getResult());
+            if(((TakeBean) data).getStatus().equals("0000")){
+                if(page == 1){
+                    popup_take.setData(((TakeBean) data).getResult());
+                }else {
+                    popup_take.addData(((TakeBean) data).getResult());
+                }
+                page++;
+                p_xrecyclerView.loadMoreComplete();
+                p_xrecyclerView.refreshComplete();
             }else {
-                popup_take.addData(((TakeBean) data).getResult());
+                ToastUtils.toast(((TakeBean) data).getMessage());
             }
-            page++;
-            p_xrecyclerView.loadMoreComplete();
-            p_xrecyclerView.refreshComplete();
+
         }
         if(data instanceof FollowBean){
             ToastUtils.toast(((FollowBean) data).getMessage());
