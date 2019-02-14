@@ -101,7 +101,7 @@ public class PersonalFragment extends BaseFragment{
                 startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
                 break;
             case R.id.personal_meassage_my:
-
+                
                 Intent intent = new Intent(getContext(), Personal_Message_Activity.class);
                 startActivity(intent);
                 break;
@@ -153,7 +153,7 @@ public class PersonalFragment extends BaseFragment{
                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             String replace = Url.replace("172.17.8.100", "mobile.bwstudent.com");
-                            openBrowser(getContext(),replace);
+                            openBrowser(getContext(),Url);
                             dialog.dismiss();
                         }
                     });
