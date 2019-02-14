@@ -40,13 +40,13 @@ public class MovieNoceAdapter extends RecyclerView.Adapter<MovieNoceAdapter.View
 
     @NonNull
     @Override
-    public MovieNoceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.item_movie,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieNoceAdapter.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(i%data.size()).getImageUrl())

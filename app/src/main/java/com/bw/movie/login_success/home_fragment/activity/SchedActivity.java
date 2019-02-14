@@ -48,6 +48,7 @@ public class SchedActivity extends BaseActivity {
     @BindView(R.id.sched_recycle)
     RecyclerView schedRecycle;
     SchedAdapter adapter;
+    private DetailsBean databean;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -66,11 +67,10 @@ public class SchedActivity extends BaseActivity {
         Intent intent = getIntent();
         int movieId = intent.getIntExtra("movieId", 0);
         int cinemasId = intent.getIntExtra("cinemasId", 0);
-        String name = intent.getStringExtra("name");
-        String address = intent.getStringExtra("address");
+        final String name = intent.getStringExtra("name");
+        final String address = intent.getStringExtra("address");
         schedCinemasName.setText(name);
         schedAddress.setText(address);
-
 
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -83,12 +83,34 @@ public class SchedActivity extends BaseActivity {
         startRequestGet(String.format(URL_SCHEDULE, cinemasId, movieId), SchedBean.class);
         adapter = new SchedAdapter(this);
         schedRecycle.setAdapter(adapter);
+
+        adapter.setName(new SchedAdapter.setMovieName() {
+            @Override
+            public void setFloat(String starttime,String endtime,String num,double price) {
+                Intent intent = new Intent(SchedActivity.this, CinemaSeatTableActivity.class);
+
+                //开始的时间,结束时间
+                intent.putExtra("start",starttime);
+                intent.putExtra("end",endtime);
+                intent.putExtra("num",num);
+                //票价
+                intent.putExtra("price",price);
+                //影院Name
+                intent.putExtra("name",name);
+                //影院address
+                intent.putExtra("address",address);
+                //电影的Name
+                intent.putExtra("MovieName",databean.getResult().getName());
+                startActivity(intent);
+            }
+        });
     }
 
 
     @Override
     protected void successed(Object data) {
         if (data instanceof DetailsBean) {
+            databean = (DetailsBean) data;
             setMovieData((DetailsBean) data);
         }
         if (data instanceof SchedBean) {
@@ -99,20 +121,20 @@ public class SchedActivity extends BaseActivity {
 
     private void setMovieData(DetailsBean data){
         //设置数据
-        String imageUrl = ((DetailsBean) data).getResult().getImageUrl();
+        String imageUrl = data.getResult().getImageUrl();
         schedImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(this).load(imageUrl)
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(4)))
                 .into(schedImage);
-        String movieTypes = ((DetailsBean) data).getResult().getMovieTypes();
+        String movieTypes = data.getResult().getMovieTypes();
         schedMovieTypes.setText(movieTypes);
-        String name = ((DetailsBean) data).getResult().getName();
+        String name = data.getResult().getName();
         schedName.setText(name);
-        String duration = ((DetailsBean) data).getResult().getDuration();
+        String duration = data.getResult().getDuration();
         schedTime.setText(duration);
-        String director = ((DetailsBean) data).getResult().getDirector();
+        String director = data.getResult().getDirector();
         schedDirector.setText(director);
-        String placeOrigin = ((DetailsBean) data).getResult().getPlaceOrigin();
+        String placeOrigin = data.getResult().getPlaceOrigin();
         schedMovieAddress.setText(placeOrigin);
     }
 

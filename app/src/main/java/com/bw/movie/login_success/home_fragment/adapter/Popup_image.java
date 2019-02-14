@@ -28,13 +28,13 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
 
     @NonNull
     @Override
-    public Popup_image.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.popup_image_item,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Popup_image.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(context).load(data.get(i)).into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

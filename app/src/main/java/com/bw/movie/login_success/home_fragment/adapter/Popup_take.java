@@ -64,7 +64,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
 
     @NonNull
     @Override
-    public Popup_take.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context,R.layout.popup_take_item,null);
         return new ViewHolder(view);
     }
@@ -72,7 +72,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     public static final String Time_Style = "yyyy-MM-dd HH:mm:ss";
     private int page;
     @Override
-    public void onBindViewHolder(@NonNull final Popup_take.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         Glide.with(context).load(data.get(i).getCommentHeadPic()).into(viewHolder.itemTakeHeadimage);
         viewHolder.itemTakeName.setText(data.get(i).getCommentUserName());
         Glide.with(context).load(data.get(i).getCommentHeadPic())
@@ -146,8 +146,10 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     }
 
     public void setLove(int page){
-        data.get(page).setIsGreat(1);
-        data.get(page).setGreatNum(data.get(page).getGreatNum()+1);
+        if(data.get(page).getIsGreat()==0){
+            data.get(page).setIsGreat(1);
+            data.get(page).setGreatNum(data.get(page).getGreatNum()+1);
+        }
         notifyDataSetChanged();
     }
 
@@ -232,7 +234,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     }
 
     public interface loveTake{
-        void getlove(int id,int position);
+        void getlove(int id, int position);
     }
 
 }

@@ -39,13 +39,13 @@ public class HomeBannerAdapter extends RecyclerView.Adapter<HomeBannerAdapter.Vi
     }
 
     @Override
-    public HomeBannerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = View.inflate(context, R.layout.item_homebanner,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(HomeBannerAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.iamge.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(data.get(position%data.size()).getImageUrl())

@@ -29,13 +29,13 @@ public class Popup_name extends RecyclerView.Adapter<Popup_name.ViewHolder> {
 
     @NonNull
     @Override
-    public Popup_name.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(context, R.layout.popup_name_item,null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Popup_name.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.name.setText(data[i]);
     }
 
