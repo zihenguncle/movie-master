@@ -80,7 +80,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
         startRequestGet(String.format(Apis.URL_BANNER,1,10),HomeBannerBean.class);
         setLayout();
         startRequestGet(String.format(Apis.URL_HOTMOVIE,1,10),HomeBannerBeanone.class);

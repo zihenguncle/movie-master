@@ -39,42 +39,53 @@
         android:layout_marginLeft="40dp"
         android:layout_below="@+id/login_phone"
         ></View>
+    <LinearLayout
+        android:id="@+id/linear_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_login_phone"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/image_login_pass"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/log_icon_lock_default"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:id="@+id/login_pass"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:hint="登录密码"
+            android:layout_below="@+id/view_login_phone"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@+id/image_login_pass"
+            android:layout_marginLeft="20dp"
+            android:textSize="18sp"
+            android:textColorHint="#eeeeee"
+            android:background="@null"
+            android:textColor="#eeeeee"
+            android:inputType="number"
+            android:password="true"
+            android:layout_weight="8"
+            />
+        <ImageView
+            android:id="@+id/image_login_eye"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:src="@mipmap/log_icon_eye_default"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/view_login_phone"
+            android:layout_marginTop="37dp"
+            android:layout_marginRight="70dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/image_login_pass"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/log_icon_lock_default"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/view_login_phone"
-        />
-    <EditText
-        android:id="@+id/login_pass"
-        android:layout_width="190dp"
-        android:layout_height="42dp"
-        android:hint="登录密码"
-       android:layout_below="@+id/view_login_phone"
-        android:layout_marginTop="25dp"
-        android:layout_toRightOf="@+id/image_login_pass"
-        android:layout_marginLeft="20dp"
-        android:textSize="18sp"
-        android:textColorHint="#eeeeee"
-        android:background="@null"
-        android:textColor="#eeeeee"
-        android:inputType="number"
-        android:password="true"
-        />
-    <ImageView
-        android:id="@+id/image_login_eye"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@mipmap/log_icon_eye_default"
-       android:layout_alignParentRight="true"
-        android:layout_below="@+id/view_login_phone"
-        android:layout_marginTop="37dp"
-        android:layout_marginRight="70dp"
-        />
+
     <View
         android:id="@+id/view_login_pass"
         android:layout_width="280dp"
@@ -82,8 +93,9 @@
         android:background="#1Affffff"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="40dp"
-        android:layout_below="@+id/login_pass"
+        android:layout_below="@+id/linear_pass"
         ></View>
+
     <LinearLayout
     android:id="@+id/linear"
     android:layout_width="match_parent"
