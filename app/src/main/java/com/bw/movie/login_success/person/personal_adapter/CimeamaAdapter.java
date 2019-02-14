@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.person.personal_adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
+import com.bw.movie.login_success.nearby_cinema_fragment.activity.CinemaDtailActivity;
 import com.bw.movie.login_success.person.personal_bean.CimeamaBean;
+import com.bw.movie.tools.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +57,25 @@ public class CimeamaAdapter extends RecyclerView.Adapter<CimeamaAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(mContext).load(mData.get(i%mData.size()).getLogo())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
                 .into(viewHolder.cimeamaItemImage);
         viewHolder.cimeamaItemTextName.setText(mData.get(i).getName());
         viewHolder.cimeamaItemTextTitle.setText(mData.get(i).getAddress());
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, CinemaDtailActivity.class);
+                intent.putExtra("logo",mData.get(i).getLogo());
+                intent.putExtra("name",mData.get(i).getName());
+                intent.putExtra("address",mData.get(i).getAddress());
+                intent.putExtra("id",mData.get(i).getId());
+                mContext.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

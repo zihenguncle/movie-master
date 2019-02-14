@@ -66,17 +66,15 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
                    }
             }
         });
-
-        final RecommentBean.ResultBean resultBean = list.get(i);
-        if (i==list.size()-1){
-            viewHolder.itemView.setClickable(false);
-        }
         //跳转到用户关注的影院信息
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(context, CinemaDtailActivity.class);
-                intent.putExtra("cinemaInfo",resultBean);
+                intent.putExtra("logo",list.get(i).getLogo());
+                intent.putExtra("name",list.get(i).getName());
+                intent.putExtra("address",list.get(i).getAddress());
+                intent.putExtra("id",list.get(i).getId());
                 context.startActivity(intent);
             }
         });
