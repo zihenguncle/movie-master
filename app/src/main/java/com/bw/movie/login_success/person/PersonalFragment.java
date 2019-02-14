@@ -31,6 +31,7 @@ import com.bw.movie.login_success.person.personal_bean.SignInBean;
 import com.bw.movie.login_success.person.personal_bean.UpdateCodeBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,6 +52,8 @@ public class PersonalFragment extends BaseFragment{
     @BindView(R.id.personal_latest_version)
     ImageView imageView_perosnal;
     private static final String Url="http://172.17.8.100/media/movie.apk";
+    private String sessionId;
+
     @Override
     protected int getViewById() {
         return R.layout.fargment_personal;
@@ -69,11 +72,19 @@ public class PersonalFragment extends BaseFragment{
 
     @Override
     protected void initData(){
+        sessionId = SharedPreferencesUtils.getParam(getContext(), "sessionId", "0").toString();
+        Log.i("TAG",sessionId);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view){
         ButterKnife.bind(this,view);
         if(!EventBus.getDefault().isRegistered(this)){
             EventBus.getDefault().register(this);
@@ -84,38 +95,63 @@ public class PersonalFragment extends BaseFragment{
     public void onClick(View v){
         switch (v.getId()){
             case R.id.personal_fragment_update_xin_code:
-                ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
-                rotation.setDuration(2000);
-                rotation.start();
-                startRequestGet(Apis.URL_UPDATE_CODE,UpdateCodeBean.class);
+                    ObjectAnimator rotation = ObjectAnimator.ofFloat(imageView_perosnal, "rotation", 0.0f, 720f);
+                    rotation.setDuration(2000);
+                    rotation.start();
+                    startRequestGet(Apis.URL_UPDATE_CODE, UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
-               // getActivity().finish();
+               /*SharedPreferencesUtils.clearData(getContext(),"userId");
+               SharedPreferencesUtils.clearData(getContext(),"sessionId");*/
                 break;
             case R.id.system_information_push:
                 //TODO:展示系统消息
-                Intent information = new Intent(getContext(), System_Information.class);
-                startActivity(information);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent information = new Intent(getContext(), System_Information.class);
+                    startActivity(information);
+                }
                 break;
             case R.id.personal_sign_in:
                 startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
                 break;
             case R.id.personal_meassage_my:
-                
-                Intent intent = new Intent(getContext(), Personal_Message_Activity.class);
-                startActivity(intent);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getContext(), Personal_Message_Activity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.personal_fragment_my_focus:
-                Intent intent_frocus = new Intent(getContext(), Personal_Fragment_Focus_Activity.class);
-                startActivity(intent_frocus);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent_frocus = new Intent(getContext(), Personal_Fragment_Focus_Activity.class);
+                    startActivity(intent_frocus);
+                }
                 break;
             case R.id.personal_fragment_ticket_record:
-                Intent personal_ticket = new Intent(getContext(), Personal_Message_TicketActivity.class);
-                startActivity(personal_ticket);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent personal_ticket = new Intent(getContext(), Personal_Message_TicketActivity.class);
+                    startActivity(personal_ticket);
+                }
                 break;
             case R.id.personal_feedback_advice:
-                Intent advice_feedback = new Intent(getContext(), Personal_FeedBack_Advice_Activity.class);
-                startActivity(advice_feedback);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    Intent advice_feedback = new Intent(getContext(), Personal_FeedBack_Advice_Activity.class);
+                    startActivity(advice_feedback);
+                }
                 break;
                 default:break;
         }
@@ -153,7 +189,7 @@ public class PersonalFragment extends BaseFragment{
                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
                             String replace = Url.replace("172.17.8.100", "mobile.bwstudent.com");
-                            openBrowser(getContext(),Url);
+                            openBrowser(getContext(),replace);
                             dialog.dismiss();
                         }
                     });
