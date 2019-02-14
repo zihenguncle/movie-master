@@ -3,6 +3,8 @@ package com.bw.movie.tools;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.bw.movie.application.MyApplication;
+
 public class SharedPreferencesUtils {
     /**
      * 保存在手机里面的文件名
@@ -16,7 +18,7 @@ public class SharedPreferencesUtils {
     public static void setParam(Context context , String key, Object object){
 
         String type = object.getClass().getSimpleName();
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sp = MyApplication.getApplication().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
         if("String".equals(type)){
@@ -54,7 +56,7 @@ public class SharedPreferencesUtils {
      */
     public static Object getParam(Context context , String key, Object defaultObject){
         String type = defaultObject.getClass().getSimpleName();
-        SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sp = MyApplication.getApplication().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 
         if("String".equals(type)){
             return sp.getString(key, (String)defaultObject);

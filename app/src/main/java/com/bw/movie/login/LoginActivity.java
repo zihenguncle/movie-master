@@ -201,8 +201,8 @@ public class LoginActivity extends BaseActivity {
                  SharedPreferencesUtils.setParam(LoginActivity.this,"pass",pass);
                  SharedPreferencesUtils.setParam(LoginActivity.this,"c_remember",true);
              }else {
-                 SharedPreferencesUtils.clearData(this,"phone");
-                 SharedPreferencesUtils.clearData(this,"pass");
+                 SharedPreferencesUtils.setParam(LoginActivity.this,"phone","");
+                 SharedPreferencesUtils.setParam(LoginActivity.this,"pass","");
              }
              if(checkBox_auto_login.isChecked()){
                  SharedPreferencesUtils.setParam(LoginActivity.this,"c_auto_login",true);
