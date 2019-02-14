@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login_success.home_fragment.activity.CinemaSeatTableActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.CommentAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.MovieBannerAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.ScheduleAdapter;
@@ -87,6 +88,7 @@ public class CinemaDtailActivity extends BaseActivity {
     private int mPage;
     private int cinemasId;
     private CommentAdapter commentAdapter;
+    private String name;
 
 
     protected void initView(Bundle savedInstanceState) {
@@ -123,6 +125,7 @@ public class CinemaDtailActivity extends BaseActivity {
             public void onItemSelected(int position) {
                 movieId = result.get(position).getId();
                 cinemasId = cinemaInfo.getId();
+                name = result.get(position).getName();
                 imageViewAnimationHelper.startAnimation(position);
                 startRequestGet(String.format(Apis.URL_SCHEDULE_CINEMA, cinemasId, movieId), ScheduleBean.class);
             }
@@ -131,6 +134,27 @@ public class CinemaDtailActivity extends BaseActivity {
 
 
         scheduleAdapter=new ScheduleAdapter(this);
+        scheduleAdapter.setName(new ScheduleAdapter.setMovieName() {
+            @Override
+            public void setFloat(String starttime, String endtime, String num, double price) {
+                Intent intent = new Intent(CinemaDtailActivity.this, CinemaSeatTableActivity.class);
+
+                //开始的时间,结束时间
+                intent.putExtra("start",starttime);
+                intent.putExtra("end",endtime);
+                intent.putExtra("num",num);
+                //票价
+                intent.putExtra("price",price);
+                //影院Name
+                intent.putExtra("name",cinemaInfo.getName());
+                //影院address
+                intent.putExtra("address",cinemaInfo.getAddress());
+                //电影的Name
+                intent.putExtra("MovieName",name);
+                startActivity(intent);
+
+            }
+        });
         recyclerView.setAdapter(scheduleAdapter);
 
     }
