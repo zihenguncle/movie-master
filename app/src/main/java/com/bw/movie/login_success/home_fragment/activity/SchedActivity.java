@@ -11,10 +11,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.SchedAdapter;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 import com.bw.movie.login_success.home_fragment.bean.SchedBean;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 
 import java.text.SimpleDateFormat;
@@ -86,22 +88,33 @@ public class SchedActivity extends BaseActivity {
 
         adapter.setName(new SchedAdapter.setMovieName() {
             @Override
-            public void setFloat(String starttime,String endtime,String num,double price) {
-                Intent intent = new Intent(SchedActivity.this, CinemaSeatTableActivity.class);
+            public void setFloat(String starttime,String endtime,String num,double price,int scheduleId) {
+                String userId = (String) SharedPreferencesUtils.getParam(SchedActivity.this, "userId", "0");
+                if(userId.equals("0")){
+                    Intent intent1 = new Intent(SchedActivity.this, LoginActivity.class);
+                    startActivity(intent1);
+                }else {
+                    Intent intent = new Intent(SchedActivity.this, CinemaSeatTableActivity.class);
 
-                //开始的时间,结束时间
-                intent.putExtra("start",starttime);
-                intent.putExtra("end",endtime);
-                intent.putExtra("num",num);
-                //票价
-                intent.putExtra("price",price);
-                //影院Name
-                intent.putExtra("name",name);
-                //影院address
-                intent.putExtra("address",address);
-                //电影的Name
-                intent.putExtra("MovieName",databean.getResult().getName());
-                startActivity(intent);
+                    //开始的时间,结束时间
+                    intent.putExtra("start",starttime);
+                    intent.putExtra("end",endtime);
+                    intent.putExtra("num",num);
+                    //票价
+                    intent.putExtra("price",price);
+                    //影院Name
+                    intent.putExtra("name",name);
+                    //影院address
+                    intent.putExtra("address",address);
+
+                    //scheduleId
+                    intent.putExtra("scheduleId",scheduleId);
+
+                    //电影的Name
+                    intent.putExtra("MovieName",databean.getResult().getName());
+                    startActivity(intent);
+                }
+
             }
         });
     }

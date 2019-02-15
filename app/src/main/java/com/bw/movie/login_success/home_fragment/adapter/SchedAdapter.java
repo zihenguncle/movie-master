@@ -50,7 +50,7 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 if(movieName != null){
-                    movieName.setFloat(data.get(i).getBeginTime(),data.get(i).getEndTime(),data.get(i).getScreeningHall(),data.get(i).getPrice());
+                    movieName.setFloat(data.get(i).getBeginTime(),data.get(i).getEndTime(),data.get(i).getScreeningHall(),data.get(i).getPrice(),data.get(i).getId());
                 }
             }
         });
@@ -84,6 +84,6 @@ public class SchedAdapter extends RecyclerView.Adapter<SchedAdapter.ViewHolder> 
         movieName = name;
     }
     public interface setMovieName{
-        void setFloat(String starttime, String endtime, String num, double price);
+        void setFloat(String starttime, String endtime, String num, double price,int scheduleId);
     }
 }
