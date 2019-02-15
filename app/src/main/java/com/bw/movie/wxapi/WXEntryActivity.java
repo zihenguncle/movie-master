@@ -6,11 +6,10 @@ import android.os.Bundle;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
-import com.bw.movie.login.bean.WeiXinBean;
-import com.bw.movie.main.activity.MainActivity;
-import com.bw.movie.util.Apis;
-import com.bw.movie.util.ToastUtil;
-import com.bw.movie.util.WeiXinUtil;
+import com.bw.movie.login.WeiXinUtil;
+import com.bw.movie.login_success.Login_Success_Activity;
+import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.ToastUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -31,6 +30,23 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         editor = sharedPreferences.edit();
     }
 
+    @Override
+    protected void successed(Object data) {
+        if (data instanceof WeiXinBean) {
+            WeiXinBean bean = (WeiXinBean) data;
+            if (((WeiXinBean) data).getStatus().equals("0000")) {
+                int userId = bean.getResult().getUserId();
+                String sessionId = bean.getResult().getSessionId();
+                editor.putString("userId", userId + "");
+                editor.putString("sessionId", sessionId);
+                editor.commit();
+                Intent intent = new Intent(WXEntryActivity.this, Login_Success_Activity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    }
+
 
     @Override
     protected void failed(String error) {
@@ -44,9 +60,10 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     @Override
-    protected int getLayoutResId() {
+    protected int getViewById() {
         return R.layout.activity_wxentry;
     }
+
 
     @Override
     public void onReq(BaseReq baseReq) {
@@ -68,7 +85,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         code = ((SendAuth.Resp) baseResp).code;
                         Map<String,String> map = new HashMap<>();
                         map.put("code",code);
-                        postRequest(Apis.WEIXINLOGON_URL,map,WeiXinBean.class);
+                        startRequestPost(Apis.URL_WEIXIN_LOGIN,map,WeiXinBean.class);
                     }
                 });
                 break;
@@ -80,32 +97,17 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
             int errCord = baseResp.errCode;
             if (errCord == 0) {
-                ToastUtil.showToast(this, "支付成功！");
+                ToastUtils.toast("支付成功！");
 
             } else if (errCord == -1) {
-                ToastUtil.showToast(this, "支付失败");
+                ToastUtils.toast("支付失败！");
             } else {
-                ToastUtil.showToast(this, "用户取消了");
+                ToastUtils.toast("用户取消了！");
             }
             //这里接收到了返回的状态码可以进行相应的操作，如果不想在这个页面操作可以把状态码存在本地然后finish掉这个页面，这样就回到了你调起支付的那个页面
             //获取到你刚刚存到本地的状态码进行相应的操作就可以了
             finish();
         }
     }
-    @Override
-    protected void success(Object object) {
-        if (object instanceof WeiXinBean) {
-            WeiXinBean bean = (WeiXinBean) object;
-            if (((WeiXinBean) object).getStatus().equals("0000")) {
-                int userId = bean.getResult().getUserId();
-                String sessionId = bean.getResult().getSessionId();
-                editor.putString("userId", userId + "");
-                editor.putString("sessionId", sessionId);
-                editor.commit();
-                Intent intent = new Intent(WXEntryActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
-    }
+
 }

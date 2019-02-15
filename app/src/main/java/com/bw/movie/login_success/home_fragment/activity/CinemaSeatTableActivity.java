@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login.WeiXinUtil;
 import com.bw.movie.login_success.home_fragment.bean.CinemaSeatTableDetailBean;
 import com.bw.movie.login_success.home_fragment.bean.PayBean;
+import com.bw.movie.login_success.home_fragment.bean.PayMessageBean;
 import com.bw.movie.login_success.home_fragment.seattable.SeatTable;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
 import com.bw.movie.mvp.utils.Apis;
@@ -69,6 +71,7 @@ public class CinemaSeatTableActivity extends BaseActivity {
     @BindView(R.id.movie_name)
     TextView movie_name;
     private int scheduleId;
+    private String orderId;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -158,6 +161,8 @@ public class CinemaSeatTableActivity extends BaseActivity {
 
 
     //点击去选择支付方式
+    private static final int WX = 1;
+    private static final int ZFB = 2;
     PopupWindow popupWindow;
     @OnClick(R.id.item_cinema_detail_img_v)
     public void onImgVClickListener() {
@@ -166,7 +171,7 @@ public class CinemaSeatTableActivity extends BaseActivity {
             String userId = (String) SharedPreferencesUtils.getParam(CinemaSeatTableActivity.this, "userId", "");
             String sign = MD5(userId + scheduleId + i + "movie");
             //排期表ID
-            Map<String,String> map = new HashMap<>();
+            final Map<String,String> map = new HashMap<>();
             map.put("scheduleId",scheduleId+"");
             map.put("amount",i+"");
             map.put("sign",sign);
@@ -208,9 +213,12 @@ public class CinemaSeatTableActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     if(weChat.isChecked()){
-
+                        Map<String,String> map1 = new HashMap<>();
+                        map1.put("payType",WX+"");
+                        map1.put("orderId",orderId);
+                        startRequestPost(Apis.URL_PAY,map1,PayMessageBean.class);
                     }else if(alipay.isChecked()){
-
+                        ToastUtils.toast("暂无开通支付宝");
                     }else {
                         ToastUtils.toast("请选择支付方式");
                     }
@@ -273,8 +281,17 @@ public class CinemaSeatTableActivity extends BaseActivity {
         if(data instanceof PayBean){
             if(((PayBean) data).getStatus().equals("0000")){
                 ToastUtils.toast(((PayBean) data).getMessage());
+                orderId = ((PayBean) data).getOrderId();
             }else {
                 ToastUtils.toast(((PayBean) data).getMessage());
+            }
+        }
+        if(data instanceof PayMessageBean){
+            if(((PayMessageBean) data).getStatus().equals("0000")){
+                ToastUtils.toast(((PayMessageBean) data).getMessage());
+                WeiXinUtil.weiXinPay(CinemaSeatTableActivity.this, (PayMessageBean) data);
+            }else {
+                ToastUtils.toast(((PayMessageBean) data).getMessage());
             }
         }
     }
