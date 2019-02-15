@@ -40,12 +40,13 @@ public class MovieBannerAdapter extends RecyclerView.Adapter<MovieBannerAdapter.
 
     @Override
     public void onBindViewHolder(MovieBannerAdapter.ViewHolder holder, final int position) {
+        MovieImageBean.ResultBean resultBean = data.get(position);
         holder.iamge.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
-                .load(data.get(position).getImageUrl())
+                .load(resultBean.getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(holder.iamge);
-        holder.name.setText(data.get(position).getName());
+        holder.name.setText(resultBean.getName());
 
     }
 

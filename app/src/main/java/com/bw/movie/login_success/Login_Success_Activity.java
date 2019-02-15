@@ -96,7 +96,6 @@ public class  Login_Success_Activity extends AppCompatActivity {
         list.add(new HomeFragment());
         list.add(new NearbyCinemaFragment());
         list.add(new PersonalFragment());
-
         //添加适配器
         loginSuccessViewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override

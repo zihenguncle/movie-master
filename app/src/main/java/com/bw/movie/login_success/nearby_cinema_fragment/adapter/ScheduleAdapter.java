@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.nearby_cinema_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -14,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.ScheduleBean;
+import com.bw.movie.tools.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ import butterknife.ButterKnife;
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
     private List<ScheduleBean.ResultBean> list;
     private Context context;
+    private String sessionId;
 
     public ScheduleAdapter(Context context) {
         this.context = context;
@@ -45,7 +49,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        SpannableString spannableString = new SpannableString(list.get(i).getPrice()+"");
+        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
+        final ScheduleBean.ResultBean resultBean = list.get(i);
+        SpannableString spannableString = new SpannableString(resultBean.getPrice()+"");
         RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
         RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.8f);
         RelativeSizeSpan sizeSpan03 = new RelativeSizeSpan(0.6f);
@@ -55,25 +61,30 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
         spannableString.setSpan(sizeSpan03, 2, 3, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(sizeSpan04, 3, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 
-        if(list.get(i).getStatus()==2){
+        if(resultBean.getStatus()==2){
             viewHolder.textView_screeningHall.setText("该电影排期已过期");
-            viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
-            viewHolder.textView_text_endTime.setText(list.get(i).getEndTime());
+            viewHolder.textView_beginTime.setText(resultBean.getBeginTime());
+            viewHolder.textView_text_endTime.setText(resultBean.getEndTime());
             viewHolder.textView_fare.setText(spannableString);
             viewHolder.imageView_next.setVisibility(View.INVISIBLE);
         }else {
-            viewHolder.textView_screeningHall.setText(list.get(i).getScreeningHall());
-            viewHolder.textView_beginTime.setText(list.get(i).getBeginTime());
-            viewHolder.textView_text_endTime.setText(list.get(i).getEndTime());
+            viewHolder.textView_screeningHall.setText(resultBean.getScreeningHall());
+            viewHolder.textView_beginTime.setText(resultBean.getBeginTime());
+            viewHolder.textView_text_endTime.setText(resultBean.getEndTime());
             viewHolder.textView_fare.setText(spannableString);
             viewHolder.imageView_next.setVisibility(View.VISIBLE);
         }
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(movieName != null){
-                    movieName.setFloat(list.get(i).getBeginTime(),list.get(i).getEndTime(),list.get(i).getScreeningHall(),list.get(i).getPrice(),list.get(i).getId());
-                }
+               if(sessionId.equals("0")){
+                   Intent intent = new Intent(context, LoginActivity.class);
+                   context.startActivity(intent);
+               }else {
+                   if(movieName != null){
+                       movieName.setFloat(list.get(i).getBeginTime(),resultBean.getEndTime(),resultBean.getScreeningHall(),resultBean.getPrice(),resultBean.getId());
+                   }
+               }
 
             }
         });

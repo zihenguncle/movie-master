@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.activity.CinemaSeatTableActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.CommentAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.MovieBannerAdapter;
@@ -33,6 +34,7 @@ import com.bw.movie.login_success.nearby_cinema_fragment.bean.MovieImageBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.ScheduleBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
@@ -230,7 +232,6 @@ public class CinemaDtailActivity extends BaseActivity {
 
         commentAdapter=new CommentAdapter(this);
         recyclerView_comment.setAdapter(commentAdapter);
-
         commentAdapter.setOnPraiseCallBack(new CommentAdapter.PraiseCallBack() {
             @Override
             public void getPraiseInfo(int commentId, int isGreat, int position) {
@@ -241,6 +242,7 @@ public class CinemaDtailActivity extends BaseActivity {
                 }
             }
         });
+
 
         recyclerView_comment.setPullRefreshEnabled(true);
         recyclerView_comment.setLoadingMoreEnabled(true);

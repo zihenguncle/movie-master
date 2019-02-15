@@ -79,4 +79,6 @@ dependencies {
     //日期选择器
     implementation 'com.contrarywind:Android-PickerView:4.1.7'
     implementation 'com.xw.repo:xedittext:2.2.4'
+    //检测内存泄露
+    implementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.3'
 }

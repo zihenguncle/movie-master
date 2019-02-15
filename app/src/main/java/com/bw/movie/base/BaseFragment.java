@@ -1,19 +1,23 @@
 package com.bw.movie.base;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bw.movie.application.MyApplication;
 import com.bw.movie.loading.LoadingUtils;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.view.IView;
 import com.bw.movie.tools.NetWorkUtils;
 import com.bw.movie.tools.ToastUtils;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.util.Map;
 
@@ -88,11 +92,14 @@ public abstract class BaseFragment extends Fragment implements IView {
         LoadingUtils.closeDialog(loadingDialog);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onDestroy() {
         super.onDestroy();
         if(iPresemter != null){
             iPresemter.detachView();
         }
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 }

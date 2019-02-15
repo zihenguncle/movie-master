@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -20,10 +22,19 @@ import me.jessyan.autosize.utils.LogUtils;
 public class MyApplication extends Application {
     private static Context context;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static RefWatcher getRefWatcher(Context context) {
+        MyApplication application = (MyApplication) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
+
+        refWatcher = LeakCanary.install(this);
+
         /**
          * 屏幕适配
          */

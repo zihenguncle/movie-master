@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.nearby_cinema_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +13,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.CinemaCommentBean;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.SimpleDataUtils;
 
 import java.text.ParseException;
@@ -25,6 +28,7 @@ import butterknife.ButterKnife;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
     private List<CinemaCommentBean.ResultBean> list;
     private Context context;
+    private String sessionId;
 
     public CommentAdapter(Context context) {
         this.context = context;
@@ -54,19 +58,21 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        Glide.with(context).load(list.get(i).getCommentHeadPic()). apply(RequestOptions.bitmapTransform(new CircleCrop())).
+        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
+        final CinemaCommentBean.ResultBean resultBean = list.get(i);
+        Glide.with(context).load(resultBean.getCommentHeadPic()). apply(RequestOptions.bitmapTransform(new CircleCrop())).
         into(viewHolder.imageView_pic);
-        viewHolder.textView_name.setText(list.get(i).getCommentUserName());
-        viewHolder.textView_content.setText(list.get(i).getCommentContent());
-        viewHolder.textView_num.setText(list.get(i).getGreatNum()+"");
+        viewHolder.textView_name.setText(resultBean.getCommentUserName());
+        viewHolder.textView_content.setText(resultBean.getCommentContent());
+        viewHolder.textView_num.setText(resultBean.getGreatNum()+"");
         try {
-            String data = SimpleDataUtils.longToString(list.get(i).getCommentTime(), "yyyy-MM-dd");
+            String data = SimpleDataUtils.longToString(resultBean.getCommentTime(), "yyyy-MM-dd");
             viewHolder.textView_time.setText(data);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         //点赞
-        if(list.get(i).getIsGreat()==1){
+        if(resultBean.getIsGreat()==1){
             viewHolder.imageView_praise.setImageResource(R.mipmap.com_icon_praise_selected);
         }else {
             viewHolder.imageView_praise.setImageResource(R.mipmap.com_icon_praise_default);
@@ -75,14 +81,20 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.imageView_praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }else {
                     if(praiseCallBack!=null){
-                        if(list.get(i).getIsGreat()==1){
-                            praiseCallBack.getPraiseInfo(list.get(i).getCommentId(),list.get(i).getIsGreat(),i);
+                        if(resultBean.getIsGreat()==1){
+                            praiseCallBack.getPraiseInfo(resultBean.getCommentId(),resultBean.getIsGreat(),i);
                         }else {
-                            praiseCallBack.getPraiseInfo(list.get(i).getCommentId(),list.get(i).getIsGreat(),i);
+                            praiseCallBack.getPraiseInfo(resultBean.getCommentId(),resultBean.getIsGreat(),i);
                         }
 
                     }
+                }
+
             }
         });
 

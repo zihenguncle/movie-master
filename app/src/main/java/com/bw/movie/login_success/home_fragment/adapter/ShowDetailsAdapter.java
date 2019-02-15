@@ -13,10 +13,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.activity.DetailsActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
+import com.bw.movie.tools.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
     private Context mContext;
     private List<HomeBannerBean.ResultBean> mDatas;
+    private String sessionId;
 
     public ShowDetailsAdapter(Context mContext) {
         this.mContext = mContext;
@@ -56,6 +59,7 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, final int i) {
+        sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
         viewHolder.show_details_item_title.setText(mDatas.get(i).getName());
         viewHolder.show_details_item_count.setText(mDatas.get(i).getSummary());
         Glide.with(mContext)
@@ -73,9 +77,14 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
         viewHolder.show_details_item_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callBack!=null){
-                    callBack.getInformation(mDatas.get(i).getId(),mDatas.get(i).getFollowMovie(),i);
-                }
+               if(sessionId.equals("0")){
+                   Intent intent = new Intent(mContext, LoginActivity.class);
+                   mContext.startActivity(intent);
+               }else {
+                   if(callBack!=null){
+                       callBack.getInformation(mDatas.get(i).getId(),mDatas.get(i).getFollowMovie(),i);
+                   }
+               }
             }
         });
 

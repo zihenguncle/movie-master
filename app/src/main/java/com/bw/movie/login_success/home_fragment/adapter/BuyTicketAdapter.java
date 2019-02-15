@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.bean.BuyTicketBean;
+import com.bw.movie.tools.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
 
     private Context mContext;
     private List<BuyTicketBean.ResultBean> mDatas;
+    private String sessionId;
 
     public BuyTicketAdapter(Context mContext) {
         this.mContext = mContext;
@@ -44,6 +48,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
         viewHolder.titleBuyTicket.setText(mDatas.get(i).getName());
         viewHolder.addressBuyTicket.setText(mDatas.get(i).getAddress());
         String logo = mDatas.get(i).getLogo();
@@ -59,9 +64,14 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
         viewHolder.buy_ticket_fouce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(onClickLisener!=null){
-                    onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
-                }
+               if(sessionId.equals("0")){
+                   Intent intent = new Intent(mContext, LoginActivity.class);
+                   mContext.startActivity(intent);
+               }else {
+                   if(onClickLisener!=null){
+                       onClickLisener.onSuccess(mDatas.get(i).getId(), mDatas.get(i).getFollowCinema(), i);
+                   }
+               }
             }
         });
         //影院的id

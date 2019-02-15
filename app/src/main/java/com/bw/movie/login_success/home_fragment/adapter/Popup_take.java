@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.opengl.Visibility;
 import android.support.annotation.NonNull;
@@ -15,12 +16,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.TakeBean;
 import com.bw.movie.login_success.home_fragment.bean.Take_Take_Bean;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.mvp.view.IView;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -39,6 +42,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     private int id;
     private IPresemterImpl iPresemter;
     private Popup_taketake popup_taketake;
+    private String sessionId;
 //    private int commentId;
 
     public Popup_take(Context context, int id) {
@@ -73,6 +77,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     private int page;
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
         Glide.with(context).load(data.get(i).getCommentHeadPic()).into(viewHolder.itemTakeHeadimage);
         viewHolder.itemTakeName.setText(data.get(i).getCommentUserName());
         Glide.with(context).load(data.get(i).getCommentHeadPic())
@@ -91,9 +96,14 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         viewHolder.praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mytakr !=null){
-                    mytakr.getlove(data.get(i).getCommentId(),i);
-                }
+               if(sessionId.equals("0")){
+                   Intent intent = new Intent(context, LoginActivity.class);
+                   context.startActivity(intent);
+               }else {
+                   if(mytakr !=null){
+                       mytakr.getlove(data.get(i).getCommentId(),i);
+                   }
+               }
             }
         });
 

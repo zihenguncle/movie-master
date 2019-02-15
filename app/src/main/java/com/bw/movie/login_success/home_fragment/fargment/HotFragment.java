@@ -1,15 +1,18 @@
 package com.bw.movie.login_success.home_fragment.fargment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -58,7 +61,6 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-
         hot_fargment_recycle.setPullRefreshEnabled(true);
         hot_fargment_recycle.setLoadingMoreEnabled(true);
         hot_fargment_recycle.setLoadingListener(new XRecyclerView.LoadingListener() {

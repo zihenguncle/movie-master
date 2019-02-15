@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_image;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_name;
 import com.bw.movie.login_success.home_fragment.adapter.Popup_take;
@@ -33,6 +34,7 @@ import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 import com.bw.movie.login_success.home_fragment.bean.TakeBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
@@ -74,6 +76,7 @@ public class DetailsActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private XRecyclerView p_xrecyclerView;
     private EditText editText;
+    private String sessionId;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        sessionId = (String) SharedPreferencesUtils.getParam(this, "sessionId", "0");
         //获取影视id
         Intent intent = getIntent();
         shop_id = intent.getIntExtra("id", 0);
@@ -126,17 +130,23 @@ public class DetailsActivity extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.details_image_love:
-                    if(databean.getResult().getFollowMovie()==1){
-                        startRequestGet(String.format(Apis.URLNOLOVEMOVIE,shop_id),FollowBean.class);
-                        love_image.setImageResource(R.mipmap.com_icon_collection_default);
-                        databean.getResult().setFollowMovie(2);
-                        startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                    if(sessionId.equals("0")){
+                        Intent intent1 = new Intent(DetailsActivity.this, LoginActivity.class);
+                        startActivity(intent1);
                     }else {
-                        startRequestGet(String.format(Apis.URL_LOVEMOVIE,shop_id),FollowBean.class);
-                        love_image.setImageResource(R.mipmap.com_icon_collection_selected);
-                        databean.getResult().setFollowMovie(1);
-                        startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                        if(databean.getResult().getFollowMovie()==1){
+                            startRequestGet(String.format(Apis.URLNOLOVEMOVIE,shop_id),FollowBean.class);
+                            love_image.setImageResource(R.mipmap.com_icon_collection_default);
+                            databean.getResult().setFollowMovie(2);
+                            startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                        }else {
+                            startRequestGet(String.format(Apis.URL_LOVEMOVIE,shop_id),FollowBean.class);
+                            love_image.setImageResource(R.mipmap.com_icon_collection_selected);
+                            databean.getResult().setFollowMovie(1);
+                            startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
+                        }
                     }
+
                 default:
                     break;
         }
@@ -220,25 +230,31 @@ public class DetailsActivity extends BaseActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                write_take.setVisibility(View.VISIBLE);
-                relativeLayout.setVisibility(View.GONE);
-                String edit_write = editText.getText().toString();
-                /**
-                 * 字符串转换unicode
-                 */
-                StringBuffer unicode = new StringBuffer();
-                for (int i = 0; i < edit_write.length(); i++) {
-                    // 取出每一个字符
-                    char c = edit_write.charAt(i);
-                    // 转换为unicode
-                    unicode.append("\\u" + Integer.toHexString(c));
-                }
-                String gototake = unicode.toString();
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(DetailsActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    write_take.setVisibility(View.VISIBLE);
+                    relativeLayout.setVisibility(View.GONE);
+                    String edit_write = editText.getText().toString();
+                    /**
+                     * 字符串转换unicode
+                     */
+                    StringBuffer unicode = new StringBuffer();
+                    for (int i = 0; i < edit_write.length(); i++) {
+                        // 取出每一个字符
+                        char c = edit_write.charAt(i);
+                        // 转换为unicode
+                        unicode.append("\\u" + Integer.toHexString(c));
+                    }
+                    String gototake = unicode.toString();
 
-                Map<String,String> map = new HashMap<>();
-                map.put("movieId",shop_id+"");
-                map.put("commentContent",gototake);
-                startRequestPost(Apis.URL_WRITE_TAKE,map,FollowBean.class);
+                    Map<String,String> map = new HashMap<>();
+                    map.put("movieId",shop_id+"");
+                    map.put("commentContent",gototake);
+                    startRequestPost(Apis.URL_WRITE_TAKE,map,FollowBean.class);
+                }
+
             }
         });
     }

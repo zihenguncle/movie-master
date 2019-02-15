@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.nearby_cinema_fragment;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +14,12 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 
 import java.util.List;
