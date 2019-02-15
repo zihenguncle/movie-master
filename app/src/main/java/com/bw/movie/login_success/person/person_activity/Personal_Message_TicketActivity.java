@@ -58,6 +58,9 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
         personalPerform.setChecked(false);
         personalTicketPay.setChecked(true);
 
+        performAdapter = new PerformAdapter(this);
+        personalRecycleShow.setAdapter(performAdapter);
+
         personalRecycleShow.setLoadingMoreEnabled(true);
         personalRecycleShow.setPullRefreshEnabled(true);
         personalRecycleShow.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -78,7 +81,7 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
        loadsData(mPage,TYPE_COUNT,TYPE_COMLETE);
 
 
-     /*   performAdapter.setOnClickListener(new PerformAdapter.OnClicksListener() {
+        performAdapter.setOnClickListener(new PerformAdapter.OnClicksListener() {
             @Override
             public void onSuccess(String orderId,String price,int num) {
                 View view=View.inflate(Personal_Message_TicketActivity.this, com.bw.movie.R.layout.popwindow_pay,null);
@@ -92,8 +95,8 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
                 popupWindow.setFocusable(true);
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setTouchable(true);
-                *//*price*num;
-                sum_price.setText("微信支付+"++"元");*//*
+                //*price*num;
+                //sum_price.setText("微信支付+"++"元");
 
                 weChat.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -111,7 +114,7 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
 
 
             }
-        });*/
+        });
     }
 
     private void loadsData(int mPage, int type_count, int type_comlete) {
@@ -124,13 +127,12 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
 
 
     @Override
-    protected void successed(Object data) {
+    protected void successed(Object data){
         if(data instanceof TicketInformationBean){
             TicketInformationBean ticketInformationBean= (TicketInformationBean) data;
-            if(ticketInformationBean.getStatus().equals("0000")){
+            if(ticketInformationBean.getMessage().equals("无数据")){
                 ToastUtils.toast(ticketInformationBean.getMessage());
-                performAdapter = new PerformAdapter(this);
-                personalRecycleShow.setAdapter(performAdapter);
+            }else if(ticketInformationBean.getStatus().equals("0000")){
                 if(mPage==1){
                     performAdapter.setDatas(ticketInformationBean.getResult());
                 }else{

@@ -113,9 +113,12 @@ public class HomeFragment extends BaseFragment {
         noce_recycle.setLayoutManager(linearLayoutManager2);
     }
 
-    @OnClick({R.id.home_text_search,R.id.home_search,R.id.hot_text,R.id.doing_text,R.id.noce_text})
+    @OnClick({R.id.home_text_search,R.id.location,R.id.home_search,R.id.hot_text,R.id.doing_text,R.id.noce_text})
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.location:
+
+                break;
             //点击进行搜索
             case R.id.home_text_search:
                     gotoSearch();

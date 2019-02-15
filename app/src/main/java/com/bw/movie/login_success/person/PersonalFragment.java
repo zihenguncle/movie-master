@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -62,7 +64,7 @@ public class PersonalFragment extends BaseFragment{
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void receive(MessageList message) {
-        if (message.equals("hendPic")) {
+        if (message.getFlag().equals("hendPic")) {
             String str = message.getStr().toString();
             Glide.with(this).load(str)
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
@@ -70,16 +72,19 @@ public class PersonalFragment extends BaseFragment{
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onSuccess(MessageList message) {
+        if (message.getFlag().equals("sessionId")){
+            startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
+            sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
+        }
+    }
+
+
     @Override
     protected void initData(){
         sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
-//        sessionId = SharedPreferencesUtils.getParam(MyApplication.getApplication(), "sessionId", "0").toString();
         Log.i("TAG",sessionId);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
     }
 
@@ -101,6 +106,10 @@ public class PersonalFragment extends BaseFragment{
                     startRequestGet(Apis.URL_UPDATE_CODE, UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
+                SharedPreferencesUtils.setParam(getContext(),"userId","0");
+                SharedPreferencesUtils.setParam(getContext(),"sessionId","0");
+                Intent intent1 = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.system_information_push:
                 //TODO:展示系统消息
@@ -163,7 +172,7 @@ public class PersonalFragment extends BaseFragment{
     protected void successed(Object data) {
         if (data instanceof SignInBean) {
             SignInBean signInBean = (SignInBean) data;
-            if (signInBean.getStatus().equals("0000")) {
+            if (signInBean.getStatus().equals("0000")){
                 ToastUtils.toast(signInBean.getMessage());
             } else {
                 ToastUtils.toast(signInBean.getMessage());
