@@ -105,17 +105,16 @@ public class Personal_Message_Activity extends BaseActivity {
     //修改用户信息的popwindow
     private void updateMessage() {
         View view=View.inflate(this,R.layout.popwindow_update_message,null);
-        EditText update_nick=view.findViewById(R.id.update_nick);
-        EditText update_sex=view.findViewById(R.id.update_sex);
-        EditText update_email=view.findViewById(R.id.update_email);
+        final EditText update_nick=view.findViewById(R.id.update_nick);
+        final EditText update_sex=view.findViewById(R.id.update_sex);
+        final EditText update_email=view.findViewById(R.id.update_email);
         Button button=view.findViewById(R.id.user_but);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
         popupWindow.showAtLocation(view,
                 Gravity.TOP, 0, 0);
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setTouchable(true);
         update_nick.setText(personalMessageBean.getResult().getNickName());
         int sex = personalMessageBean.getResult().getSex();
         if(sex==1){
@@ -125,17 +124,18 @@ public class Personal_Message_Activity extends BaseActivity {
         }
         update_email.setText(personalMessageBean.getResult().getEmail());
 
-        email = update_email.getText().toString();
-        nick = update_nick.getText().toString();
-        String sex1 = update_sex.getText().toString();
-        if(sex1.equals("男")){
-            gender=1;
-        }else{
-            gender=2;
-        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                email = update_email.getText().toString();
+                nick = update_nick.getText().toString();
+                String sex1 = update_sex.getText().toString();
+                if(sex1.equals("男")){
+                    gender=1;
+                }else{
+                    gender=2;
+                }
                 Map<String,String> params=new HashMap<>();
                 params.put("nickName", nick);
                 params.put("sex",gender+"");
@@ -145,39 +145,10 @@ public class Personal_Message_Activity extends BaseActivity {
             }
         });
 
-        update_nick.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                showKeyBoard();
-            }
-        });
-        /*update_sex.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                showKeyBoard();
-            }
-        });
 
-        update_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                showKeyBoard();
-            }
-        });*/
-        update_nick.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // 此方法可以监听到删除键和回车键
-                return false;
-            }
-        });
+
     }
 
-    private void showKeyBoard(){
-        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//这里给它设置了弹出的时间，
-        imm.toggleSoftInput(1000, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
 
     //上传头像
     private void popWindow() {
@@ -271,9 +242,8 @@ public class Personal_Message_Activity extends BaseActivity {
         }else if(data instanceof UpdateBean){
             UpdateBean registerBean= (UpdateBean) data;
             if (registerBean.getStatus().equals("0000")){
-                ToastUtils.toast(registerBean.getMessage());
                 personal_nickName.setText(registerBean.getResult().getNickName());
-                int sex = personalMessageBean.getResult().getSex();
+                int sex = registerBean.getResult().getSex();
                 if(sex==1){
                     personal_sex.setText("男");
                 }else{

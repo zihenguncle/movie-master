@@ -120,7 +120,6 @@ public class PerformAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                 });
-
                 break;
                 default:break;
         }
