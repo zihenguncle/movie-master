@@ -89,6 +89,9 @@ public class CinemaDtailActivity extends BaseActivity {
     private int cinemasId;
     private CommentAdapter commentAdapter;
     private String name;
+    private String logo;
+    private String cinemaName;
+    private String address;
 
 
     protected void initView(Bundle savedInstanceState) {
@@ -97,7 +100,10 @@ public class CinemaDtailActivity extends BaseActivity {
 
         //接收到影院详情信息
         Intent intent = getIntent();
-        cinemaInfo = (RecommentBean.ResultBean) intent.getSerializableExtra("cinemaInfo");
+        logo = intent.getStringExtra("logo");
+        cinemaName = intent.getStringExtra("name");
+        address = intent.getStringExtra("address");
+         cinemasId = intent.getIntExtra("id", 1);
     }
 
     @Override
@@ -109,22 +115,21 @@ public class CinemaDtailActivity extends BaseActivity {
     protected void initData() {
         //设置值
         imageView.setScaleType(ImageView.ScaleType.CENTER);
-        Glide.with(this).load(cinemaInfo.getLogo()).into(imageView);
-        textView_name.setText(cinemaInfo.getName());
-        textView_address.setText(cinemaInfo.getAddress());
+        Glide.with(this).load(logo).into(imageView);
+        textView_name.setText(cinemaName);
+        textView_address.setText(address);
 
         LinearLayoutManager manager=new LinearLayoutManager(this);
         manager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(manager);
 
-        startRequestGet(String.format(Apis.URL_MOVIE_AT_TIME,cinemaInfo.getId()), MovieImageBean.class);
+        startRequestGet(String.format(Apis.URL_MOVIE_AT_TIME,cinemasId), MovieImageBean.class);
 
         final ImageViewAnimationHelper imageViewAnimationHelper = new ImageViewAnimationHelper(this, checkedLayout, 2, 30);
         recyclerCoverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {//滑动监听
             @Override
             public void onItemSelected(int position) {
                 movieId = result.get(position).getId();
-                cinemasId = cinemaInfo.getId();
                 name = result.get(position).getName();
                 imageViewAnimationHelper.startAnimation(position);
                 startRequestGet(String.format(Apis.URL_SCHEDULE_CINEMA, cinemasId, movieId), ScheduleBean.class);
@@ -136,9 +141,8 @@ public class CinemaDtailActivity extends BaseActivity {
         scheduleAdapter=new ScheduleAdapter(this);
         scheduleAdapter.setName(new ScheduleAdapter.setMovieName() {
             @Override
-            public void setFloat(String starttime, String endtime, String num, double price) {
+            public void setFloat(String starttime, String endtime, String num, double price,int scheduleId) {
                 Intent intent = new Intent(CinemaDtailActivity.this, CinemaSeatTableActivity.class);
-
                 //开始的时间,结束时间
                 intent.putExtra("start",starttime);
                 intent.putExtra("end",endtime);
@@ -146,9 +150,11 @@ public class CinemaDtailActivity extends BaseActivity {
                 //票价
                 intent.putExtra("price",price);
                 //影院Name
-                intent.putExtra("name",cinemaInfo.getName());
+                intent.putExtra("name",cinemaName);
                 //影院address
-                intent.putExtra("address",cinemaInfo.getAddress());
+                intent.putExtra("address",address);
+                //scheduleId
+                intent.putExtra("scheduleId",scheduleId);
                 //电影的Name
                 intent.putExtra("MovieName",name);
                 startActivity(intent);

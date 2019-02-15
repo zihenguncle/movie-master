@@ -1,6 +1,7 @@
 package com.bw.movie.login_success.person.personal_adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.login_success.home_fragment.activity.DetailsActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.person.personal_bean.VideInformationBean;
 import com.bw.movie.tools.SimpleDataUtils;
@@ -58,7 +60,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(mContext)
                 .load(mDatas.get(i%mDatas.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
@@ -71,6 +73,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, DetailsActivity.class);
+                intent.putExtra("id",mDatas.get(i).getId());
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 

@@ -1,6 +1,7 @@
 package com.bw.movie.login;
 
 import android.content.Intent;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.bw.movie.R;
 import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.Login_Success_Activity;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.register.RegisterActivity;
 import com.bw.movie.tools.RegexUtils;
@@ -34,6 +36,8 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -187,7 +191,6 @@ public class LoginActivity extends BaseActivity {
     protected void successed(Object data) {
           LoginBean bean= (LoginBean) data;
          if(bean.getStatus().equals("0000")){
-             ToastUtils.toast(bean.getMessage());
              //用SharedPreferences保存sessionId，userId
             int userId = bean.getResult().getUserId();
              Log.i("TAG","userId:"+userId+"");
@@ -196,17 +199,19 @@ public class LoginActivity extends BaseActivity {
              Log.i("TAG","sessionId"+sessionId);
              SharedPreferencesUtils.setParam(this,"userId",userId+"");
              SharedPreferencesUtils.setParam(this,"sessionId",sessionId);
+             EventBus.getDefault().postSticky(new MessageList("sessionId","1"));
              if(checkBox_remember.isChecked()){
                  SharedPreferencesUtils.setParam(LoginActivity.this,"phone",phone);
                  SharedPreferencesUtils.setParam(LoginActivity.this,"pass",pass);
                  SharedPreferencesUtils.setParam(LoginActivity.this,"c_remember",true);
              }else {
-                 SharedPreferencesUtils.clearData(this,"phone");
-                 SharedPreferencesUtils.clearData(this,"pass");
+                 SharedPreferencesUtils.setParam(LoginActivity.this,"phone","");
+                 SharedPreferencesUtils.setParam(LoginActivity.this,"pass","");
              }
              if(checkBox_auto_login.isChecked()){
                  SharedPreferencesUtils.setParam(LoginActivity.this,"c_auto_login",true);
              }
+
              finish();
          }else {
              ToastUtils.toast(bean.getMessage());

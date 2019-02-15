@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.person.person_activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,8 +9,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -102,17 +105,16 @@ public class Personal_Message_Activity extends BaseActivity {
     //修改用户信息的popwindow
     private void updateMessage() {
         View view=View.inflate(this,R.layout.popwindow_update_message,null);
-        EditText update_nick=view.findViewById(R.id.update_nick);
-        EditText update_sex=view.findViewById(R.id.update_sex);
-        EditText update_email=view.findViewById(R.id.update_email);
+        final EditText update_nick=view.findViewById(R.id.update_nick);
+        final EditText update_sex=view.findViewById(R.id.update_sex);
+        final EditText update_email=view.findViewById(R.id.update_email);
         Button button=view.findViewById(R.id.user_but);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        popupWindow.showAtLocation(view,
-                Gravity.CENTER, 0, 0);
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
+        popupWindow.showAtLocation(view,
+                Gravity.TOP, 0, 0);
         update_nick.setText(personalMessageBean.getResult().getNickName());
         int sex = personalMessageBean.getResult().getSex();
         if(sex==1){
@@ -122,22 +124,22 @@ public class Personal_Message_Activity extends BaseActivity {
         }
         update_email.setText(personalMessageBean.getResult().getEmail());
 
-        email = update_email.getText().toString();
-        nick = update_nick.getText().toString();
-        String sex1 = update_sex.getText().toString();
-        if(sex1.equals("男")){
-            gender=1;
-        }else{
-            gender=2;
-        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                email = update_email.getText().toString();
+                nick = update_nick.getText().toString();
+                String sex1 = update_sex.getText().toString();
+                if(sex1.equals("男")){
+                    gender=1;
+                }else{
+                    gender=2;
+                }
                 Map<String,String> params=new HashMap<>();
                 params.put("nickName", nick);
                 params.put("sex",gender+"");
                 params.put("email", email);
-
                 startRequestPost(Apis.URL_UPDATE_INFORMMATION,params,UpdateBean.class);
                 popupWindow.dismiss();
             }
@@ -146,6 +148,7 @@ public class Personal_Message_Activity extends BaseActivity {
 
 
     }
+
 
     //上传头像
     private void popWindow() {
@@ -239,9 +242,8 @@ public class Personal_Message_Activity extends BaseActivity {
         }else if(data instanceof UpdateBean){
             UpdateBean registerBean= (UpdateBean) data;
             if (registerBean.getStatus().equals("0000")){
-                ToastUtils.toast(registerBean.getMessage());
                 personal_nickName.setText(registerBean.getResult().getNickName());
-                int sex = personalMessageBean.getResult().getSex();
+                int sex = registerBean.getResult().getSex();
                 if(sex==1){
                     personal_sex.setText("男");
                 }else{

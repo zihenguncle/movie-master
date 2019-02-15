@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.person.person_activity.Personal_FeedBack_Advice_Activity;
@@ -51,7 +54,6 @@ public class PersonalFragment extends BaseFragment{
     LinearLayout personal_update_code;
     @BindView(R.id.personal_latest_version)
     ImageView imageView_perosnal;
-    private static final String Url="http://172.17.8.100/media/movie.apk";
     private String sessionId;
 
     @Override
@@ -62,7 +64,7 @@ public class PersonalFragment extends BaseFragment{
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void receive(MessageList message) {
-        if (message.equals("hendPic")) {
+        if (message.getFlag().equals("hendPic")) {
             String str = message.getStr().toString();
             Glide.with(this).load(str)
                     .apply(RequestOptions.bitmapTransform(new CircleCrop()))
@@ -70,16 +72,19 @@ public class PersonalFragment extends BaseFragment{
         }
     }
 
-    @Override
-    protected void initData(){
-        sessionId = SharedPreferencesUtils.getParam(getContext(), "sessionId", "0").toString();
-        Log.i("TAG",sessionId);
-
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onSuccess(MessageList message) {
+        if (message.getFlag().equals("sessionId")){
+            startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
+            sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
+        }
     }
 
+
     @Override
-    public void onResume() {
-        super.onResume();
+    protected void initData(){
+        sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
+        Log.i("TAG",sessionId);
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
     }
 
@@ -101,8 +106,10 @@ public class PersonalFragment extends BaseFragment{
                     startRequestGet(Apis.URL_UPDATE_CODE, UpdateCodeBean.class);
                 break;
             case R.id.personal_message_secede:
-               /*SharedPreferencesUtils.clearData(getContext(),"userId");
-               SharedPreferencesUtils.clearData(getContext(),"sessionId");*/
+                SharedPreferencesUtils.setParam(getContext(),"userId","0");
+                SharedPreferencesUtils.setParam(getContext(),"sessionId","0");
+                Intent intent1 = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.system_information_push:
                 //TODO:展示系统消息
@@ -115,7 +122,12 @@ public class PersonalFragment extends BaseFragment{
                 }
                 break;
             case R.id.personal_sign_in:
-                startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    startRequestGet(Apis.URL_SIGN_IN, SignInBean.class);
+                }
                 break;
             case R.id.personal_meassage_my:
                 if(sessionId.equals("0")){
@@ -160,7 +172,7 @@ public class PersonalFragment extends BaseFragment{
     protected void successed(Object data) {
         if (data instanceof SignInBean) {
             SignInBean signInBean = (SignInBean) data;
-            if (signInBean.getStatus().equals("0000")) {
+            if (signInBean.getStatus().equals("0000")){
                 ToastUtils.toast(signInBean.getMessage());
             } else {
                 ToastUtils.toast(signInBean.getMessage());
@@ -182,14 +194,13 @@ public class PersonalFragment extends BaseFragment{
         }else if(data instanceof UpdateCodeBean){
             UpdateCodeBean updateCodeBean= (UpdateCodeBean) data;
             if(updateCodeBean.getStatus().equals("0000")){
-                ToastUtils.toast(updateCodeBean.getMessage());
+                final String downloadUrl = updateCodeBean.getDownloadUrl();
                 if(updateCodeBean.getFlag()==1){
                     final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage("有新版本，需要更新");
                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                         @Override public void onClick(DialogInterface dialog, int which) {
-                            String replace = Url.replace("172.17.8.100", "mobile.bwstudent.com");
-                            openBrowser(getContext(),replace);
+                            openBrowser(getContext(),downloadUrl);
                             dialog.dismiss();
                         }
                     });

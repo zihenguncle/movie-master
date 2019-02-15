@@ -1,14 +1,14 @@
-package com.bw.movie.login;
+package com.bw.movie.util;
 
 import android.content.Context;
 
+import com.bw.movie.MyApplication;
+import com.bw.movie.seat.activity.SeatActivity;
+import com.bw.movie.seat.bean.WXPayBean;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-/**
- * date:2018/1/28
- * author:zhangjing
- * function:微信工具类
- */
+
 public class WeiXinUtil {
     // APP_ID 替换为你的应用从官方网站申请到的合法appID
     public static  String APP_ID = "wxb3852e6a6b7d9516";
@@ -36,9 +36,9 @@ public class WeiXinUtil {
             return  null;
         }
     }
-   /* //支付
-    public static void  weiXinPay(Bean_OrderSuccessBean bean){
-        IWXAPI wxapi = WXAPIFactory.createWXAPI(App.context, APP_ID, true);
+    //支付
+    public static void  weiXinPay(Context context, WXPayBean bean){
+        IWXAPI wxapi = WXAPIFactory.createWXAPI(context, APP_ID, true);
         //注册到微信
         wxapi.registerApp(APP_ID);
 
@@ -50,9 +50,6 @@ public class WeiXinUtil {
         payReq.timeStamp=bean.getTimeStamp();
         payReq.sign=bean.getSign();
         payReq.packageValue=bean.getPackageValue();
-        Log.d("",payReq.toString()+"111111");
         wxapi.sendReq(payReq);
-    }*/
-
+    }
 }
-
