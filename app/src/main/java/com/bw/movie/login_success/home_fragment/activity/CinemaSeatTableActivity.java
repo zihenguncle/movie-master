@@ -288,8 +288,9 @@ public class CinemaSeatTableActivity extends BaseActivity {
         }
         if(data instanceof PayMessageBean){
             if(((PayMessageBean) data).getStatus().equals("0000")){
-                ToastUtils.toast(((PayMessageBean) data).getMessage());
                 WeiXinUtil.weiXinPay(CinemaSeatTableActivity.this, (PayMessageBean) data);
+                //ToastUtils.toast(((PayMessageBean) data).getMessage());
+                finish();
             }else {
                 ToastUtils.toast(((PayMessageBean) data).getMessage());
             }

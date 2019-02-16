@@ -9,14 +9,9 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
-import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +36,6 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
         mPage=1;
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
@@ -64,30 +58,21 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
             }
         });
 
-
         todo_fragment.setPullRefreshEnabled(true);
         todo_fragment.setLoadingMoreEnabled(true);
         todo_fragment.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 mPage=1;
-                loadDataTodo(mPage);
+                loadDataTodo();
             }
 
             @Override
             public void onLoadMore() {
-                loadDataTodo(mPage);
+                loadDataTodo();
             }
         });
-        loadDataTodo(mPage);
-    }
-    //得到传值进行刷新
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void refresh(MessageList messageList){
-        if (messageList.getFlag().equals("refrersh")){
-            mPage =1;
-            loadDataTodo(mPage);
-        }
+        loadDataTodo();
     }
     private void loveMovie(int id) {
         startRequestGet(String.format(Apis.URL_LOVEMOVIE,id),FollowBean.class);
@@ -99,17 +84,14 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     }
 
     //即将上映
-    private void loadDataTodo(int mPage) {
+    private void loadDataTodo() {
         startRequestGet(String.format(Apis.URL_BANNER, mPage, TYPE_COUNT), HomeBannerBean.class);
     }
 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
-        EventBus.getDefault().register(this);
     }
-
-
 
     @Override
     protected void successed(Object data) {
@@ -144,13 +126,5 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void failed(String error) {
         ToastUtils.toast(error);
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        EventBus.getDefault().post(new MessageList("refrersh",null));
-        EventBus.getDefault().unregister(this);
-
-
     }
 }

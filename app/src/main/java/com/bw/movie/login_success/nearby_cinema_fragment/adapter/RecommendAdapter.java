@@ -54,7 +54,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
         viewHolder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
           viewHolder.textView_name.setText(resultBean.getName());
           viewHolder.textView_address.setText(resultBean.getAddress());
-          viewHolder.textView_km.setText(resultBean.getDistance()+"km");
+          viewHolder.textView_km.setText(resultBean.getDistance()/1000+"km");
         Glide.with(context).load(resultBean.getLogo())
                 .into(viewHolder.imageView);
         if(resultBean.getFollowCinema()==1){

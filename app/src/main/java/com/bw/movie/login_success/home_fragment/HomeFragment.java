@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login_success.home_fragment.activity.LocationActivity;
 import com.bw.movie.login_success.home_fragment.activity.ShowDetailsActivity;
 import com.bw.movie.login_success.home_fragment.adapter.HomeBannerAdapter;
 import com.bw.movie.login_success.home_fragment.adapter.MovieAdapter;
@@ -32,8 +33,15 @@ import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeanone;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBeantwo;
 import com.bw.movie.login_success.home_fragment.bean.HomeMovieBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.activity.ImageViewAnimationHelper;
+import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -58,6 +66,8 @@ public class HomeFragment extends BaseFragment {
     ImageView image_search;
     @BindView(R.id.home_edit_search)
     EditText edit_search;
+    @BindView(R.id.location_text)
+    TextView loaction;
     @BindView(R.id.home_text_search)
     TextView but_search;
     @BindView(R.id.relative_search)
@@ -80,6 +90,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
         startRequestGet(String.format(Apis.URL_BANNER,1,10),HomeBannerBean.class);
         setLayout();
         startRequestGet(String.format(Apis.URL_HOTMOVIE,1,10),HomeBannerBeanone.class);
@@ -117,7 +128,8 @@ public class HomeFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.location:
-
+                Intent intent = new Intent(getContext(), LocationActivity.class);
+                startActivity(intent);
                 break;
             //点击进行搜索
             case R.id.home_text_search:
@@ -147,6 +159,16 @@ public class HomeFragment extends BaseFragment {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onLoaction(MessageList message) {
+        if (message.getFlag().equals("location")){
+            String location = message.getStr().toString();
+            loaction.setText(location);
+            EventBus.getDefault().postSticky(new MessageList("location1",location));
+        }
+    }
+
+
     //进行搜索，如果输入框有信息进行搜索，否则收起
     private void gotoSearch() {
         if(TextUtils.isEmpty(edit_search.getText().toString())){
@@ -172,6 +194,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this, view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -202,6 +227,11 @@ public class HomeFragment extends BaseFragment {
         return R.layout.fargment_home;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
 
 }

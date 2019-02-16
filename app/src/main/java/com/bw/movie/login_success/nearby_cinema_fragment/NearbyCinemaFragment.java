@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,13 +15,17 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.login.LoginActivity;
+import com.bw.movie.login_success.home_fragment.activity.LocationActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
-import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -48,8 +53,13 @@ public class NearbyCinemaFragment extends BaseFragment {
     ImageView image_search;
     @BindView(R.id.home_text_search)
     TextView textView;
+    @BindView(R.id.nearbycineam_location_text)
+    TextView location_text;
+
     private RecommendAdapter recommendAdapter;
     private String cinema_name;
+    private String jidu;
+    private String weidu;
 
     @Override
     protected int getViewById() {
@@ -99,11 +109,10 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     private void getInfoNearby() {
 
-        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10,"116.30551391385724","40.04571807462411"), RecommentBean.class);
+        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10,jidu,weidu), RecommentBean.class);
     }
 
     private void getInfoCinema() {
-
         startRequestGet(String.format(Apis.URL_RECOMMEND_CINEAMS,1,10), RecommentBean.class);
     }
     //进行搜索，如果输入框有信息进行搜索，否则收起
@@ -112,11 +121,25 @@ public class NearbyCinemaFragment extends BaseFragment {
             translationX.setDuration(500);
             translationX.start();
             image_search.setClickable(true);
-             //ToastUtils.toast(edit_search.getText().toString());
             cinema_name = edit_search.getText().toString();
             getInfoFindCinema();
             edit_search.setText("");
 
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onLoaction(MessageList message) {
+        if (message.getFlag().equals("location1")){
+            String location = message.getStr().toString();
+            location_text.setText(location);
+        }else if(message.getFlag().equals("jidu")){
+            jidu = message.getStr().toString();
+            Log.i("TAG", jidu);
+        }else if(message.getFlag().equals("weidu")){
+            weidu = message.getStr().toString();
+            Log.i("TAG", weidu);
+        }
     }
 
     //搜索框出现
@@ -131,11 +154,18 @@ public class NearbyCinemaFragment extends BaseFragment {
     protected void initView(View view) {
         //绑定控件
         ButterKnife.bind(this,view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
 
     }
-    @OnClick({R.id.recommend_cinema,R.id.nearby_cinema,R.id.home_text_search,R.id.home_search})
+    @OnClick({R.id.recommend_cinema,R.id.nearbycineam_location,R.id.nearby_cinema,R.id.home_text_search,R.id.home_search})
     public void getViewClick(View view){
         switch (view.getId()){
+            case R.id.nearbycineam_location:
+                Intent intent = new Intent(getContext(), LocationActivity.class);
+                startActivity(intent);
+                break;
             case R.id.recommend_cinema:
                 recommendCineam();
                 radioButton_nearby.setChecked(false);
@@ -185,8 +215,6 @@ public class NearbyCinemaFragment extends BaseFragment {
             FollowBean bean= (FollowBean) data;
             if(bean.getStatus().equals("0000")){
                 ToastUtils.toast(bean.getMessage());
-
-
             }else {
                 ToastUtils.toast(bean.getMessage());
             }
@@ -198,5 +226,9 @@ public class NearbyCinemaFragment extends BaseFragment {
         ToastUtils.toast(error);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().isRegistered(this);
+    }
 }

@@ -13,13 +13,19 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.fargment.DoingFragment;
 import com.bw.movie.login_success.home_fragment.fargment.HotFragment;
 import com.bw.movie.login_success.home_fragment.fargment.TodoFragment;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.tools.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +42,8 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     RadioButton showDetailsHot;
     @BindView(R.id.show_deltails_doing)
     RadioButton showDeltailsDoing;
+    @BindView(R.id.show_details_address)
+    TextView addresss;
     @BindView(R.id.show_deltails_todo)
     RadioButton showDeltailsTodo;
     @BindView(R.id.show_details_radio)
@@ -48,10 +56,14 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.show_details_edit_search)
     EditText edit_search;
 
-    @OnClick({R.id.show_details_hot, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
+    @OnClick({R.id.show_details_hot,R.id.show_details_image, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.show_details_image:
+                Intent intent = new Intent(this, LocationActivity.class);
+                startActivity(intent);
+                break;
             case R.id.show_details_hot:
                 show_details_viewpager.setCurrentItem(0);
                 showDetailsHot.setChecked(true);
@@ -81,6 +93,14 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onLoaction(MessageList message) {
+        if (message.getFlag().equals("location1")){
+            String location = message.getStr().toString();
+            addresss.setText(location);
+        }
+    }
+
     private void gotoSearch() {
         if(TextUtils.isEmpty(edit_search.getText().toString())){
             ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", -600, 0);
@@ -103,6 +123,9 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -130,7 +153,6 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         });
         Intent intent = getIntent();
         String hot = intent.getStringExtra("hot");
-
         switch (hot){
             case "1":
                 show_details_viewpager.setCurrentItem(0);
@@ -151,10 +173,6 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
                 showDeltailsTodo.setChecked(true);
                 break;
         }
-
-
-
-
 
 
         show_details_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -218,10 +236,15 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         });
 }
 
-
     @Override
     protected void successed(Object data) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -229,9 +252,4 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         ToastUtils.toast(error);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
 }
