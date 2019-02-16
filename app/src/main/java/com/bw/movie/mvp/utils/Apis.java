@@ -111,4 +111,10 @@ public class Apis {
     public static final String URL_READ_COUNT="tool/v1/verify/findUnreadMessageCount";
     //修改读取的状态
     public static final String URL_UPDATE_READ="tool/v1/verify/changeSysMsgStatus?id=%s";
+
+    //购票下单----POST
+    public static final String URL_GOTO_PAY = "movie/v1/verify/buyMovieTicket";
+
+    //支付------POST
+    public static final String URL_PAY = "movie/v1/verify/pay";
 }

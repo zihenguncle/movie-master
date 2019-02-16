@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    >
 
     <TextView
         android:id="@+id/check_pay_method"
@@ -14,6 +16,15 @@
         android:textColor="#666666"
         />
     <ImageView
+        android:id="@+id/image_back"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:background="@mipmap/com_icon_down_default"
+        android:layout_alignBottom="@+id/check_pay_method"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
+    <ImageView
         android:id="@+id/log_weixin_pay_icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -23,7 +34,8 @@
         android:layout_marginLeft="24dp"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/weChat_goto_pay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="微信支付"
         android:layout_toRightOf="@id/log_weixin_pay_icon"
@@ -43,7 +55,8 @@
         android:layout_marginTop="20dp"
         />
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/text_goto_alipay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/log_weixin_pay_icon"
         android:text="支付宝支付"
@@ -54,7 +67,7 @@
         android:layout_toRightOf="@id/icon_zhifubao"
         />
 
-    <TextView
+    <RadioButton
         android:id="@+id/weChat_pay"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -62,9 +75,10 @@
         android:layout_marginTop="60dp"
         android:layout_marginRight="28dp"
         android:background="@drawable/pay_shape_check"
+        android:button="@null"
         />
 
-    <TextView
+    <RadioButton
         android:id="@+id/text_alipay"
         android:layout_width="13dp"
         android:layout_height="13dp"
@@ -72,6 +86,7 @@
         android:layout_marginTop="105dp"
         android:layout_marginRight="28dp"
         android:background="@drawable/pay_shape_check"
+        android:button="@null"
         />
     <RelativeLayout
         android:layout_width="match_parent"

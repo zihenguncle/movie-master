@@ -9,6 +9,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
+import com.bw.movie.login_success.home_fragment.adapter.ShowTodoAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.mvp.utils.Apis;
@@ -25,7 +26,7 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     XRecyclerView todo_fragment;
     private int mPage;
     private static final int TYPE_COUNT = 10;
-    private ShowDetailsAdapter showDetailsAdapter;
+    private ShowTodoAdapter showDetailsAdapter;
 
     @Override
     public void onClick(View v) {
@@ -45,9 +46,9 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         todo_fragment.setLayoutManager(layoutManager);
 
-        showDetailsAdapter = new ShowDetailsAdapter(getContext());
+        showDetailsAdapter = new ShowTodoAdapter(getContext());
         todo_fragment.setAdapter(showDetailsAdapter);
-        showDetailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
+        showDetailsAdapter.setOnCallBack(new ShowTodoAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followMovie, int position) {
                 //取消关注

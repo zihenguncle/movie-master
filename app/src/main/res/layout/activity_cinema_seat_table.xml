@@ -179,13 +179,13 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#333"
-            android:layout_marginLeft="34dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:text="合计:  ￥"/>
 
         <TextView
             android:id="@+id/item_cinema_seat_text_price"
-            android:layout_width="60dp"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:textColor="#b11450"
@@ -199,7 +199,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@mipmap/group2"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="15dp"
             />

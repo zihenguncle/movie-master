@@ -10,6 +10,7 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
+import com.bw.movie.login_success.home_fragment.adapter.ShowDoingAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.activity.CinemaDtailActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
@@ -27,7 +28,7 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     private static final int TYPE_COUNT = 10;
     @BindView(R.id.doing_fragment_recycle)
     XRecyclerView doing_fragment_recycle;
-    private ShowDetailsAdapter detailsAdapter;
+    private ShowDoingAdapter detailsAdapter;
 
 
     @Override
@@ -47,9 +48,9 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         doing_fragment_recycle.setLayoutManager(layoutManager);
 
-        detailsAdapter = new ShowDetailsAdapter(getContext());
+        detailsAdapter = new ShowDoingAdapter(getContext());
         doing_fragment_recycle.setAdapter(detailsAdapter);
-        detailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
+        detailsAdapter.setOnCallBack(new ShowDoingAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followMovie, int position) {
                 //取消关注
