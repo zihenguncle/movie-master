@@ -1,23 +1,22 @@
 package com.bw.movie.login_success.home_fragment.fargment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 
 import com.bw.movie.R;
-import com.bw.movie.base.BaseActivity;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
-import com.bw.movie.login_success.home_fragment.adapter.ShowDoingAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
-import com.bw.movie.login_success.nearby_cinema_fragment.activity.CinemaDtailActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
-import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,7 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     private static final int TYPE_COUNT = 10;
     @BindView(R.id.doing_fragment_recycle)
     XRecyclerView doing_fragment_recycle;
-    private ShowDoingAdapter detailsAdapter;
+    private ShowDetailsAdapter detailsAdapter;
 
 
     @Override
@@ -48,9 +47,9 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         doing_fragment_recycle.setLayoutManager(layoutManager);
 
-        detailsAdapter = new ShowDoingAdapter(getContext());
+        detailsAdapter = new ShowDetailsAdapter(getContext());
         doing_fragment_recycle.setAdapter(detailsAdapter);
-        detailsAdapter.setOnCallBack(new ShowDoingAdapter.CallBack() {
+        detailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followMovie, int position) {
                 //取消关注
@@ -72,16 +71,24 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onRefresh() {
                 mPage=1;
-                loadDataDoing();
+                loadDataDoing(mPage);
             }
 
             @Override
             public void onLoadMore() {
-                loadDataDoing();
+                loadDataDoing(mPage);
             }
         });
-        loadDataDoing();
+        loadDataDoing(mPage);
 
+    }
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void refresh(MessageList messageList){
+        if (messageList.getFlag().equals("refrersh")){
+            mPage =1;
+            loadDataDoing(mPage);
+        }
     }
     private void loveMovie(int id) {
         startRequestGet(String.format(Apis.URL_LOVEMOVIE,id),FollowBean.class);
@@ -92,14 +99,16 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
         startRequestGet(String.format(Apis.URLNOLOVEMOVIE,id), FollowBean.class);
     }
     //正在热映
-    private void loadDataDoing() {
+    private void loadDataDoing(int mPage) {
         startRequestGet(String.format(Apis.URL_DOINGMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
     }
 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
+
 
     @Override
     protected void successed(Object data) {
@@ -123,8 +132,6 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
             FollowBean bean= (FollowBean) data;
             if(bean.getStatus().equals("0000")){
                 ToastUtils.toast(bean.getMessage());
-
-
             }else {
                 ToastUtils.toast(bean.getMessage());
             }
@@ -134,5 +141,13 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void failed(String error) {
         ToastUtils.toast(error);
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().post(new MessageList("refrersh",null));
+        EventBus.getDefault().unregister(this);
+
+
     }
 }

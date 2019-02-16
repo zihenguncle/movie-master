@@ -11,10 +11,15 @@ import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,15 +72,23 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onRefresh() {
                 mPage=1;
-                loadDataHot();
+                loadDataHot(mPage);
             }
 
             @Override
             public void onLoadMore() {
-                loadDataHot();
+                loadDataHot(mPage);
             }
         });
-        loadDataHot();
+        loadDataHot(mPage);
+    }
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void refresh(MessageList messageList){
+        if (messageList.getFlag().equals("refrersh")){
+            mPage =1;
+            loadDataHot(mPage);
+        }
     }
 
     private void loveMovie(int id) {
@@ -88,13 +101,14 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
     }
 
     //热门电影
-    private void loadDataHot() {
+    private void loadDataHot(int mPage) {
         startRequestGet(String.format(Apis.URL_HOTMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
     }
 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -128,5 +142,14 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void failed(String error) {
         ToastUtils.toast(error);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().post(new MessageList("refrersh",null));
+        EventBus.getDefault().unregister(this);
+
+
     }
 }

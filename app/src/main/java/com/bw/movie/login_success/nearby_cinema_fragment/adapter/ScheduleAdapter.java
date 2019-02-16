@@ -51,7 +51,11 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
         final ScheduleBean.ResultBean resultBean = list.get(i);
-        SpannableString spannableString = new SpannableString(resultBean.getPrice()+"");
+        String mPrice = resultBean.getPrice() + "";
+        if(mPrice.length()==3){
+           mPrice= mPrice + "0";
+        }
+        SpannableString spannableString = new SpannableString(mPrice);
         RelativeSizeSpan sizeSpan01 = new RelativeSizeSpan(1.0f);
         RelativeSizeSpan sizeSpan02 = new RelativeSizeSpan(0.8f);
         RelativeSizeSpan sizeSpan03 = new RelativeSizeSpan(0.6f);

@@ -1,21 +1,22 @@
 package com.bw.movie.login_success.home_fragment.fargment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
-import com.bw.movie.login_success.home_fragment.adapter.ShowTodoAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
-import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +27,7 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     XRecyclerView todo_fragment;
     private int mPage;
     private static final int TYPE_COUNT = 10;
-    private ShowTodoAdapter showDetailsAdapter;
+    private ShowDetailsAdapter showDetailsAdapter;
 
     @Override
     public void onClick(View v) {
@@ -46,9 +47,9 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
         layoutManager.setOrientation(OrientationHelper.VERTICAL);
         todo_fragment.setLayoutManager(layoutManager);
 
-        showDetailsAdapter = new ShowTodoAdapter(getContext());
+        showDetailsAdapter = new ShowDetailsAdapter(getContext());
         todo_fragment.setAdapter(showDetailsAdapter);
-        showDetailsAdapter.setOnCallBack(new ShowTodoAdapter.CallBack() {
+        showDetailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followMovie, int position) {
                 //取消关注
@@ -70,15 +71,23 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public void onRefresh() {
                 mPage=1;
-                loadDataTodo();
+                loadDataTodo(mPage);
             }
 
             @Override
             public void onLoadMore() {
-                loadDataTodo();
+                loadDataTodo(mPage);
             }
         });
-        loadDataTodo();
+        loadDataTodo(mPage);
+    }
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void refresh(MessageList messageList){
+        if (messageList.getFlag().equals("refrersh")){
+            mPage =1;
+            loadDataTodo(mPage);
+        }
     }
     private void loveMovie(int id) {
         startRequestGet(String.format(Apis.URL_LOVEMOVIE,id),FollowBean.class);
@@ -90,14 +99,17 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     }
 
     //即将上映
-    private void loadDataTodo() {
+    private void loadDataTodo(int mPage) {
         startRequestGet(String.format(Apis.URL_BANNER, mPage, TYPE_COUNT), HomeBannerBean.class);
     }
 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
+
+
 
     @Override
     protected void successed(Object data) {
@@ -132,5 +144,13 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void failed(String error) {
         ToastUtils.toast(error);
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().post(new MessageList("refrersh",null));
+        EventBus.getDefault().unregister(this);
+
+
     }
 }

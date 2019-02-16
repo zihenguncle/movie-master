@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -18,14 +16,10 @@ import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
-import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
-import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.home_fragment.fargment.DoingFragment;
 import com.bw.movie.login_success.home_fragment.fargment.HotFragment;
 import com.bw.movie.login_success.home_fragment.fargment.TodoFragment;
-import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,9 +112,25 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
+        list = new ArrayList<>();
+        list.add(new HotFragment());
+        list.add(new DoingFragment());
+        list.add(new TodoFragment());
 
+        show_details_viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int i) {
+                return list.get(i);
+            }
+
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+        });
         Intent intent = getIntent();
         String hot = intent.getStringExtra("hot");
+
         switch (hot){
             case "1":
                 show_details_viewpager.setCurrentItem(0);
@@ -141,22 +151,11 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
                 showDeltailsTodo.setChecked(true);
                 break;
         }
-        list = new ArrayList<>();
-        list.add(new HotFragment());
-        list.add(new DoingFragment());
-        list.add(new TodoFragment());
 
-        show_details_viewpager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int i) {
-                return list.get(i);
-            }
 
-            @Override
-            public int getCount() {
-                return list.size();
-            }
-        });
+
+
+
 
         show_details_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -219,6 +218,7 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         });
 }
 
+
     @Override
     protected void successed(Object data) {
 
@@ -229,4 +229,9 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
         ToastUtils.toast(error);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }
