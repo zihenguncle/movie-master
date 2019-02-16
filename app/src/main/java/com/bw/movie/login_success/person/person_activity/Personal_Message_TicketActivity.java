@@ -111,8 +111,6 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
 
                     }
                 });
-
-
             }
         });
     }
@@ -151,7 +149,6 @@ public class Personal_Message_TicketActivity extends BaseActivity implements Vie
     protected void failed(String error) {
         ToastUtils.toast(error);
     }
-
 
     @OnClick({com.bw.movie.R.id.personal_ticket_pay, com.bw.movie.R.id.personal_perform})
     @Override

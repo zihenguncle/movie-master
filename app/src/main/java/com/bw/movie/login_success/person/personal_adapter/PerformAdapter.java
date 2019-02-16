@@ -12,8 +12,11 @@ import com.bw.movie.login_success.person.personal_bean.TicketInformationBean;
 import com.bw.movie.tools.SimpleDataUtils;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,25 +77,18 @@ public class PerformAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case TYPE_TICKET_PAY:
                 PayViewHolder payViewHolder= (PayViewHolder) viewHolder;
                 payViewHolder.ticket_name.setText(mData.get(i).getMovieName());
-                try {
-                    String s = SimpleDataUtils.longToString(mData.get(i).getBeginTime(), "YYYY-mm-hh-");
-                    payViewHolder.ticket_time_begin.setText(s);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    String s = SimpleDataUtils.longToString(mData.get(i).getEndTime(), "YYYY-mm-hh");
-                    payViewHolder.ticket_end_time.setText(s);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                    SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-mm-hh", Locale.getDefault());
+                    payViewHolder.ticket_time_begin.setText(dateFormat1.format(mData.get(i).getBeginTime())+"");
+
+                SimpleDateFormat dateFormat2 = new SimpleDateFormat("YYYY-mm-hh", Locale.getDefault());
+                payViewHolder.ticket_end_time.setText(dateFormat2.format(mData.get(i).getEndTime()));
+
                 payViewHolder.ticket_number.setText(mData.get(i).getOrderId());
-                try {
-                    String s = SimpleDataUtils.longToString(mData.get(i).getCreateTime(), "yyyy-mm-dd hh:mm");
-                    payViewHolder.pay_time.setText(s);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                    SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.getDefault());
+                    payViewHolder.pay_time.setText(dateFormat3.format(mData.get(i).getCreateTime()));
+
                 payViewHolder.cimeama_name.setText(mData.get(i).getCinemaName());
                 payViewHolder.address_pay.setText(mData.get(i).getScreeningHall());
                 payViewHolder.ticket_sum_number.setText(mData.get(i).getAmount()+"张");
@@ -104,12 +100,9 @@ public class PerformAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 completeHolder.indent_number_pay.setText(mData.get(i).getOrderId());
                 completeHolder.cimeama_name_pay.setText(mData.get(i).getCinemaName());
                 completeHolder.address_pay_name.setText(mData.get(i).getScreeningHall());
-                try {
-                    String s = SimpleDataUtils.longToString(mData.get(i).getCreateTime(), "yyyy-mm-dd hh:mm");
-                    completeHolder.pay_time_indent.setText(s);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+
+                    SimpleDateFormat dateFormat4 = new SimpleDateFormat("yyyy-mm-dd hh:mm", Locale.getDefault());
+                    completeHolder.pay_time_indent.setText(dateFormat4.format(mData.get(i).getCreateTime()));
                 completeHolder.ticket_sum_number_indent.setText(mData.get(i).getAmount()+"张");
                 completeHolder.sum_price_indent.setText(mData.get(i).getPrice()+"元");
                 completeHolder.pay_item.setOnClickListener(new View.OnClickListener() {
