@@ -96,4 +96,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         }
 
     }
+
+    
 }
