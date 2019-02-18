@@ -77,21 +77,22 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             viewHolder.textView_text_endTime.setText(resultBean.getEndTime());
             viewHolder.textView_fare.setText(spannableString);
             viewHolder.imageView_next.setVisibility(View.VISIBLE);
-        }
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               if(sessionId.equals("0")){
-                   Intent intent = new Intent(context, LoginActivity.class);
-                   context.startActivity(intent);
-               }else {
-                   if(movieName != null){
-                       movieName.setFloat(list.get(i).getBeginTime(),resultBean.getEndTime(),resultBean.getScreeningHall(),resultBean.getPrice(),resultBean.getId());
-                   }
-               }
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(sessionId.equals("0")){
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+                    }else {
+                        if(movieName != null){
+                            movieName.setFloat(list.get(i).getBeginTime(),resultBean.getEndTime(),resultBean.getScreeningHall(),resultBean.getPrice(),resultBean.getId());
+                        }
+                    }
 
-            }
-        });
+                }
+            });
+
+        }
 
     }
 
