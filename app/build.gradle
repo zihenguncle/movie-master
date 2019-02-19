@@ -9,6 +9,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+
+                XG_ACCESS_ID:"2100300660",
+                XG_ACCESS_KEY : "A44FJ9N7N9EY",
+        ]
+
+        multiDexEnabled true
+
     }
     signingConfigs {
         config {
@@ -21,7 +34,6 @@ android {
 
     buildTypes {
         release {
-           // shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -44,6 +56,9 @@ android {
 }
 
 dependencies {
+        configurations {
+            all*.exclude group: 'com.android.support', module: 'support-v13'
+        }
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -87,4 +102,13 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
 
+    implementation  'com.tencent.xinge:xinge:4.0.5-release'
+    //implementation'com.tencent.xinge:xinge:4.3.1-beta'
+    //jg包
+    implementation'com.tencent.jg:jg:1.1'
+    //wup包
+    implementation 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包，minSdkVersion 14
+    implementation 'com.tencent.mid:mid:4.0.7-Release'
+    implementation 'com.android.support:multidex:1.0.3'
 }
