@@ -19,6 +19,16 @@ android {
         }
     }
 
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+            universalApk false
+        }
+    }
+
+
     buildTypes {
         release {
            // shrinkResources true
@@ -87,4 +97,6 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
 
+    //权限
+    implementation 'com.hjq:xxpermissions:5.2'
 }

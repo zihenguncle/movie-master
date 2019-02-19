@@ -108,7 +108,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         });
 
         viewHolder.itemTakeDate.setText(format);
-        viewHolder.itemTakeContent.setText(data.get(i).getMovieComment());
+        viewHolder.itemTakeContent.setText(data.get(i).getMovieComment()+"zheshi ");
         viewHolder.itemTakeCommentnum.setText(data.get(i).getReplyNum()+"");
         viewHolder.itemTakePraisenum.setText(data.get(i).getGreatNum()+"");
 
