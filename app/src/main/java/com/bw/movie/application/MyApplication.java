@@ -6,11 +6,17 @@ import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
+import android.support.multidex.MultiDex;
+import android.util.Log;
 
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
@@ -31,7 +37,22 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
         context=getApplicationContext();
+
+        XGPushManager.registerPush(this, new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object data, int flag) {
+                //token在设备卸载重装的时候有可能会变
+                Log.d("TPush", "注册成功，设备token为：" + data);
+                EventBus.getDefault().postSticky(new MessageList("token",data));
+
+            }
+            @Override
+            public void onFail(Object data, int errCode, String msg) {
+                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+            }
+        });
 
         refWatcher = LeakCanary.install(this);
 
@@ -59,6 +80,13 @@ public class MyApplication extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
+
+        XGPushConfig.enableOtherPush(getApplicationContext(), true);
+        XGPushConfig.setHuaweiDebug(true);
+        XGPushConfig.setMiPushAppId(getApplicationContext(), "2100300660");
+        XGPushConfig.setMiPushAppKey(getApplicationContext(), "A44FJ9N7N9EY");
+        XGPushConfig.setMzPushAppId(this, "2100300660");
+        XGPushConfig.setMzPushAppKey(this, "A44FJ9N7N9EY");
 
     }
 

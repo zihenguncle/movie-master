@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -15,6 +16,11 @@ import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.HomeFragment;
 import com.bw.movie.login_success.nearby_cinema_fragment.NearbyCinemaFragment;
 import com.bw.movie.login_success.person.PersonalFragment;
+import com.bw.movie.mvp.eventbus.MessageList;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
