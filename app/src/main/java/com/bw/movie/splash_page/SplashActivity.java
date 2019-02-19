@@ -31,6 +31,11 @@ import com.bw.movie.mvp.view.IView;
 import com.bw.movie.tools.NetWorkUtils;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +56,7 @@ public class SplashActivity extends AppCompatActivity{
 
     private static final long DELAY_TIME = 2000L;
 
-    //读写权限
+    /*//读写权限
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -60,9 +65,9 @@ public class SplashActivity extends AppCompatActivity{
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
-    };
+    };*/
     //请求状态码
-    private static int REQUEST_PERMISSION_CODE = 1;
+    //private static int REQUEST_PERMISSION_CODE = 1;
 
 
     @Override
@@ -70,7 +75,25 @@ public class SplashActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
-      if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+        XXPermissions.with(this)
+                //.constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
+                //.permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        if (XXPermissions.isHasPermission(SplashActivity.this, Permission.Group.STORAGE)) {
+                            isShowingMain();
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        finish();
+                    }
+                });
+     /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
 
              if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
@@ -80,16 +103,16 @@ public class SplashActivity extends AppCompatActivity{
                   isShowingMain();
               }
 
-        }
+        }*/
 
     }
-    @Override
+    /*@Override
    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
        if (requestCode == REQUEST_PERMISSION_CODE) {
           isShowingMain();
        }
-    }
+    }*/
 
 
     private void isShowingMain() {

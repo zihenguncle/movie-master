@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
@@ -35,6 +36,14 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+
+
+        /*ViewGroup.LayoutParams imageLayoutParams = viewHolder.imageView.getLayoutParams();
+        imageLayoutParams.width = CommonUtil.getDMWidthPixels(context) / 2;//获取实际展示的图片宽度
+        imageLayoutParams.height = (int) (imageLayoutParams.width * density);//获取最终图片高度
+        viewHolder.imageView.setLayoutParams(imageLayoutParams);//应用高度到布局中*/
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewHolder.imageView.getLayoutParams();
+
         Glide.with(context).load(data.get(i)).into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +54,7 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
             }
         });
     }
+
 
     @Override
     public int getItemCount() {

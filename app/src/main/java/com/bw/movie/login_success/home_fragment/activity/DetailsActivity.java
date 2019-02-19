@@ -22,6 +22,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.AMap;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -268,6 +269,7 @@ public class DetailsActivity extends BaseActivity {
     private void getStage(View popup2) {
         RecyclerView recyclerView_stage = popup2.findViewById(R.id.popup_stage_recycle);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.invalidateSpanAssignments();
         recyclerView_stage.setLayoutManager(layoutManager);
         ImageView back = popup2.findViewById(R.id.popup_image_stage_back);
         List<String> posterList = databean.getResult().getPosterList();
@@ -393,14 +395,13 @@ public class DetailsActivity extends BaseActivity {
             }else {
                 ToastUtils.toast(((TakeBean) data).getMessage());
             }
-
         }
         if(data instanceof FollowBean){
             ToastUtils.toast(((FollowBean) data).getMessage());
         }
     }
 
-    
+
 
     @Override
     protected void failed(String error) {
