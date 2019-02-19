@@ -11,8 +11,10 @@ import com.bw.movie.R;
 import com.bw.movie.login_success.person.personal_bean.TicketInformationBeanTwo;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,19 +53,59 @@ public class MyCompleAdpter extends RecyclerView.Adapter<MyCompleAdpter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.ticketOkName.setText(mList.get(i).getMovieName());
-        /*String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getBeginTime());
+        String startTime = mList.get(i).getBeginTime();
         viewHolder.ticketOkStarttime.setText(startTime+" -");
-        String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getEndTime());
+        String endTime = mList.get(i).getEndTime();
         viewHolder.ticketOkEndtime.setText(" "+endTime);
-        viewHolder.ticketOkOrder.setText(mList.get(i).getScreeningHall());
         String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getCreateTime());
-        viewHolder.ticketOkOrdertime.setText(date);*/
+        viewHolder.ticketOkOrdertime.setText(date);
+        viewHolder.ticketOkOrder.setText(mList.get(i).getOrderId());
         viewHolder.ticketOkMovie.setText(mList.get(i).getCinemaName());
         viewHolder.ticketOkFilm.setText(mList.get(i).getScreeningHall());
         viewHolder.ticketOkNum.setText(mList.get(i).getAmount() + "张");
         viewHolder.ticketOkPrice.setText(mList.get(i).getPrice() + "元");
-    }
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        try {
+            Date start = sdf.parse(startTime);
+            Date end = sdf.parse(endTime);
+            //获取毫秒数
+            Long startLong = start.getTime();
+            Long endLong = end.getTime();
+            Long ms = endLong-startLong;
+            //时间差转换为 \天\时\分\秒
+            String time = longTimeToDay(ms);
+            viewHolder.ticketOkTime.setText(time+"");
 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //转换函数，可以封装成公用方法
+    public static String longTimeToDay(Long ms){
+        Integer ss = 1000;
+        Integer mi = ss * 60;
+        Integer hh = mi * 60;
+        Integer dd = hh * 24;
+
+        Long day = ms / dd;
+        Long hour = (ms - day * dd) / hh;
+        Long minute = (ms - day * dd - hour * hh) / mi;
+        Long second = (ms - day * dd - hour * hh - minute * mi) / ss;
+
+        StringBuffer sb = new StringBuffer();
+        if(hour > 0) {
+            sb.append(hour+"小时");
+        }
+        if(minute > 0) {
+            sb.append(minute+"分");
+        }
+        if(second > 0) {
+            sb.append(second+"秒");
+        }
+
+        return sb.toString();
+    }
     @Override
     public int getItemCount() {
         return mList.size();

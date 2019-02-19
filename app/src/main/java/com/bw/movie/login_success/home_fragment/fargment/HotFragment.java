@@ -1,8 +1,15 @@
 package com.bw.movie.login_success.home_fragment.fargment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
@@ -23,6 +30,8 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
     private int mPage;
     private static final int TYPE_COUNT = 10;
     private ShowDetailsAdapter showDetailsAdapter;
+    private LocalBroadcastManager broadcastManager;
+
 
     @Override
     public void onClick(View v) {
@@ -47,6 +56,9 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
         showDetailsAdapter.setOnCallBack(new ShowDetailsAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followMovie, int position) {
+                Intent intent = new Intent("jerry");
+                intent.putExtra("change", "yes");
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
                 //取消关注
                 if(followMovie==1){
                     cancelMovie(id);
@@ -93,6 +105,7 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        registerReceiver();
     }
 
     @Override
@@ -127,4 +140,34 @@ public class HotFragment extends BaseFragment implements View.OnClickListener {
     protected void failed(String error) {
         ToastUtils.toast(error);
     }
+
+    private void registerReceiver() {
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("jerry");
+        broadcastManager.registerReceiver(mAdDownLoadReceiver, intentFilter);
+    }
+    private BroadcastReceiver mAdDownLoadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String change = intent.getStringExtra("change");
+            if ("yes".equals(change)) {
+                // 这地方只能在主线程中刷新UI,子线程中无效，因此用Handler来实现
+                new Handler().post(new Runnable() {
+                    public void run() {
+                        //在这里来写你需要刷新的地方
+                        //例如：testView.setText("恭喜你成功了");
+                        loadDataHot();
+                    }
+                });
+            }
+        }
+    };
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        broadcastManager.unregisterReceiver(mAdDownLoadReceiver);
+    }
+
+
 }

@@ -73,6 +73,10 @@ public class CinemaDtailActivity extends BaseActivity {
     private ScheduleAdapter scheduleAdapter;
     @BindView(R.id.relative_focus)
     RelativeLayout relativeLayout_focus;
+    @BindView(R.id.relative_no_cinema)
+    RelativeLayout relative_no_cinema;
+    @BindView(R.id.relative_cinema)
+    RelativeLayout relativeLayout_cinema;
     private PopupWindow popupWindow_nocie;
     @BindView(R.id.checked_layout)
     LinearLayout checkedLayout;
@@ -116,7 +120,7 @@ public class CinemaDtailActivity extends BaseActivity {
     @Override
     protected void initData() {
         //设置值
-        imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(this).load(logo).into(imageView);
         textView_name.setText(cinemaName);
         textView_address.setText(address);
@@ -304,6 +308,8 @@ public class CinemaDtailActivity extends BaseActivity {
            if(data instanceof MovieImageBean){
                MovieImageBean bean= (MovieImageBean) data;
                if(bean.getStatus().equals("0000")){
+                   relative_no_cinema.setVisibility(View.INVISIBLE);
+                   relativeLayout_cinema.setVisibility(View.VISIBLE);
                   result = bean.getResult();
                    recyclerCoverFlow.smoothScrollToPosition(3);
                    movieBannerAdapter=new MovieBannerAdapter(result,this);
@@ -311,7 +317,8 @@ public class CinemaDtailActivity extends BaseActivity {
                    recyclerCoverFlow.smoothScrollToPosition(1);
 
                }else {
-                   ToastUtils.toast(bean.getMessage());
+                   relative_no_cinema.setVisibility(View.VISIBLE);
+                   relativeLayout_cinema.setVisibility(View.INVISIBLE);
                }
 
            }else if(data instanceof ScheduleBean){

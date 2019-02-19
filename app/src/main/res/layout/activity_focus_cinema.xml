@@ -57,43 +57,79 @@
            android:layout_marginTop="5dp"
            />
    </RelativeLayout>
-    <recycler.coverflow.RecyclerCoverFlow
-        android:id="@+id/rcf_cinema_flow"
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_below="@+id/relative_focus"
-        />
-    <LinearLayout
-        android:id="@+id/parent_layout"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/banner_tag"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/rcf_cinema_flow"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp">
 
-        <LinearLayout
-            android:id="@+id/checked_layout"
-            android:layout_width="20dp"
-            android:layout_height="3dp"
-            android:background="@drawable/bg_dividing_line_title"
-            android:gravity="center"
-            android:orientation="horizontal"
-            ></LinearLayout>
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/shedule_recycler"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/parent_layout"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        ></android.support.v7.widget.RecyclerView>
+        android:id="@+id/relative_cinema"
+        android:layout_below="@+id/relative_focus"
+        android:visibility="visible"
+        >
+
+        <recycler.coverflow.RecyclerCoverFlow
+            android:id="@+id/rcf_cinema_flow"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            />
+        <LinearLayout
+            android:id="@+id/parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/banner_tag"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/rcf_cinema_flow"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp">
+
+            <LinearLayout
+                android:id="@+id/checked_layout"
+                android:layout_width="20dp"
+                android:layout_height="3dp"
+                android:background="@drawable/bg_dividing_line_title"
+                android:gravity="center"
+                android:orientation="horizontal"
+                ></LinearLayout>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/shedule_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/parent_layout"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            ></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+ <RelativeLayout
+     android:id="@+id/relative_no_cinema"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/relative_focus"
+    android:visibility="invisible"
+     android:layout_marginTop="80dp"
+    >
+    <ImageView
+        android:id="@+id/image_no_cinema"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="@drawable/ku"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        />
+     <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="抱歉，该影院电影场次已下线"
+         android:textSize="20sp"
+         android:layout_below="@+id/image_no_cinema"
+        android:layout_centerHorizontal="true"
+         android:layout_marginTop="30dp"
+         />
+</RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/cinema_item_back"
         android:layout_width="match_parent"

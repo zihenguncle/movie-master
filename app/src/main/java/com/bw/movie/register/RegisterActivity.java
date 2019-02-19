@@ -127,8 +127,8 @@ public class RegisterActivity extends BaseActivity {
         Calendar startDate = Calendar.getInstance();
         Calendar endDate = Calendar.getInstance();
         //正确设置方式 原因：注意事项有说明
-        startDate.set(2013,0,1);
-        endDate.set(2020,11,31);
+        startDate.set(1980,0,1);
+        endDate.set(2019,11,1);
 
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
@@ -136,18 +136,18 @@ public class RegisterActivity extends BaseActivity {
                editText_birth_date.setText(getTime(date));
             }
         })
-                .setType(new boolean[]{true, true, true, true, true, true})// 默认全部显示
+                .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示
                 .setCancelText("取消")//取消按钮文字
                 .setSubmitText("确定")//确认按钮文字
                 .setTitleSize(20)//标题文字大小
-                .setTitleText("Title")//标题文字
-                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
+                .setTitleText("选择日期")//标题文字
+                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
                 .isCyclic(true)//是否循环滚动
-                .setTitleColor(Color.BLACK)//标题文字颜色
-                .setSubmitColor(Color.RED)//确定按钮文字颜色
-                .setCancelColor(Color.RED)//取消按钮文字颜色
-                .setTitleBgColor(0xFFFFFFFF)//标题背景颜色 Night mode
-                .setBgColor(0xFF333333)//滚轮背景颜色 Night mode
+                .setTitleColor(Color.WHITE)//标题文字颜色
+                .setSubmitColor(Color.WHITE)//确定按钮文字颜色
+                .setCancelColor(Color.WHITE)//取消按钮文字颜色
+                .setTitleBgColor(this.getResources().getColor(R.color.colorYellow))//标题背景颜色 Night mode
+                .setBgColor(this.getResources().getColor(R.color.colorWhite))//滚轮背景颜色 Night mode
                 .setRangDate(startDate,selectedDate)//起始终止年月日设定
                 .setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
@@ -157,7 +157,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private String getTime(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
 

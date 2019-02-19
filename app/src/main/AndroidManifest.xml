@@ -68,6 +68,7 @@
         <activity android:name=".login_success.home_fragment.activity.ImageBigActivity" />
         <activity android:name=".login_success.home_fragment.activity.SchedActivity"></activity>
         <activity android:name=".login_success.home_fragment.activity.CinemaSeatTableActivity"></activity>
+        <activity android:name=".login_success.person.person_activity.Personal_Message_Tickets"></activity>
         <meta-data android:name="com.bw.movie.tools.GlideCacheMore"
         android:value="GlideModule"/>
 

@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="3dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#fff"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="4dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         app:contentPadding="5dp"
         >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/cimeama_item_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginBottom="5dp"
+                />
+            <TextView
+                android:id="@+id/cimeama_item_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cimeama_item_image"
+                android:text="影院"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginTop="9dp"
+                android:layout_marginLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/cimeama_item_text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+              android:layout_toRightOf="@+id/cimeama_item_image"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/cimeama_item_text_name"
+                android:text="好看的电影是每个人都在想往的生活"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:layout_marginTop="15dp"
+                />
 
-    <ImageView
-        android:id="@+id/cimeama_item_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginBottom="5dp"
-        />
-        <TextView
-            android:id="@+id/cimeama_item_text_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="10dp"
-            android:text="影院"
-            android:textSize="14sp"
-            android:textColor="#333333"
-            />
-        <TextView
-            android:id="@+id/cimeama_item_text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="45dp"
-            android:text="好看的电影是每个人都在想往的生活"
-            android:textSize="12sp"
-            android:textColor="#333333"
-            />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

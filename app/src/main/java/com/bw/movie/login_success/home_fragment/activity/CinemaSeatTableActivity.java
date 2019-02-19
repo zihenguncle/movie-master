@@ -17,7 +17,6 @@ import com.bw.movie.login_success.home_fragment.bean.CinemaSeatTableDetailBean;
 import com.bw.movie.login_success.home_fragment.bean.PayBean;
 import com.bw.movie.login_success.home_fragment.bean.PayMessageBean;
 import com.bw.movie.login_success.home_fragment.seattable.SeatTable;
-import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
@@ -194,17 +193,19 @@ public class CinemaSeatTableActivity extends BaseActivity {
             //*price*num;
             sum_price.setText("微信支付" + new BigDecimal(totalPrice).setScale(2,BigDecimal.ROUND_DOWN)+"" + "元");
 
-            weChat.setOnClickListener(new View.OnClickListener() {
+            weChat_goto_pay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    weChat.setChecked(true);
                     alipay.setChecked(false);
                 }
             });
 
-            alipay.setOnClickListener(new View.OnClickListener() {
+            text_goto_alipay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     weChat.setChecked(false);
+                    alipay.setChecked(true);
                 }
             });
 

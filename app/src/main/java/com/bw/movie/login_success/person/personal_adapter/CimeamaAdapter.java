@@ -58,6 +58,7 @@ public class CimeamaAdapter extends RecyclerView.Adapter<CimeamaAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        viewHolder.cimeamaItemImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(mContext).load(mData.get(i%mData.size()).getLogo())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
                 .into(viewHolder.cimeamaItemImage);

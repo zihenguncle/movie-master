@@ -3,6 +3,7 @@ package com.bw.movie.login_success.home_fragment.fargment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
+import android.view.animation.Animation;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
@@ -127,4 +128,6 @@ public class TodoFragment extends BaseFragment implements View.OnClickListener {
     protected void failed(String error) {
         ToastUtils.toast(error);
     }
+
+
 }

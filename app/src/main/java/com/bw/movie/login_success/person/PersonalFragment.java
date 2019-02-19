@@ -7,13 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +18,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
-import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.person.person_activity.Personal_FeedBack_Advice_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Fragment_Focus_Activity;
 import com.bw.movie.login_success.person.person_activity.Personal_Message_Activity;
-import com.bw.movie.login_success.person.person_activity.Personal_Message_TicketActivity;
+import com.bw.movie.login_success.person.person_activity.Personal_Message_Tickets;
 import com.bw.movie.login_success.person.person_activity.System_Information;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
 import com.bw.movie.login_success.person.personal_bean.SignInBean;
@@ -55,6 +51,8 @@ public class PersonalFragment extends BaseFragment{
     @BindView(R.id.personal_latest_version)
     ImageView imageView_perosnal;
     private String sessionId;
+    @BindView(R.id.personal_sign_in)
+    TextView textView_sigin;
 
     @Override
     protected int getViewById() {
@@ -86,6 +84,18 @@ public class PersonalFragment extends BaseFragment{
         sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
         Log.i("TAG",sessionId);
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
+
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(sessionId.equals("0")){
+            textView_sigin.setText("请登录");
+        }else{
+            textView_sigin.setText("签到");
+        }
     }
 
     @Override
@@ -96,7 +106,7 @@ public class PersonalFragment extends BaseFragment{
         }
     }
 
-    @OnClick({R.id.personal_meassage_my,R.id.system_information_push,R.id.personal_fragment_update_xin_code,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice})
+    @OnClick({R.id.personal_meassage_my,R.id.system_information_push,R.id.personal_fragment_update_xin_code,R.id.personal_message_secede, R.id.personal_sign_in,R.id.personal_fragment_my_focus,R.id.personal_fragment_ticket_record,R.id.personal_feedback_advice,R.id.personal_top_image})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.personal_fragment_update_xin_code:
@@ -108,6 +118,7 @@ public class PersonalFragment extends BaseFragment{
             case R.id.personal_message_secede:
                 SharedPreferencesUtils.setParam(getContext(),"userId","0");
                 SharedPreferencesUtils.setParam(getContext(),"sessionId","0");
+                startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
                 Intent intent1 = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent1);
                 break;
@@ -152,7 +163,7 @@ public class PersonalFragment extends BaseFragment{
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     startActivity(intent);
                 }else {
-                    Intent personal_ticket = new Intent(getContext(), Personal_Message_TicketActivity.class);
+                    Intent personal_ticket = new Intent(getContext(), Personal_Message_Tickets.class);
                     startActivity(personal_ticket);
                 }
                 break;
@@ -163,6 +174,12 @@ public class PersonalFragment extends BaseFragment{
                 }else {
                     Intent advice_feedback = new Intent(getContext(), Personal_FeedBack_Advice_Activity.class);
                     startActivity(advice_feedback);
+                }
+                break;
+            case R.id.personal_top_image:
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
                 break;
                 default:break;

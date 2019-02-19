@@ -1,8 +1,11 @@
 package com.bw.movie.login_success.person.person_activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,6 +15,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -113,8 +117,16 @@ public class Personal_Message_Activity extends BaseActivity {
 
         popupWindow.setFocusable(true);
         popupWindow.setTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        bgAlpha(0.5f);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                bgAlpha(1.0f);
+            }
+        });
         popupWindow.showAtLocation(view,
-                Gravity.TOP, 0, 0);
+                Gravity.CENTER, 0, 0);
         update_nick.setText(personalMessageBean.getResult().getNickName());
         int sex = personalMessageBean.getResult().getSex();
         if(sex==1){
@@ -163,7 +175,6 @@ public class Personal_Message_Activity extends BaseActivity {
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
-
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,6 +212,11 @@ public class Personal_Message_Activity extends BaseActivity {
         startRequestGet(Apis.URL_PERSONAL_MESSAGE,PersonalMessageBean.class);
     }
 
+    private void bgAlpha(float f){
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.alpha = f;
+        getWindow().setAttributes(layoutParams);
+    }
 
     @Override
     protected void successed(Object data) {

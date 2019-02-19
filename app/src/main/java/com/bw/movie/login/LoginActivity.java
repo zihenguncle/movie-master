@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -62,8 +63,6 @@ public class LoginActivity extends BaseActivity {
     TextView textView_register;
     @BindView(R.id.checkbox_remember)
     CheckBox checkBox_remember;
-    @BindView(R.id.checkbox_auto_login)
-    CheckBox checkBox_auto_login;
     private String pwd;
     private String phone;
     private String pass;
@@ -71,6 +70,7 @@ public class LoginActivity extends BaseActivity {
     ImageView imageView_login_eye;
     @BindView(R.id.weixin)
     ImageView weixin;
+    private boolean isHideFirst = true;// 输入框密码是否是隐藏的，默认为true
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
@@ -94,24 +94,8 @@ public class LoginActivity extends BaseActivity {
             editText_pass.setText(pass);
             checkBox_remember.setChecked(true);
         }
-        boolean c_auto_login = (boolean) SharedPreferencesUtils.getParam(LoginActivity.this, "c_auto_login", false);
-        if(c_auto_login){
-            Intent intent=new Intent(LoginActivity.this, Login_Success_Activity.class);
-            startActivity(intent);
-        }
-        checkBox_auto_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    checkBox_remember.setChecked(true);
-                }else {
-                    SharedPreferencesUtils.clearData(LoginActivity.this,"phone");
-                    SharedPreferencesUtils.clearData(LoginActivity.this,"pass");
-                }
-            }
-        });
     }
-    @OnClick({R.id.but_login,R.id.text_register,R.id.weixin})
+    @OnClick({R.id.but_login,R.id.text_register,R.id.weixin,R.id.image_login_eye})
     public void getViewById(View view){
         switch (view.getId()){
             case R.id.but_login:
@@ -123,6 +107,23 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.weixin:
                 weixinLogin();
+                break;
+            case R.id.image_login_eye:
+                if (isHideFirst == true) {
+                    //密文
+                    HideReturnsTransformationMethod method1 = HideReturnsTransformationMethod.getInstance();
+                    editText_pass.setTransformationMethod(method1);
+                    isHideFirst = false;
+                } else {
+                    //密文
+                    TransformationMethod method = PasswordTransformationMethod.getInstance();
+                    editText_pass.setTransformationMethod(method);
+                    isHideFirst = true;
+
+                }
+                // 光标的位置
+                int index = editText_pass.getText().toString().length();
+                editText_pass.setSelection(index);
                 break;
         }
     }
@@ -139,25 +140,6 @@ public class LoginActivity extends BaseActivity {
             WeiXinUtil.reg(LoginActivity.this).sendReq(req);
         }
     }
-
-    //触摸事件
-    @OnTouch({R.id.image_login_eye})
-    public boolean onTouch(View view, MotionEvent event){
-        switch (view.getId()){
-            case R.id.image_login_eye:
-                if(event.getAction()==MotionEvent.ACTION_DOWN){
-                    //显示
-                    editText_pass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                }else {
-                    //隐藏
-                    editText_pass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                }
-
-                break;
-        }
-        return true;
-    }
-
     private void intentRegisterPage() {
         Intent intent=new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
@@ -208,10 +190,6 @@ public class LoginActivity extends BaseActivity {
                  SharedPreferencesUtils.setParam(LoginActivity.this,"phone","");
                  SharedPreferencesUtils.setParam(LoginActivity.this,"pass","");
              }
-             if(checkBox_auto_login.isChecked()){
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"c_auto_login",true);
-             }
-
              finish();
          }else {
              ToastUtils.toast(bean.getMessage());
