@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
@@ -39,11 +41,17 @@ public class Popup_video extends RecyclerView.Adapter<Popup_video.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        final ObjectAnimator anim = ObjectAnimator.ofInt(viewHolder.videoView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
         viewHolder.videoView.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
         viewHolder.videoView.setUp(data.get(i).getVideoUrl(), null);
         TxVideoPlayerController controller = new TxVideoPlayerController(context);
         controller.setTitle("预告");
-        Glide.with(context).load(data.get(i).getImageUrl()).into(controller.imageView());
+        Glide.with(context).load(data.get(i).getImageUrl())
+                .apply(new RequestOptions().placeholder(R.drawable.rotate))
+                .into(controller.imageView());
         viewHolder.videoView.setController(controller);
     }
 

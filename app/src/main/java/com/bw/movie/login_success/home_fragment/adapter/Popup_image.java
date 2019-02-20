@@ -1,7 +1,10 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.bean.DetailsBean;
 
@@ -36,15 +44,28 @@ public class Popup_image  extends RecyclerView.Adapter<Popup_image.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-
-
-        /*ViewGroup.LayoutParams imageLayoutParams = viewHolder.imageView.getLayoutParams();
-        imageLayoutParams.width = CommonUtil.getDMWidthPixels(context) / 2;//获取实际展示的图片宽度
-        imageLayoutParams.height = (int) (imageLayoutParams.width * density);//获取最终图片高度
-        viewHolder.imageView.setLayoutParams(imageLayoutParams);//应用高度到布局中*/
+        final ObjectAnimator anim = ObjectAnimator.ofInt(viewHolder.imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) viewHolder.imageView.getLayoutParams();
 
-        Glide.with(context).load(data.get(i)).into(viewHolder.imageView);
+        Glide.with(context).load(data.get(i))
+                .apply(new RequestOptions().placeholder(R.drawable.rotate))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        anim.cancel();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        anim.cancel();
+                        return false;
+                    }
+                })
+                .into(viewHolder.imageView);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
