@@ -22,6 +22,7 @@ import com.bw.movie.R;
 import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.Login_Success_Activity;
+import com.bw.movie.login_success.person.personal_bean.TokenBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.register.RegisterActivity;
@@ -29,6 +30,8 @@ import com.bw.movie.tools.RegexUtils;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.bw.movie.tools.md5.EncryptUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbiz.AddCardToWXCardPackage;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -94,6 +97,7 @@ public class LoginActivity extends BaseActivity {
             editText_pass.setText(pass);
             checkBox_remember.setChecked(true);
         }
+
     }
     @OnClick({R.id.but_login,R.id.text_register,R.id.weixin,R.id.image_login_eye})
     public void getViewById(View view){
@@ -171,29 +175,32 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void successed(Object data) {
-          LoginBean bean= (LoginBean) data;
-         if(bean.getStatus().equals("0000")){
-             //用SharedPreferences保存sessionId，userId
-            int userId = bean.getResult().getUserId();
-             Log.i("TAG","userId:"+userId+"");
-            // String phone = bean.getResult().getUserInfo().getPhone();
-             String sessionId = bean.getResult().getSessionId();
-             Log.i("TAG","sessionId"+sessionId);
-             SharedPreferencesUtils.setParam(this,"userId",userId+"");
-             SharedPreferencesUtils.setParam(this,"sessionId",sessionId);
-             EventBus.getDefault().postSticky(new MessageList("sessionId","1"));
-             if(checkBox_remember.isChecked()){
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"phone",phone);
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"pass",pass);
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"c_remember",true);
-             }else {
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"phone","");
-                 SharedPreferencesUtils.setParam(LoginActivity.this,"pass","");
-             }
-             finish();
-         }else {
-             ToastUtils.toast(bean.getMessage());
-         }
+        if(data instanceof LoginBean) {
+            LoginBean bean = (LoginBean) data;
+
+            if (bean.getStatus().equals("0000")) {
+                //用SharedPreferences保存sessionId，userId
+                int userId = bean.getResult().getUserId();
+                Log.i("TAG", "userId:" + userId + "");
+                // String phone = bean.getResult().getUserInfo().getPhone();
+                String sessionId = bean.getResult().getSessionId();
+                Log.i("TAG", "sessionId" + sessionId);
+                SharedPreferencesUtils.setParam(this, "userId", userId + "");
+                SharedPreferencesUtils.setParam(this, "sessionId", sessionId);
+                EventBus.getDefault().postSticky(new MessageList("sessionId", "1"));
+                if (checkBox_remember.isChecked()) {
+                    SharedPreferencesUtils.setParam(LoginActivity.this, "phone", phone);
+                    SharedPreferencesUtils.setParam(LoginActivity.this, "pass", pass);
+                    SharedPreferencesUtils.setParam(LoginActivity.this, "c_remember", true);
+                } else {
+                    SharedPreferencesUtils.setParam(LoginActivity.this, "phone", "");
+                    SharedPreferencesUtils.setParam(LoginActivity.this, "pass", "");
+                }
+                finish();
+            } else {
+                ToastUtils.toast(bean.getMessage());
+            }
+        }
     }
 
     @Override

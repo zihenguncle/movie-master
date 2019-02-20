@@ -43,11 +43,18 @@ import com.bw.movie.application.MyApplication;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.LoginBean;
 import com.bw.movie.login_success.Login_Success_Activity;
+import com.bw.movie.login_success.person.personal_bean.TokenBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.RegexUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.bw.movie.tools.md5.EncryptUtil;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushManager;
 import com.xw.repo.XEditText;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -87,6 +94,7 @@ public class RegisterActivity extends BaseActivity {
     private TimePickerView pvTime;
     private String phone;
     private String pwd;
+    private String token;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -106,6 +114,8 @@ public class RegisterActivity extends BaseActivity {
         editText_sex.setInputType(InputType.TYPE_NULL);
 
     }
+
+
     @OnClick({R.id.but_register,R.id.reg_birth_date,R.id.reg_sex})
     public void getViewById(View view){
         switch (view.getId()){
@@ -222,19 +232,22 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void successed(Object data) {
-        RegisterBean bean= (RegisterBean) data;
-            if(bean.getStatus().equals("0000")){
+
+        if(data instanceof RegisterBean) {
+            RegisterBean bean = (RegisterBean) data;
+            if (bean.getStatus().equals("0000")) {
                 ToastUtils.toast(bean.getMessage());
-                Map<String,String> map=new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put("phone", phone);
                 map.put("pwd", pwd);
-                startRequestPost(Apis.URL_LOGIN,map,LoginBean.class);
-                Intent intent=new Intent(RegisterActivity.this, Login_Success_Activity.class);
+                startRequestPost(Apis.URL_LOGIN, map, LoginBean.class);
+                Intent intent = new Intent(RegisterActivity.this, Login_Success_Activity.class);
                 startActivity(intent);
                 finish();
-            }else {
+            } else {
                 ToastUtils.toast(bean.getMessage());
             }
+        }
     }
 
     @Override

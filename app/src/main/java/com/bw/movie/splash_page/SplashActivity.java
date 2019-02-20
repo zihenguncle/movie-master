@@ -90,7 +90,11 @@ public class SplashActivity extends AppCompatActivity{
 
                     @Override
                     public void noPermission(List<String> denied, boolean quick) {
-                        finish();
+                        if (XXPermissions.isHasPermission(SplashActivity.this, Permission.Group.STORAGE)) {
+                            isShowingMain();
+                        }else {
+                            finish();
+                        }
                     }
                 });
      /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

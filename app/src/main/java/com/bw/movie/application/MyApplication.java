@@ -39,7 +39,6 @@ public class MyApplication extends Application {
         super.onCreate();
         MultiDex.install(this);
         context=getApplicationContext();
-
         XGPushManager.registerPush(this, new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int flag) {
@@ -53,7 +52,6 @@ public class MyApplication extends Application {
                 Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
             }
         });
-
         refWatcher = LeakCanary.install(this);
 
         /**

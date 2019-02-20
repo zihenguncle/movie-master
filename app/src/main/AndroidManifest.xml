@@ -15,12 +15,12 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!-- 【常用】 信鸽SDK所需权限 -->
+    <!--&lt;!&ndash; 【常用】 信鸽SDK所需权限 &ndash;&gt;-->
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <!-- 【可选】 信鸽SDK所需权限 -->
+    <!--&lt;!&ndash; 【可选】 信鸽SDK所需权限 &ndash;&gt;-->
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
@@ -29,7 +29,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BATTERY_STATS"
-        tools:ignore="ProtectedPermissions" />
+        tools:ignore="ProtectedPermissions" />-->
 
 
     <application

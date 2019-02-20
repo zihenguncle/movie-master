@@ -27,6 +27,7 @@ import com.bw.movie.login_success.person.person_activity.Personal_Message_Ticket
 import com.bw.movie.login_success.person.person_activity.System_Information;
 import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
 import com.bw.movie.login_success.person.personal_bean.SignInBean;
+import com.bw.movie.login_success.person.personal_bean.TokenBean;
 import com.bw.movie.login_success.person.personal_bean.UpdateCodeBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
@@ -36,6 +37,9 @@ import com.bw.movie.tools.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,6 +57,7 @@ public class PersonalFragment extends BaseFragment{
     private String sessionId;
     @BindView(R.id.personal_sign_in)
     TextView textView_sigin;
+    private String token;
 
     @Override
     protected int getViewById() {
@@ -87,6 +92,20 @@ public class PersonalFragment extends BaseFragment{
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onToken(MessageList message) {
+        if (message.getFlag().equals("token")){
+            token = message.getStr().toString();
+            if(sessionId.equals("0")){
+                ToastUtils.toast("用户登录");
+            }else{
+                Map<String,String> map = new HashMap<>();
+                map.put("token",token);
+                map.put("os",1+"");
+                startRequestPost(Apis.URL_TOKEN,map,TokenBean.class);
+            }
+        }
+    }
 
     @Override
     public void onResume() {
@@ -234,6 +253,13 @@ public class PersonalFragment extends BaseFragment{
                 }
             }else{
                 ToastUtils.toast(updateCodeBean.getMessage());
+            }
+        }else if(data instanceof TokenBean){
+            TokenBean tokenBean= (TokenBean) data;
+            if(tokenBean.getStatus().equals("0000")){
+                ToastUtils.toast(tokenBean.getMessage());
+            }else{
+                ToastUtils.toast(tokenBean.getMessage());
             }
         }
     }
