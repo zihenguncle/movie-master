@@ -1,5 +1,7 @@
 package com.bw.movie.login_success.person.fragment;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
@@ -9,9 +11,11 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.WeiXinUtil;
+import com.bw.movie.login_success.home_fragment.activity.CinemaSeatTableActivity;
 import com.bw.movie.login_success.home_fragment.bean.PayMessageBean;
 import com.bw.movie.login_success.person.personal_adapter.MyWaitPayAdpter;
 import com.bw.movie.login_success.person.personal_bean.TicketInformationBean;
@@ -96,7 +100,23 @@ public class WaitPagFragment extends BaseFragment {
                                 map1.put("orderId",scheduleId);
                                 startRequestPost(Apis.URL_PAY,map1,PayMessageBean.class);
                             }else if(alipay.isChecked()){
-                                ToastUtils.toast("暂无开通支付宝");
+                                //ToastUtils.toast("暂无开通支付宝");
+                                Runnable payRunnable = new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        PayTask alipay = new PayTask(getActivity());
+                                        Map <String,String> result = alipay.payV2(scheduleId,true);
+
+                                        Message msg = new Message();
+                                        //msg.what = SDK_PAY_FLAG;
+                                        msg.obj = result;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                };
+                                // 必须异步调用
+                                Thread payThread = new Thread(payRunnable);
+                                payThread.start();
                             }else {
                                 ToastUtils.toast("请选择支付方式");
                             }
@@ -113,6 +133,16 @@ public class WaitPagFragment extends BaseFragment {
             }
         });
     }
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            ToastUtils.toast(msg+"");
+            /*Toast.makeText(DemoActivity.this, result.getResult(),
+                    Toast.LENGTH_LONG).show();*/
+        };
+    };
+
+
+
     //待付款加载布局
     public void  initWaitLayout(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());

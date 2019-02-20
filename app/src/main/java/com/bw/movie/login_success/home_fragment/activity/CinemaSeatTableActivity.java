@@ -2,6 +2,10 @@ package com.bw.movie.login_success.home_fragment.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.WeiXinUtil;
@@ -17,6 +23,8 @@ import com.bw.movie.login_success.home_fragment.bean.CinemaSeatTableDetailBean;
 import com.bw.movie.login_success.home_fragment.bean.PayBean;
 import com.bw.movie.login_success.home_fragment.bean.PayMessageBean;
 import com.bw.movie.login_success.home_fragment.seattable.SeatTable;
+import com.bw.movie.login_success.person.PayResult;
+import com.bw.movie.login_success.person.personal_bean.GoPayBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
@@ -30,6 +38,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +80,7 @@ public class CinemaSeatTableActivity extends BaseActivity {
     TextView movie_name;
     private int scheduleId;
     private String orderId;
+    private PayMessageBean payMessageBean;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -209,6 +219,7 @@ public class CinemaSeatTableActivity extends BaseActivity {
                 }
             });
 
+            //final String orderInfo = info;   // 订单信息
             //点击去支付
             sum_price.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -219,7 +230,11 @@ public class CinemaSeatTableActivity extends BaseActivity {
                         map1.put("orderId",orderId);
                         startRequestPost(Apis.URL_PAY,map1,PayMessageBean.class);
                     }else if(alipay.isChecked()){
-                        ToastUtils.toast("暂无开通支付宝");
+                        //ToastUtils.toast("暂无开通支付宝");
+                        Map<String,String> map1 = new HashMap<>();
+                        map1.put("payType",ZFB+"");
+                        map1.put("orderId",orderId);
+                        startRequestPost(Apis.URL_PAY,map1,GoPayBean.class);
                     }else {
                         ToastUtils.toast("请选择支付方式");
                     }
@@ -236,6 +251,24 @@ public class CinemaSeatTableActivity extends BaseActivity {
             ToastUtils.toast("请选择座位");
         }
     }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            @SuppressWarnings("unchecked")
+            PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+            //对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+            String resultStatus = payResult.getResultStatus();
+            // 判断resultStatus 为9000则代表支付成功
+            if (TextUtils.equals(resultStatus, "9000")) {
+                // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                ToastUtils.toast("支付成功");
+                finish();
+            } else {
+                // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                ToastUtils.toast("支付失败");
+            }
+        };
+    };
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void sjx(CinemaSeatTableDetailBean detailsBean) {
@@ -278,9 +311,11 @@ public class CinemaSeatTableActivity extends BaseActivity {
         return result;
     }
     @Override
-    protected void successed(Object data) {
+    protected void successed(final Object data) {
         if(data instanceof PayBean){
+
             if(((PayBean) data).getStatus().equals("0000")){
+
                 ToastUtils.toast(((PayBean) data).getMessage());
                 orderId = ((PayBean) data).getOrderId();
             }else {
@@ -289,12 +324,30 @@ public class CinemaSeatTableActivity extends BaseActivity {
         }
         if(data instanceof PayMessageBean){
             if(((PayMessageBean) data).getStatus().equals("0000")){
+                payMessageBean = (PayMessageBean) data;
                 WeiXinUtil.weiXinPay(CinemaSeatTableActivity.this, (PayMessageBean) data);
                 //ToastUtils.toast(((PayMessageBean) data).getMessage());
                 finish();
             }else {
                 ToastUtils.toast(((PayMessageBean) data).getMessage());
             }
+        }
+        if(data instanceof GoPayBean){
+            Runnable payRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    PayTask alipay = new PayTask(CinemaSeatTableActivity.this);
+                    Map <String,String> result = alipay.payV2(((GoPayBean) data).getResult(),true);
+                    Message msg = new Message();
+                    msg.obj = result;
+                    Log.i("TAG",result.toString());
+                    mHandler.sendMessage(msg);
+                }
+            };
+            // 必须异步调用
+            Thread payThread = new Thread(payRunnable);
+            payThread.start();
         }
     }
 

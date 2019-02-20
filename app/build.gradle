@@ -125,4 +125,7 @@ dependencies {
     implementation 'com.tencent.mid:mid:4.0.7-Release'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.zaaach:citypicker:2.0.3'
+
+    //支付宝
+    implementation (name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }
