@@ -175,7 +175,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void successed(Object data) {
-        if(data instanceof LoginBean) {
+        if (data instanceof LoginBean) {
             LoginBean bean = (LoginBean) data;
 
             if (bean.getStatus().equals("0000")) {

@@ -56,10 +56,13 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.show_details_edit_search)
     EditText edit_search;
 
-    @OnClick({R.id.show_details_hot,R.id.show_details_image, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
+    @OnClick({R.id.show_details_hot,R.id.image_View_Back,R.id.show_details_image, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.image_View_Back:
+                finish();
+                break;
             case R.id.show_details_image:
                 Intent intent = new Intent(this, LocationActivity.class);
                 startActivity(intent);

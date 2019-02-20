@@ -89,16 +89,15 @@ public class PersonalFragment extends BaseFragment{
         sessionId = (String)SharedPreferencesUtils.getParam(getContext(),"sessionId","0");
         Log.i("TAG",sessionId);
         startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onToken(MessageList message) {
-        if (message.getFlag().equals("token")){
-            token = message.getStr().toString();
-            if(sessionId.equals("0")){
-                ToastUtils.toast("用户登录");
-            }else{
+        if(sessionId.equals("0")) {
+            ToastUtils.toast("用户登录");
+        }else {
+            if (message.getFlag().equals("token")){
+                token = message.getStr().toString();
                 Map<String,String> map = new HashMap<>();
                 map.put("token",token);
                 map.put("os",1+"");
@@ -140,6 +139,7 @@ public class PersonalFragment extends BaseFragment{
                 startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
                 Intent intent1 = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent1);
+                getActivity().finish();
                 break;
             case R.id.system_information_push:
                 //TODO:展示系统消息
@@ -287,5 +287,4 @@ public class PersonalFragment extends BaseFragment{
         EventBus.getDefault().unregister(this);
 
     }
-
 }

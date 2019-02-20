@@ -1,5 +1,7 @@
 package com.bw.movie.login_success.home_fragment.fargment;
 
+import android.annotation.SuppressLint;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.view.View;
@@ -11,9 +13,16 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login_success.home_fragment.adapter.ShowDetailsAdapter;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
+import com.bw.movie.login_success.person.personal_bean.PersonalMessageBean;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +44,8 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     protected int getViewById() {
         return R.layout.dong_fargment;
     }
+
+
 
     @Override
     protected void initData() {
@@ -93,8 +104,20 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        if(!EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().register(this);
+        }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSuccess(MessageList message) {
+        if (message.getFlag().equals("int")){
+            if(message.getStr().equals("1")) {
+                mPage = 1;
+                startRequestGet(String.format(Apis.URL_DOINGMOVIE, mPage, TYPE_COUNT), HomeBannerBean.class);
+            }
+        }
+    }
     @Override
     protected void successed(Object data) {
         if(data instanceof HomeBannerBean){
@@ -117,7 +140,7 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
             FollowBean bean= (FollowBean) data;
             if(bean.getStatus().equals("0000")){
                 ToastUtils.toast(bean.getMessage());
-
+                EventBus.getDefault().post(new MessageList("int","1"));
 
             }else {
                 ToastUtils.toast(bean.getMessage());
@@ -131,5 +154,10 @@ public class DoingFragment extends BaseFragment implements View.OnClickListener 
     }
 
 
-
+    @SuppressLint("NewApi")
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

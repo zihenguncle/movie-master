@@ -18,7 +18,10 @@ import com.bw.movie.login_success.home_fragment.activity.DetailsActivity;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.home_fragment.bean.HomeBannerBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
+import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.tools.SharedPreferencesUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

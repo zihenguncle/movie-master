@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -31,6 +33,8 @@ public class Personal_Message_Tickets extends AppCompatActivity {
     RadioButton my_waitpay_radio;
     @BindView(R.id.my_complete_radio)
     RadioButton my_complete_radio;
+    @BindView(R.id.image_View_Back)
+    ImageView imageView_back;
 
 
     //my_waitpay_radio
@@ -53,6 +57,12 @@ public class Personal_Message_Tickets extends AppCompatActivity {
             @Override
             public int getCount() {
                 return list.size();
+            }
+        });
+        imageView_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
         group_ticket.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
