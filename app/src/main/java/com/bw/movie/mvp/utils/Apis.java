@@ -119,4 +119,5 @@ public class Apis {
     public static final String URL_PAY = "movie/v1/verify/pay";
     //上传
     public static final String URL_TOKEN="tool/v1/verify/uploadPushToken";
+
 }

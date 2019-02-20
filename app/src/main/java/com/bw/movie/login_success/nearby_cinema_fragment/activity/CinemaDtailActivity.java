@@ -39,6 +39,7 @@ import com.bw.movie.tools.ToastUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -374,6 +375,5 @@ public class CinemaDtailActivity extends BaseActivity {
         if (NiceVideoPlayerManager.instance().onBackPressd()) return;
         super.onBackPressed();
     }
-
 
 }
