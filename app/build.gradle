@@ -44,6 +44,8 @@ android {
 
     buildTypes {
         release {
+            // 使用签名打包时不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
            // shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

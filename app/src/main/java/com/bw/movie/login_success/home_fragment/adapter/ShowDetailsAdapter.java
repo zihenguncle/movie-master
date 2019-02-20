@@ -1,5 +1,6 @@
 package com.bw.movie.login_success.home_fragment.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -62,12 +63,15 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, final int i) {
-
+        final ObjectAnimator anim = ObjectAnimator.ofInt(viewHolder.show_detaile_item_img, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
         viewHolder.show_details_item_title.setText(mDatas.get(i).getName());
         viewHolder.show_details_item_count.setText(mDatas.get(i).getSummary());
         Glide.with(mContext)
                 .load(mDatas.get(i%mDatas.size()).getImageUrl())
-                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
+                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)).placeholder(R.drawable.rotate))
                 .into(viewHolder.show_detaile_item_img);
 
         //判断是否关注
