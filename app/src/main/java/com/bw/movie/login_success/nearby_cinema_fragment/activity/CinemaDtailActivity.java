@@ -142,8 +142,6 @@ public class CinemaDtailActivity extends BaseActivity {
             }
         });
 
-
-
         scheduleAdapter=new ScheduleAdapter(this);
         scheduleAdapter.setName(new ScheduleAdapter.setMovieName() {
             @Override
@@ -338,7 +336,7 @@ public class CinemaDtailActivity extends BaseActivity {
                    textView_route.setText(result.getVehicleRoute());
 
                }else {
-                   ToastUtils.toast(bean.getMessage());
+                   ToastUtils.toast("抱歉，无影院详情");
                }
            }else if(data instanceof CinemaCommentBean){
                CinemaCommentBean bean= (CinemaCommentBean) data;

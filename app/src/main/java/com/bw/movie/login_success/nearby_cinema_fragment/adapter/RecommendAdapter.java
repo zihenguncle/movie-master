@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ViewHolder> {
     private List<RecommentBean.ResultBean> list;
     private Context context;
-    private String sessionId;
+
 
     public RecommendAdapter(Context context) {
         this.context = context;
@@ -49,7 +49,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
+
         final RecommentBean.ResultBean resultBean = list.get(i);
         viewHolder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
           viewHolder.textView_name.setText(resultBean.getName());
@@ -67,15 +67,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.View
         viewHolder.imageView_collection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              if(sessionId.equals("0")){
-                  Intent intent = new Intent(context, LoginActivity.class);
-                  context.startActivity(intent);
-              }else {
-                  if(callBack!=null){
-                      callBack.getInformation(resultBean.getId(),resultBean.getFollowCinema(),i);
-                  }
-              }
+                if(callBack!=null){
+                    callBack.getInformation(resultBean.getId(),resultBean.getFollowCinema(),i);
+                }
             }
+
         });
 
         //跳转到用户关注的影院信息

@@ -139,7 +139,6 @@ public class PersonalFragment extends BaseFragment{
                 startRequestGet(Apis.URL_PERSONAL_MESSAGE, PersonalMessageBean.class);
                 Intent intent1 = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent1);
-                getActivity().finish();
                 break;
             case R.id.system_information_push:
                 //TODO:展示系统消息

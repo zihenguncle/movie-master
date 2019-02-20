@@ -2,6 +2,7 @@ package com.bw.movie.login_success.nearby_cinema_fragment;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -13,15 +14,25 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.login_success.home_fragment.activity.LocationActivity;
+import com.bw.movie.login.LoginActivity;
 import com.bw.movie.login_success.nearby_cinema_fragment.adapter.RecommendAdapter;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.FollowBean;
 import com.bw.movie.login_success.nearby_cinema_fragment.bean.RecommentBean;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.utils.Apis;
+import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,8 +69,16 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     private RecommendAdapter recommendAdapter;
     private String cinema_name;
-    private String jidu;
-    private String weidu;
+    //声明mlocationClient对象
+    public AMapLocationClient mlocationClient;
+    //声明mLocationOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    private String cityCode;
+    private String province;
+    private String city;
+    private double longitude;
+    private double latitude;
+    private String sessionId;
 
     @Override
     protected int getViewById() {
@@ -68,6 +87,7 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        startLocation();
         //布局管理器
         LinearLayoutManager manager=new LinearLayoutManager(getActivity());
         manager.setOrientation(OrientationHelper.VERTICAL);
@@ -79,20 +99,78 @@ public class NearbyCinemaFragment extends BaseFragment {
         recommendAdapter.setOnCallBack(new RecommendAdapter.CallBack() {
             @Override
             public void getInformation(int id, int followCinema,int position) {
-                if(followCinema==1){
-                    //取消关注
-                    cancelCollection(id);
-                    recommendAdapter.update2(position);
+                sessionId = (String) SharedPreferencesUtils.getParam(getActivity(), "sessionId", "0");
+                if(sessionId.equals("0")){
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }else {
-                    //关注
-                    collection(id);
-                    recommendAdapter.update(position);
+                    if(followCinema==1){
+                        //取消关注
+                        cancelCollection(id);
+                        recommendAdapter.update2(position);
+                    }else {
+                        //关注
+                        collection(id);
+                        recommendAdapter.update(position);
+                    }
                 }
+
             }
         });
 
         getInfoCinema();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getInfoFindCinema();
+        getInfoNearby();
+    }
+
+    private void startLocation() {
+        //开始定位，这里模拟一下定位
+        mlocationClient = new AMapLocationClient(getActivity());
+        //设置定位监听
+        mlocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if(aMapLocation!=null){
+                    if(aMapLocation.getErrorCode() == 0){
+                        //获取纬度
+                        latitude = aMapLocation.getLatitude();
+                        //获取经度
+                        longitude = aMapLocation.getLongitude();
+                        //城市信息
+                        city = aMapLocation.getCity();
+                        //省信息
+                        province = aMapLocation.getProvince();
+                        //城市编码
+                        cityCode = aMapLocation.getCityCode();
+                        //地区编码
+                        String adCode = aMapLocation.getAdCode();
+                        CityPicker.from(getActivity()).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
+                        location_text.setText(city);
+                        mlocationClient.stopLocation();
+                    }
+                }
+            }
+        });
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mlocationClient.startLocation();
     }
 
     private void collection(int id) {
@@ -109,7 +187,7 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     private void getInfoNearby() {
 
-        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10,jidu,weidu), RecommentBean.class);
+        startRequestGet(String.format(Apis.URL_NEARBY_CINEAMS,1,10,longitude,latitude), RecommentBean.class);
     }
 
     private void getInfoCinema() {
@@ -128,20 +206,6 @@ public class NearbyCinemaFragment extends BaseFragment {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onLoaction(MessageList message) {
-        if (message.getFlag().equals("location1")){
-            String location = message.getStr().toString();
-            location_text.setText(location);
-        }else if(message.getFlag().equals("jidu")){
-            jidu = message.getStr().toString();
-            Log.i("TAG", jidu);
-        }else if(message.getFlag().equals("weidu")){
-            weidu = message.getStr().toString();
-            Log.i("TAG", weidu);
-        }
-    }
-
     //搜索框出现
     private void getSearch() {
         ObjectAnimator translationX = ObjectAnimator.ofFloat(relative_search, "translationX", 0, -600);
@@ -154,17 +218,13 @@ public class NearbyCinemaFragment extends BaseFragment {
     protected void initView(View view) {
         //绑定控件
         ButterKnife.bind(this,view);
-        if(!EventBus.getDefault().isRegistered(this)){
-            EventBus.getDefault().register(this);
-        }
 
     }
     @OnClick({R.id.recommend_cinema,R.id.nearbycineam_location,R.id.nearby_cinema,R.id.home_text_search,R.id.home_search})
     public void getViewClick(View view){
         switch (view.getId()){
             case R.id.nearbycineam_location:
-                Intent intent = new Intent(getContext(), LocationActivity.class);
-                startActivity(intent);
+                getLocation();
                 break;
             case R.id.recommend_cinema:
                 recommendCineam();
@@ -188,6 +248,34 @@ public class NearbyCinemaFragment extends BaseFragment {
                 getSearch();
                 break;
         }
+    }
+
+    private void getLocation() {
+        CityPicker.from(getActivity()) //activity或者fragment
+                .setOnPickListener(new OnPickListener() {
+                    @Override
+                    public void onPick(int position, City data) {
+                        location_text.setText(data.getName());
+                    }
+
+                    @Override
+                    public void onCancel(){
+
+                    }
+
+                    @Override
+                    public void onLocate() {
+                        //定位接口，需要APP自身实现，这里模拟一下定位
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //定位完成之后更新数据
+                                CityPicker.from(getActivity()).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
+                            }
+                        }, 3000);
+                    }
+                })
+                .show();
     }
 
     private void nearbyCinema() {
@@ -226,9 +314,5 @@ public class NearbyCinemaFragment extends BaseFragment {
         ToastUtils.toast(error);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().isRegistered(this);
-    }
+
 }

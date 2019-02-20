@@ -58,7 +58,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
+
         final CinemaCommentBean.ResultBean resultBean = list.get(i);
         Glide.with(context).load(resultBean.getCommentHeadPic()). apply(RequestOptions.bitmapTransform(new CircleCrop())).
         into(viewHolder.imageView_pic);
@@ -81,6 +81,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         viewHolder.imageView_praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
                 if(sessionId.equals("0")){
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);

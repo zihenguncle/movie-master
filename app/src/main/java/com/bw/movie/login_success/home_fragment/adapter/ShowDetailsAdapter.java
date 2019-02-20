@@ -62,7 +62,7 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ShowDetailsAdapter.ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
+
         viewHolder.show_details_item_title.setText(mDatas.get(i).getName());
         viewHolder.show_details_item_count.setText(mDatas.get(i).getSummary());
         Glide.with(mContext)
@@ -80,6 +80,7 @@ public class ShowDetailsAdapter extends RecyclerView.Adapter<ShowDetailsAdapter.
         viewHolder.show_details_item_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
                if(sessionId.equals("0")){
                    Intent intent = new Intent(mContext, LoginActivity.class);
                    mContext.startActivity(intent);

@@ -125,7 +125,9 @@
             />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
-        <activity android:name=".login_success.Login_Success_Activity" />
+        <activity android:name=".login_success.Login_Success_Activity"
+            android:theme="@style/CustomTheme"
+            />
         <activity android:name=".login_success.person.person_activity.Personal_Message_Activity"
             />
         <activity android:name=".wxapi.WXEntryActivity"
@@ -136,7 +138,9 @@
         <activity android:name=".login_success.person.person_activity.Personal_Reset_Pwd_Activity" />
         <activity android:name=".login_success.person.person_activity.Personal_Message_Tickets" />
         <activity android:name=".login_success.home_fragment.activity.DetailsActivity" />
-        <activity android:name=".login_success.home_fragment.activity.ShowDetailsActivity" />
+        <activity android:name=".login_success.home_fragment.activity.ShowDetailsActivity"
+            android:theme="@style/CustomTheme"
+            />
         <activity android:name=".login_success.home_fragment.activity.BuyTicketActivity" />
         <activity android:name=".login_success.person.person_activity.System_Information"/>
 
@@ -150,8 +154,6 @@
         <meta-data android:name="com.amap.api.v2.apikey" android:value="decff8e361d9d6b1725fb6570766896f">
         </meta-data>
         <service android:name="com.amap.api.location.APSService"/>
-
-        <activity android:name=".login_success.home_fragment.activity.LocationActivity"/>
 
         <activity android:name=".login_success.nearby_cinema_fragment.activity.CinemaDtailActivity" />
         <activity android:name=".login_success.home_fragment.activity.ImageBigActivity" />

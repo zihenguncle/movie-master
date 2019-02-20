@@ -97,7 +97,7 @@ public class GuideActivity extends AppCompatActivity  {
         });
 
 
-    Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
+   Boolean first_open = (Boolean) SharedPreferencesUtils.getParam(GuideActivity.this, "FIRST_OPEN", false);
         if(first_open){
             Intent intent=new Intent(GuideActivity.this, Login_Success_Activity.class);
             startActivity(intent);

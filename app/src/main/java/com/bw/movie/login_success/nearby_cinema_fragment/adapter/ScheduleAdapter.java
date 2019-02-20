@@ -49,7 +49,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
+
         final ScheduleBean.ResultBean resultBean = list.get(i);
         String mPrice = resultBean.getPrice() + "";
         if(mPrice.length()==3){
@@ -71,6 +71,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             viewHolder.textView_text_endTime.setText(resultBean.getEndTime());
             viewHolder.textView_fare.setText(spannableString);
             viewHolder.imageView_next.setVisibility(View.INVISIBLE);
+            viewHolder.itemView.setClickable(false);
         }else {
             viewHolder.textView_screeningHall.setText(resultBean.getScreeningHall());
             viewHolder.textView_beginTime.setText(resultBean.getBeginTime());
@@ -80,6 +81,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
                     if(sessionId.equals("0")){
                         Intent intent = new Intent(context, LoginActivity.class);
                         context.startActivity(intent);

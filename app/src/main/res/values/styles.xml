@@ -45,5 +45,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="CustomTheme" parent="DefaultCityPickerTheme">
+    </style>
 
 </resources>

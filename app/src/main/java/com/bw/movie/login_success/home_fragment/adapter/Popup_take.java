@@ -77,7 +77,6 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
     private int page;
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
         Glide.with(context).load(data.get(i).getCommentHeadPic()).into(viewHolder.itemTakeHeadimage);
         viewHolder.itemTakeName.setText(data.get(i).getCommentUserName());
         Glide.with(context).load(data.get(i).getCommentHeadPic())
@@ -96,6 +95,7 @@ public class Popup_take extends RecyclerView.Adapter<Popup_take.ViewHolder>  {
         viewHolder.praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionId = (String) SharedPreferencesUtils.getParam(context, "sessionId", "0");
                if(sessionId.equals("0")){
                    Intent intent = new Intent(context, LoginActivity.class);
                    context.startActivity(intent);

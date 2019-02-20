@@ -124,4 +124,5 @@ dependencies {
     //mid包，minSdkVersion 14
     implementation 'com.tencent.mid:mid:4.0.7-Release'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.zaaach:citypicker:2.0.3'
 }

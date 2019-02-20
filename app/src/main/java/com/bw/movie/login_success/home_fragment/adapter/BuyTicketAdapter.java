@@ -48,7 +48,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
+
         viewHolder.titleBuyTicket.setText(mDatas.get(i).getName());
         viewHolder.addressBuyTicket.setText(mDatas.get(i).getAddress());
         String logo = mDatas.get(i).getLogo();
@@ -64,6 +64,7 @@ public class BuyTicketAdapter extends RecyclerView.Adapter<BuyTicketAdapter.View
         viewHolder.buy_ticket_fouce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionId = (String) SharedPreferencesUtils.getParam(mContext, "sessionId", "0");
                if(sessionId.equals("0")){
                    Intent intent = new Intent(mContext, LoginActivity.class);
                    mContext.startActivity(intent);

@@ -3,6 +3,7 @@ package com.bw.movie.login_success.home_fragment.activity;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,10 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login_success.home_fragment.fargment.DoingFragment;
@@ -22,6 +27,11 @@ import com.bw.movie.login_success.home_fragment.fargment.HotFragment;
 import com.bw.movie.login_success.home_fragment.fargment.TodoFragment;
 import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.tools.ToastUtils;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,6 +65,15 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
     RelativeLayout relative_search;
     @BindView(R.id.show_details_edit_search)
     EditText edit_search;
+    //声明mlocationClient对象
+    public AMapLocationClient mlocationClient;
+    //声明mLocationOption对象
+    public AMapLocationClientOption mLocationOption = null;
+    private String cityCode;
+    private String province;
+    private String city;
+    private double longitude;
+    private double latitude;
 
     @OnClick({R.id.show_details_hot,R.id.image_View_Back,R.id.show_details_image, R.id.show_deltails_doing, R.id.show_deltails_todo,R.id.show_details_home_search,R.id.show_details_text_search})
     @Override
@@ -64,8 +83,7 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.show_details_image:
-                Intent intent = new Intent(this, LocationActivity.class);
-                startActivity(intent);
+                getLocation();
                 break;
             case R.id.show_details_hot:
                 show_details_viewpager.setCurrentItem(0);
@@ -94,6 +112,50 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    private void startLocation() {
+        //开始定位，这里模拟一下定位
+        mlocationClient = new AMapLocationClient(ShowDetailsActivity.this);
+        //设置定位监听
+        mlocationClient.setLocationListener(new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if(aMapLocation!=null){
+                    if(aMapLocation.getErrorCode() == 0){
+                        //获取纬度
+                        latitude = aMapLocation.getLatitude();
+                        //获取经度
+                        longitude = aMapLocation.getLongitude();
+                        //城市信息
+                        city = aMapLocation.getCity();
+                        //省信息
+                        province = aMapLocation.getProvince();
+                        //城市编码
+                        cityCode = aMapLocation.getCityCode();
+                        //地区编码
+                        String adCode = aMapLocation.getAdCode();
+                        CityPicker.from(ShowDetailsActivity.this).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
+                        addresss.setText(city);
+                        mlocationClient.stopLocation();
+                    }
+                }
+            }
+        });
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mlocationClient.startLocation();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -138,6 +200,7 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initData() {
+        startLocation();
         list = new ArrayList<>();
         list.add(new HotFragment());
         list.add(new DoingFragment());
@@ -238,7 +301,33 @@ public class ShowDetailsActivity extends BaseActivity implements View.OnClickLis
             }
         });
 }
+    private void getLocation() {
+        CityPicker.from(ShowDetailsActivity.this) //activity或者fragment
+                .setOnPickListener(new OnPickListener() {
+                    @Override
+                    public void onPick(int position, City data) {
+                        addresss.setText(data.getName());
+                    }
 
+                    @Override
+                    public void onCancel(){
+
+                    }
+
+                    @Override
+                    public void onLocate() {
+                        //定位接口，需要APP自身实现，这里模拟一下定位
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //定位完成之后更新数据
+                                CityPicker.from(ShowDetailsActivity.this).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
+                            }
+                        }, 3000);
+                    }
+                })
+                .show();
+    }
     @Override
     protected void successed(Object data) {
 

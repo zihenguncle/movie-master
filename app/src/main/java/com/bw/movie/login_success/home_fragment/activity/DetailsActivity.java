@@ -91,7 +91,6 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        sessionId = (String) SharedPreferencesUtils.getParam(this, "sessionId", "0");
         //获取影视id
         Intent intent = getIntent();
         shop_id = intent.getIntExtra("id", 0);
@@ -131,6 +130,7 @@ public class DetailsActivity extends BaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.details_image_love:
+                    sessionId = (String) SharedPreferencesUtils.getParam(this, "sessionId", "0");
                     if(sessionId.equals("0")){
                         Intent intent1 = new Intent(DetailsActivity.this, LoginActivity.class);
                         startActivity(intent1);
@@ -231,6 +231,7 @@ public class DetailsActivity extends BaseActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionId = (String) SharedPreferencesUtils.getParam(DetailsActivity.this, "sessionId", "0");
                 if(sessionId.equals("0")){
                     Intent intent = new Intent(DetailsActivity.this, LoginActivity.class);
                     startActivity(intent);
