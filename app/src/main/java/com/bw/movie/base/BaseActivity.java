@@ -10,19 +10,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.bw.movie.application.MyApplication;
 import com.bw.movie.loading.LoadingUtils;
-import com.bw.movie.mvp.eventbus.MessageList;
 import com.bw.movie.mvp.presenter.IPresemterImpl;
 import com.bw.movie.mvp.view.IView;
 import com.bw.movie.tools.NetWorkUtils;
 import com.bw.movie.tools.ToastUtils;
-import com.tencent.android.tpush.XGIOperateCallback;
-import com.tencent.android.tpush.XGPushManager;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -41,7 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         initView(savedInstanceState);
         initData();
         stateNetWork();
-
 
     }
 

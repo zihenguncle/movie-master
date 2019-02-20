@@ -54,7 +54,9 @@ public class SplashActivity extends AppCompatActivity{
     @BindView(R.id.relative_nowork)
     RelativeLayout relativeLayout_nowork;
 
+    SharedPreferences sharedPreferences;
     private static final long DELAY_TIME = 2000L;
+    private SharedPreferences.Editor edit;
 
     /*//读写权限
     private static String[] PERMISSIONS_STORAGE = {
@@ -74,27 +76,25 @@ public class SplashActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        sharedPreferences = getSharedPreferences("ppp",MODE_PRIVATE);
+        edit = sharedPreferences.edit();
         ButterKnife.bind(this);
         XXPermissions.with(this)
                 //.constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
                 //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                //.permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
+                .permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
                 .request(new OnPermission() {
 
                     @Override
                     public void hasPermission(List<String> granted, boolean isAll) {
-                        if (XXPermissions.isHasPermission(SplashActivity.this, Permission.Group.STORAGE)) {
+                        if(isAll){
                             isShowingMain();
                         }
                     }
 
                     @Override
                     public void noPermission(List<String> denied, boolean quick) {
-                        if (XXPermissions.isHasPermission(SplashActivity.this, Permission.Group.STORAGE)) {
-                            isShowingMain();
-                        }else {
-                            finish();
-                        }
+                        finish();
                     }
                 });
      /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -121,13 +121,14 @@ public class SplashActivity extends AppCompatActivity{
 
     private void isShowingMain() {
         String appVersion = getAppVersion();
-        String version = (String) SharedPreferencesUtils.getParam(SplashActivity.this, "appVersion", "");
-      // Boolean enter_app = (Boolean) SharedPreferencesUtils.getParam(SplashActivity.this, "FIRST_OPEN", false);
+        String version = sharedPreferences.getString("appVersion", "");
+        // Boolean enter_app = (Boolean) SharedPreferencesUtils.getParam(SplashActivity.this, "FIRST_OPEN", false);
         //判断版本号是否一致，一致的话2秒后进入主页面，否则进入引导页
         if(appVersion.equals(version)){
                 initData();
-
+                Log.i("TAG","HAHAHA");
         }else {
+            Log.i("TAG","9999999");
             SharedPreferencesUtils.setParam(SplashActivity.this,"appVersion",appVersion);
             new Handler().postDelayed(new Runnable() {
                 @Override
