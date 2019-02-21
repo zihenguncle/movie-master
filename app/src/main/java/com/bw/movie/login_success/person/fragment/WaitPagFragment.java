@@ -3,6 +3,8 @@ package com.bw.movie.login_success.person.fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,9 @@ import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.WeiXinUtil;
 import com.bw.movie.login_success.home_fragment.activity.CinemaSeatTableActivity;
 import com.bw.movie.login_success.home_fragment.bean.PayMessageBean;
+import com.bw.movie.login_success.person.PayResult;
 import com.bw.movie.login_success.person.personal_adapter.MyWaitPayAdpter;
+import com.bw.movie.login_success.person.personal_bean.GoPayBean;
 import com.bw.movie.login_success.person.personal_bean.TicketInformationBean;
 import com.bw.movie.mvp.utils.Apis;
 import com.bw.movie.tools.ToastUtils;
@@ -101,22 +105,10 @@ public class WaitPagFragment extends BaseFragment {
                                 startRequestPost(Apis.URL_PAY,map1,PayMessageBean.class);
                             }else if(alipay.isChecked()){
                                 //ToastUtils.toast("暂无开通支付宝");
-                                Runnable payRunnable = new Runnable() {
-
-                                    @Override
-                                    public void run() {
-                                        PayTask alipay = new PayTask(getActivity());
-                                        Map <String,String> result = alipay.payV2(scheduleId,true);
-
-                                        Message msg = new Message();
-                                        //msg.what = SDK_PAY_FLAG;
-                                        msg.obj = result;
-                                        mHandler.sendMessage(msg);
-                                    }
-                                };
-                                // 必须异步调用
-                                Thread payThread = new Thread(payRunnable);
-                                payThread.start();
+                                Map<String,String> map1 = new HashMap<>();
+                                map1.put("payType",ZFB+"");
+                                map1.put("orderId",scheduleId);
+                                startRequestPost(Apis.URL_PAY,map1,GoPayBean.class);
                             }else {
                                 ToastUtils.toast("请选择支付方式");
                             }
@@ -133,15 +125,24 @@ public class WaitPagFragment extends BaseFragment {
             }
         });
     }
+
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            ToastUtils.toast(msg+"");
-            /*Toast.makeText(DemoActivity.this, result.getResult(),
-                    Toast.LENGTH_LONG).show();*/
+            @SuppressWarnings("unchecked")
+            PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+            //对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+            String resultStatus = payResult.getResultStatus();
+            // 判断resultStatus 为9000则代表支付成功
+            if (TextUtils.equals(resultStatus, "9000")) {
+                // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                ToastUtils.toast("支付成功");
+                getWatiData();
+            } else {
+                // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                ToastUtils.toast("支付失败");
+            }
         };
     };
-
-
 
     //待付款加载布局
     public void  initWaitLayout(){
@@ -179,7 +180,7 @@ public class WaitPagFragment extends BaseFragment {
     }
 
     @Override
-    protected void successed(Object data) {
+    protected void successed(final Object data) {
         if (data instanceof TicketInformationBean){
             TicketInformationBean ticketRecrodBean = (TicketInformationBean) data;
             if (wpage==1){
@@ -201,6 +202,23 @@ public class WaitPagFragment extends BaseFragment {
             }else {
                 ToastUtils.toast(((PayMessageBean) data).getMessage());
             }
+        }
+        if(data instanceof GoPayBean){
+            Runnable payRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    PayTask alipay = new PayTask(getActivity());
+                    Map <String,String> result = alipay.payV2(((GoPayBean) data).getResult(),true);
+                    Message msg = new Message();
+                    msg.obj = result;
+                    Log.i("TAG",result.toString());
+                    mHandler.sendMessage(msg);
+                }
+            };
+            // 必须异步调用
+            Thread payThread = new Thread(payRunnable);
+            payThread.start();
         }
     }
 
