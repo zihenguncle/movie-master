@@ -31,6 +31,7 @@ import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.bw.movie.tools.md5.EncryptUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbiz.AddCardToWXCardPackage;
@@ -177,8 +178,8 @@ public class LoginActivity extends BaseActivity {
     protected void successed(Object data) {
         if (data instanceof LoginBean) {
             LoginBean bean = (LoginBean) data;
-
             if (bean.getStatus().equals("0000")) {
+
                 //用SharedPreferences保存sessionId，userId
                 int userId = bean.getResult().getUserId();
                 Log.i("TAG", "userId:" + userId + "");
@@ -188,7 +189,7 @@ public class LoginActivity extends BaseActivity {
                 SharedPreferencesUtils.setParam(this, "userId", userId + "");
                 SharedPreferencesUtils.setParam(this, "sessionId", sessionId);
                 EventBus.getDefault().postSticky(new MessageList("sessionId", "1"));
-                if (checkBox_remember.isChecked()) {
+                if (checkBox_remember.isChecked()){
                     SharedPreferencesUtils.setParam(LoginActivity.this, "phone", phone);
                     SharedPreferencesUtils.setParam(LoginActivity.this, "pass", pass);
                     SharedPreferencesUtils.setParam(LoginActivity.this, "c_remember", true);
@@ -196,10 +197,19 @@ public class LoginActivity extends BaseActivity {
                     SharedPreferencesUtils.setParam(LoginActivity.this, "phone", "");
                     SharedPreferencesUtils.setParam(LoginActivity.this, "pass", "");
                 }
+                String token = XGPushConfig.getToken(this);
+                Map<String, String> map = new HashMap<>();
+                map.put("token", token);
+                map.put("os", 1 + "");
+                startRequestPost(Apis.URL_TOKEN, map, TokenBean.class);
                 finish();
+
             } else {
                 ToastUtils.toast(bean.getMessage());
             }
+        }else if(data instanceof TokenBean){
+            TokenBean tokenBean= (TokenBean) data;
+            ToastUtils.toast(tokenBean.getMessage());
         }
     }
 

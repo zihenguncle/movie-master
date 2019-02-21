@@ -40,6 +40,8 @@ public class MyApplication extends Application {
         MultiDex.install(this);
         context=getApplicationContext();
 
+
+
         refWatcher = LeakCanary.install(this);
 
         /**
@@ -73,6 +75,7 @@ public class MyApplication extends Application {
         XGPushConfig.setMiPushAppKey(getApplicationContext(), "A44FJ9N7N9EY");
         XGPushConfig.setMzPushAppId(this, "2100300660");
         XGPushConfig.setMzPushAppKey(this, "A44FJ9N7N9EY");
+
 
 
     }

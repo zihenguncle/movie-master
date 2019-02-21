@@ -1,7 +1,9 @@
 package com.bw.movie.login_success.person.person_activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -76,6 +79,8 @@ public class Personal_Message_Activity extends BaseActivity {
     private String email;
     private String nick;
     private PopupWindow popupWindow;
+    String[] sexArry = new String[]{ "女", "男"};
+    private EditText updateSex;
 
 
     @Override
@@ -83,9 +88,17 @@ public class Personal_Message_Activity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({com.bw.movie.R.id.personal_reset_pwd,R.id.personal_nickName_textView, com.bw.movie.R.id.personal_message_back,R.id.personal_icon})
+    @OnClick({com.bw.movie.R.id.personal_reset_pwd,R.id.personal_emails_count,R.id.personal_phone_number,R.id.personal_month_textView,R.id.personal_sex_textView,R.id.personal_nickName_textView, com.bw.movie.R.id.personal_message_back,R.id.personal_icon})
     public void onClick(View v){
         switch (v.getId()){
+            case R.id.personal_emails_count:
+                updateMessage();
+            case R.id.personal_phone_number:
+                updateMessage();
+            case R.id.personal_month_textView:
+                updateMessage();
+            case R.id.personal_sex_textView:
+                updateMessage();
             case R.id.personal_nickName_textView:
                 //修改用户信息的popwindow
                 updateMessage();
@@ -110,7 +123,7 @@ public class Personal_Message_Activity extends BaseActivity {
     private void updateMessage() {
         View view=View.inflate(this,R.layout.popwindow_update_message,null);
         final EditText update_nick=view.findViewById(R.id.update_nick);
-        final EditText update_sex=view.findViewById(R.id.update_sex);
+        updateSex = view.findViewById(R.id.update_sex);
         final EditText update_email=view.findViewById(R.id.update_email);
         Button button=view.findViewById(R.id.user_but);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -130,19 +143,27 @@ public class Personal_Message_Activity extends BaseActivity {
         update_nick.setText(personalMessageBean.getResult().getNickName());
         int sex = personalMessageBean.getResult().getSex();
         if(sex==1){
-            update_sex.setText("男");
+            updateSex.setText("男");
         }else{
-            update_sex.setText("女");
+            updateSex.setText("女");
         }
+        updateSex.setInputType(InputType.TYPE_NULL);
+
         update_email.setText(personalMessageBean.getResult().getEmail());
 
+        updateSex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSex();
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = update_email.getText().toString();
                 nick = update_nick.getText().toString();
-                String sex1 = update_sex.getText().toString();
+                String sex1 = updateSex.getText().toString();
                 if(sex1.equals("男")){
                     gender=1;
                 }else{
@@ -156,11 +177,23 @@ public class Personal_Message_Activity extends BaseActivity {
                 popupWindow.dismiss();
             }
         });
-
-
-
     }
 
+    // 性别选择
+    private void getSex() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);// 自定义对话框
+        builder.setTitle("性别");
+
+        builder.setSingleChoiceItems(sexArry, 0, new DialogInterface.OnClickListener() {// 2默认的选中
+            @Override
+            public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
+                updateSex.setText(sexArry[which]);
+                dialog.dismiss();// 随便点击一个item消失对话框，不用点击确认取消
+            }
+        });
+        builder.show();// 让弹出框显示
+    }
 
     //上传头像
     private void popWindow() {

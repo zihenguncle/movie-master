@@ -50,6 +50,7 @@ import com.bw.movie.tools.RegexUtils;
 import com.bw.movie.tools.ToastUtils;
 import com.bw.movie.tools.md5.EncryptUtil;
 import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.xw.repo.XEditText;
 
@@ -241,12 +242,27 @@ public class RegisterActivity extends BaseActivity {
                 map.put("phone", phone);
                 map.put("pwd", pwd);
                 startRequestPost(Apis.URL_LOGIN, map, LoginBean.class);
-                Intent intent = new Intent(RegisterActivity.this, Login_Success_Activity.class);
-                startActivity(intent);
-                finish();
+
             } else {
                 ToastUtils.toast(bean.getMessage());
             }
+        }else if(data instanceof LoginBean){
+            LoginBean loginBean= (LoginBean) data;
+            if(loginBean.getStatus().equals("0000")){
+                String token = XGPushConfig.getToken(this);
+                Map<String, String> map = new HashMap<>();
+                map.put("token", token);
+                map.put("os", 1 + "");
+                startRequestPost(Apis.URL_TOKEN, map, TokenBean.class);
+                Intent intent = new Intent(RegisterActivity.this, Login_Success_Activity.class);
+                startActivity(intent);
+                finish();
+            }else{
+               ToastUtils.toast(loginBean.getMessage());
+            }
+        } else if(data instanceof TokenBean){
+            TokenBean tokenBean= (TokenBean) data;
+            ToastUtils.toast(tokenBean.getMessage());
         }
     }
 
