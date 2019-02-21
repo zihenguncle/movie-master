@@ -84,15 +84,12 @@
                 android:layout_toRightOf="@id/text_endTime"
                 android:layout_below="@id/text_screeningHall"
                 android:layout_marginTop="23dp"
-                android:layout_marginLeft="2dp"
-                android:id="@+id/end"
-                />
+                android:layout_marginLeft="2dp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥"
                 android:layout_marginTop="25dp"
-                android:id="@+id/moeny"
                 android:textSize="18sp"
                 android:layout_toLeftOf="@+id/text_fare"
                 />

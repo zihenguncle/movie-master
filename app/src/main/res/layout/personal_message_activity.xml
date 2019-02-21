@@ -23,7 +23,6 @@
         android:background="@drawable/personal_message_activity_selector"
         >
         <TextView
-            android:id="@+id/personal_textView_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="用户头像"
@@ -52,7 +51,6 @@
             android:layout_marginRight="20dp"
             />
         <TextView
-            android:id="@+id/personal_nickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/personal_view_icon"
@@ -66,13 +64,23 @@
             android:id="@+id/personal_nickName_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/gai"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_below="@id/personal_view_icon"
             android:text="你的一边"
             android:textSize="14sp"
             android:textColor="#999999"
+            />
+        <ImageView
+            android:id="@+id/gai"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/personal_view_icon"
+            android:background="@mipmap/com_icon_publish_default"
             />
         <View
             android:id="@+id/personal_view_nickName"
@@ -86,7 +94,6 @@
             />
 
         <TextView
-            android:id="@+id/personal_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/personal_view_nickName"
@@ -119,7 +126,6 @@
             android:layout_marginRight="20dp"
             />
         <TextView
-            android:id="@+id/personal_month"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/personal_view_sex"

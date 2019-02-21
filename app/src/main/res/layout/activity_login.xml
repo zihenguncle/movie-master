@@ -151,7 +151,6 @@
         android:layout_marginRight="40dp"
         >
         <View
-            android:id="@+id/view_line1"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#ffffff"
@@ -159,7 +158,6 @@
             android:layout_gravity="center"
             ></View>
         <TextView
-            android:id="@+id/text_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=" 第三方账号快速登录"
@@ -170,7 +168,6 @@
             android:gravity="center"
             />
         <View
-            android:id="@+id/view_line2"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="#ffffff"
