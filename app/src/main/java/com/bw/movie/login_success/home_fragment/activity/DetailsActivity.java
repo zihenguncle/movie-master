@@ -1,6 +1,9 @@
 package com.bw.movie.login_success.home_fragment.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -97,7 +100,27 @@ public class DetailsActivity extends BaseActivity {
         startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
         details_iamge_boss.setAlpha(0.4f);
 
+        IntentFilter homeFilter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(homePressReceiver, homeFilter);
+
+
     }
+    private final BroadcastReceiver homePressReceiver = new BroadcastReceiver() {
+        final String SYSTEM_DIALOG_REASON_KEY = "reason";
+        final String SYSTEM_DIALOG_REASON_HOME_KEY = "homekey";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if(action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);
+                if(reason != null && reason.equals(SYSTEM_DIALOG_REASON_HOME_KEY)) {
+                    //TODO 按下home键后执行的动作
+                    NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+                }
+            }
+        }
+    };
 
     @OnClick({R.id.details_back,R.id.details_gotopay,R.id.details_image_love,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
     public void onclick(View view){

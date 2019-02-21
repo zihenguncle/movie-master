@@ -122,12 +122,6 @@ public class NearbyCinemaFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getInfoFindCinema();
-        getInfoNearby();
-    }
 
     private void startLocation() {
         //开始定位，这里模拟一下定位
