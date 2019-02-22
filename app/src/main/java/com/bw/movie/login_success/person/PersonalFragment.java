@@ -196,6 +196,7 @@ public class PersonalFragment extends BaseFragment{
             SignInBean signInBean = (SignInBean) data;
             if (signInBean.getStatus().equals("0000")){
                 ToastUtils.toast(signInBean.getMessage());
+                textView_sigin.setText("已签到");
             } else {
                 ToastUtils.toast(signInBean.getMessage());
             }

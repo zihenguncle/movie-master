@@ -177,7 +177,6 @@ public class RegisterActivity extends BaseActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);// 自定义对话框
         builder.setTitle("性别");
-
         builder.setSingleChoiceItems(sexArry, 0, new DialogInterface.OnClickListener() {// 2默认的选中
             @Override
             public void onClick(DialogInterface dialog, int which) {// which是被选中的位置
