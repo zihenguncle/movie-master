@@ -154,7 +154,7 @@
         android:layout_width="190dp"
         android:layout_height="30dp"
         android:hint="邮箱"
-        android:digits="0123456789@qq.com"
+        android:digits="0123456789@qq.com_"
         android:layout_marginTop="18dp"
         android:layout_toRightOf="@+id/image_reg_email"
         android:layout_marginLeft="20dp"

@@ -1,8 +1,11 @@
 package com.bw.movie.login_success.home_fragment;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -142,7 +145,7 @@ public class HomeFragment extends BaseFragment {
                         String adCode = aMapLocation.getAdCode();
                         CityPicker.from(getActivity()).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
                         loaction.setText(city);
-                        mlocationClient.stopLocation();
+                       mlocationClient.stopLocation();
 
                     }
                 }
@@ -183,7 +186,7 @@ public class HomeFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.location:
-               getLocation();
+                getLocation();
                 break;
             //点击进行搜索
             case R.id.home_text_search:
@@ -236,7 +239,7 @@ public class HomeFragment extends BaseFragment {
                                 CityPicker.from(getActivity()).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
 
                             }
-                        }, 1000);
+                        }, 3000);
                     }
                 })
                 .show();

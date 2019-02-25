@@ -12,6 +12,15 @@
         android:textSize="14sp"
         android:textColor="#333333"
         />
+    <ImageView
+        android:id="@+id/gai"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/com_icon_publish_default"
+        />
     <RelativeLayout
         android:id="@+id/personal_message_relative"
         android:layout_width="match_parent"

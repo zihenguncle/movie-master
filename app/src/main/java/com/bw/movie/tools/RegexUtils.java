@@ -15,7 +15,7 @@ public class RegexUtils {
         /**
          * 正则表达式：验证密码
          */
-        public static final String REGEX_PASSWORD = "^[a-zA-Z0-9]{6,20}$";
+        public static final String REGEX_PASSWORD = "^[a-zA-Z0-9]{6}$";
 
         /**
          * 正则表达式：验证手机号

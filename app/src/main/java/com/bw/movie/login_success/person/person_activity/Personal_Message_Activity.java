@@ -88,18 +88,10 @@ public class Personal_Message_Activity extends BaseActivity {
         ButterKnife.bind(this);
     }
 
-    @OnClick({com.bw.movie.R.id.personal_reset_pwd,R.id.personal_emails_count,R.id.personal_phone_number,R.id.personal_month_textView,R.id.personal_sex_textView,R.id.personal_nickName_textView, com.bw.movie.R.id.personal_message_back,R.id.personal_icon})
+    @OnClick({com.bw.movie.R.id.personal_reset_pwd,R.id.personal_emails_count,R.id.personal_phone_number,R.id.personal_month_textView,R.id.personal_sex_textView,R.id.personal_nickName_textView, com.bw.movie.R.id.personal_message_back,R.id.personal_icon,R.id.gai})
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.personal_emails_count:
-                updateMessage();
-            case R.id.personal_phone_number:
-                updateMessage();
-            case R.id.personal_month_textView:
-                updateMessage();
-            case R.id.personal_sex_textView:
-                updateMessage();
-            case R.id.personal_nickName_textView:
+            case R.id.gai:
                 //修改用户信息的popwindow
                 updateMessage();
                 break;
