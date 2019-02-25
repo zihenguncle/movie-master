@@ -190,7 +190,6 @@
         android:layout_below="@id/personal_record"
         >
     <LinearLayout
-        android:id="@+id/personal_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

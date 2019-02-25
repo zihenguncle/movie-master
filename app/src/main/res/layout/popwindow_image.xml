@@ -40,7 +40,6 @@
 
         >
         <ImageView
-            android:id="@+id/image_picture"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@drawable/common_btn_picture"
@@ -68,7 +67,6 @@
         >
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/linear_qx"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:orientation="horizontal"

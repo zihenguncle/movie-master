@@ -34,7 +34,7 @@
         android:textColor="#333333"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="25dp"
         android:text="00:00"
         />
     <View

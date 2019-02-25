@@ -131,7 +131,6 @@
 </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/cinema_item_back"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:background="@drawable/personal_reset_selector"
