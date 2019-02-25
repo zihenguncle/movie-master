@@ -40,8 +40,6 @@ public class MyApplication extends Application {
         MultiDex.install(this);
         context=getApplicationContext();
 
-
-
         refWatcher = LeakCanary.install(this);
 
         /**
