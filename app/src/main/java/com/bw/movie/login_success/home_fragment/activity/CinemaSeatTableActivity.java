@@ -142,14 +142,15 @@ public class CinemaSeatTableActivity extends BaseActivity {
             public void checked(int row, int column) {
                     totalPrice += price;
                     i++;
-                    mTextView_price.setText(new BigDecimal(totalPrice).setScale(2, BigDecimal.ROUND_DOWN) + "");
+                    mTextView_price.setText((float) (totalPrice)+"");
+                    //mTextView_price.setText(new BigDecimal(totalPrice).setScale(2, BigDecimal.ROUND_DOWN) + "");
             }
 
             @Override
             public void unCheck(int row, int column) {
                     totalPrice -= price;
                     i--;
-                    mTextView_price.setText(new BigDecimal(totalPrice).setScale(2,BigDecimal.ROUND_DOWN)+"");
+                    mTextView_price.setText((float) (totalPrice)+"");
             }
 
             @Override
@@ -201,7 +202,7 @@ public class CinemaSeatTableActivity extends BaseActivity {
             popupWindow.showAtLocation(view,
                     Gravity.BOTTOM, 0, 0);
             //*price*num;
-            sum_price.setText("微信支付" + new BigDecimal(totalPrice).setScale(2,BigDecimal.ROUND_DOWN)+"" + "元");
+            sum_price.setText("微信支付" +(float) (totalPrice)+"" + "元");
 
             weChat_goto_pay.setOnClickListener(new View.OnClickListener() {
                 @Override

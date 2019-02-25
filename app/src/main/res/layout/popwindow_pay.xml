@@ -69,27 +69,32 @@
         android:padding="5dp"
         />
 
-    <RadioButton
-        android:id="@+id/weChat_pay"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
+    <RadioGroup
+        android:layout_width="15dp"
+        android:layout_height="100dp"
+        android:orientation="vertical"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="28dp"
-        android:background="@drawable/pay_shape_check"
-        android:button="@null"
-        />
+        android:layout_marginTop="56dp"
+        android:layout_marginRight="40dp"
+        >
+        <RadioButton
+            android:id="@+id/weChat_pay"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/pay_shape_check"
+            android:button="@null"
+            />
 
-    <RadioButton
-        android:id="@+id/text_alipay"
-        android:layout_width="13dp"
-        android:layout_height="13dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="105dp"
-        android:layout_marginRight="28dp"
-        android:background="@drawable/pay_shape_check"
-        android:button="@null"
-        />
+        <RadioButton
+            android:id="@+id/text_alipay"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:background="@drawable/pay_shape_check"
+            android:button="@null"
+            android:layout_marginTop="40dp"
+            />
+    </RadioGroup>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"

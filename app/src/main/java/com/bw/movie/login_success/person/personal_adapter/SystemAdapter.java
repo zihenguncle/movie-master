@@ -104,7 +104,7 @@ public class SystemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onClick(View v) {
                         //读取信息
                         if(onClickListeener!=null){
-                            onClickListeener.onSuccess(mData.get(i).getId()+"",i+"");
+                            onClickListeener.onSuccess(mData.get(i).getId()+"",i,mData.get(i).getContent());
                         }
                     }
                 });
@@ -153,6 +153,6 @@ public class SystemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.onClickListeener=onClickListeener;
     }
     public interface OnClickListeener{
-        void onSuccess(String id,String position);
+        void onSuccess(String id,int position,String title);
     }
 }

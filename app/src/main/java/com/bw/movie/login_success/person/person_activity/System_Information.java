@@ -3,7 +3,11 @@ package com.bw.movie.login_success.person.person_activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -69,7 +73,30 @@ public class System_Information extends BaseActivity implements View.OnClickList
         startRequestGet(Apis.URL_READ_COUNT,ReadCountBean.class);
         systemAdapter.setOnClickListeener(new SystemAdapter.OnClickListeener() {
             @Override
-            public void onSuccess(String id, String position) {
+            public void onSuccess(String id, int position,String title) {
+                View view = View.inflate(System_Information.this,R.layout.system_mesage_pop_item,null);
+                TextView system_message = view.findViewById(R.id.system_message);
+                TextView sure = view.findViewById(R.id.sure);
+                system_message.setText(title);
+
+                final PopupWindow popupWindow = new PopupWindow(view,ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                bgAlpha(0.5f);
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        bgAlpha(1.0f);
+                    }
+                });
+
+                popupWindow.showAtLocation(view,Gravity.CENTER,0,0);
+                sure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
                 startRequestGet(String.format(Apis.URL_UPDATE_READ,id),UpdateReadBean.class);
             }
         });
@@ -116,8 +143,9 @@ public class System_Information extends BaseActivity implements View.OnClickList
         }else if(data instanceof UpdateReadBean){
             UpdateReadBean updateReadBean= (UpdateReadBean) data;
             if(updateReadBean.getStatus().equals("0000")){
-                initData();
-                loadData();
+                startRequestGet(Apis.URL_READ_COUNT,ReadCountBean.class);
+                mPage=1;
+                startRequestGet(String.format(Apis.URL_SELECT_INFORMATION,mPage,TYPE_COUNT),SystemInformationBean.class);
             }else{
                 ToastUtils.toast(updateReadBean.getMessage());
             }
@@ -129,6 +157,11 @@ public class System_Information extends BaseActivity implements View.OnClickList
         ToastUtils.toast(error);
     }
 
+    private void bgAlpha(float f){
+        WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
+        layoutParams.alpha = f;
+        getWindow().setAttributes(layoutParams);
+    }
     @OnClick(R.id.system_information_back)
     @Override
     public void onClick(View v){
