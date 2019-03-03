@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         iPresemter = new IPresemterImpl(this);
         initView(savedInstanceState);
         initData();
-        stateNetWork();
+      //  stateNetWork();
 
     }
 
@@ -98,7 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
         failed(error);
     }
 
-    //动态注册权限
+  /*  //动态注册权限
     private void stateNetWork() {
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
             String[] mStatenetwork = new String[]{
@@ -130,7 +130,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView{
                 }
             }
         }
-    }
+    }*/
 
     @Override
     protected void onDestroy() {

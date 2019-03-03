@@ -75,6 +75,7 @@ public class MyApplication extends Application {
         XGPushConfig.setMzPushAppKey(this, "A44FJ9N7N9EY");
 
 
+
     }
 
 

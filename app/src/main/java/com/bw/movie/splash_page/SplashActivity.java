@@ -31,9 +31,6 @@ import com.bw.movie.mvp.view.IView;
 import com.bw.movie.tools.NetWorkUtils;
 import com.bw.movie.tools.SharedPreferencesUtils;
 import com.bw.movie.tools.ToastUtils;
-import com.hjq.permissions.OnPermission;
-import com.hjq.permissions.Permission;
-import com.hjq.permissions.XXPermissions;
 
 import java.util.List;
 
@@ -54,81 +51,97 @@ public class SplashActivity extends AppCompatActivity{
     @BindView(R.id.relative_nowork)
     RelativeLayout relativeLayout_nowork;
 
-    SharedPreferences sharedPreferences;
+
     private static final long DELAY_TIME = 2000L;
-    private SharedPreferences.Editor edit;
-
-    /*//读写权限
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };*/
-    //请求状态码
-    //private static int REQUEST_PERMISSION_CODE = 1;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        sharedPreferences = getSharedPreferences("ppp",MODE_PRIVATE);
-        edit = sharedPreferences.edit();
         ButterKnife.bind(this);
-        XXPermissions.with(this)
-                //.constantRequest() //可设置被拒绝后继续申请，直到用户授权或者永久拒绝
-                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES) //支持请求6.0悬浮窗权限8.0请求安装权限
-                .permission(Permission.Group.STORAGE, Permission.Group.CALENDAR) //不指定权限则自动获取清单中的危险权限
-                .request(new OnPermission() {
-
-                    @Override
-                    public void hasPermission(List<String> granted, boolean isAll) {
-                        if(isAll){
-                            isShowingMain();
-                        }
-                    }
-
-                    @Override
-                    public void noPermission(List<String> denied, boolean quick) {
-                        finish();
-                    }
-                });
-     /* if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-
-             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-                  ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
-              }
-              else {
-                  isShowingMain();
-              }
-
-        }*/
-
     }
-    /*@Override
-   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-       super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-       if (requestCode == REQUEST_PERMISSION_CODE) {
-          isShowingMain();
-       }
-    }*/
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkPermission();
+    }
+
+    boolean isAllGranted = true;
+    //申请权限结果返回处理
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                }
+            }
+            if (isAllGranted) {
+                // 所有的权限都授予了
+              isShowingMain();
+            } else {
+                // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
+                finish();
+            }
+        }
+    }
+   public void checkPermission()
+   {
+       int targetSdkVersion = 0;
+       String[] PermissionString={  Manifest.permission.WRITE_EXTERNAL_STORAGE,
+               Manifest.permission.READ_PHONE_STATE,
+               Manifest.permission.ACCESS_COARSE_LOCATION,};
+       try {
+           final PackageInfo info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
+           targetSdkVersion = info.applicationInfo.targetSdkVersion;//获取应用的Target版本
+       } catch (PackageManager.NameNotFoundException e) {
+           e.printStackTrace();
+       }
+
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           //Build.VERSION.SDK_INT是获取当前手机版本 Build.VERSION_CODES.M为6.0系统
+           //如果系统>=6.0
+           if (targetSdkVersion >= Build.VERSION_CODES.M) {
+               //第 1 步: 检查是否有相应的权限
+               boolean isAllGranted = checkPermissionAllGranted(PermissionString);
+               if (isAllGranted) {
+                   //Log.e("err","所有权限已经授权！");
+                   isShowingMain();
+                   return;
+               }
+               // 一次请求多个权限, 如果其他有权限是已经授予的将会自动忽略掉
+               ActivityCompat.requestPermissions(this,
+                       PermissionString, 1);
+           }
+       }
+   }
+
+    /**
+     * 检查是否拥有指定的所有权限
+     */
+    private boolean checkPermissionAllGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                // 只要有一个权限没有被授予, 则直接返回 false
+                //Log.e("err","权限"+permission+"没有授权");
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void isShowingMain() {
         String appVersion = getAppVersion();
-        String version = sharedPreferences.getString("appVersion", "");
+        String version= (String) SharedPreferencesUtils.getParam(SplashActivity.this, "appVersion", "");
         // Boolean enter_app = (Boolean) SharedPreferencesUtils.getParam(SplashActivity.this, "FIRST_OPEN", false);
         //判断版本号是否一致，一致的话2秒后进入主页面，否则进入引导页
         if(appVersion.equals(version)){
                 initData();
-                Log.i("TAG","HAHAHA");
         }else {
-            Log.i("TAG","9999999");
             SharedPreferencesUtils.setParam(SplashActivity.this,"appVersion",appVersion);
             new Handler().postDelayed(new Runnable() {
                 @Override

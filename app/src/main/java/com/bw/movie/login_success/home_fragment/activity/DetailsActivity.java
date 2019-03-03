@@ -1,12 +1,16 @@
 package com.bw.movie.login_success.home_fragment.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -97,7 +101,44 @@ public class DetailsActivity extends BaseActivity {
         startRequestGet(String.format(Apis.URL_MOVE_DATEILS,shop_id),DetailsBean.class);
         details_iamge_boss.setAlpha(0.4f);
 
+        IntentFilter filter = new IntentFilter();
+        //锁屏广播，由系统发出
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        //锁屏广播，由系统发出
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        //点击home键广播，由系统发出
+        filter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        registerReceiver(homeAndLockReceiver, filter);
+
+
     }
+    /**
+     * 监听是否点击了home键将客户端推到后台
+     */
+    private BroadcastReceiver homeAndLockReceiver = new BroadcastReceiver() {
+        String SYSTEM_REASON = "reason";
+        String SYSTEM_HOME_KEY = "homekey";
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+                String reason = intent.getStringExtra(SYSTEM_REASON);
+                if (TextUtils.equals(reason, SYSTEM_HOME_KEY)) {
+                    //表示按了home键,程序到了后台
+                    NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+                }
+            } else if (action.equals(Intent.ACTION_SCREEN_ON)) {
+                //屏幕亮了
+                NiceVideoPlayerManager.instance().resumeNiceVideoPlayer();
+
+            } else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
+                //屏幕黑了
+                NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+            }
+        }
+    };
+
 
     @OnClick({R.id.details_back,R.id.details_gotopay,R.id.details_image_love,R.id.details_details_button,R.id.details_notice_button,R.id.details_stage_button,R.id.details_take_button})
     public void onclick(View view){

@@ -1,9 +1,16 @@
 package com.bw.movie.login_success.person.personal_adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.bw.movie.R;
 import com.bw.movie.login_success.home_fragment.banner__round.GlidRoundUtils;
 import com.bw.movie.login_success.nearby_cinema_fragment.activity.CinemaDtailActivity;
@@ -28,6 +39,8 @@ public class CimeamaAdapter extends RecyclerView.Adapter<CimeamaAdapter.ViewHold
 
     public List<CimeamaBean.ResultBean> mData;
     public Context mContext;
+    private String URl=Environment.getExternalStorageDirectory().getAbsolutePath()+"/Camera/test.jpg";
+    private Bitmap bitmap;
 
 
     public CimeamaAdapter(Context mContext) {
@@ -58,9 +71,26 @@ public class CimeamaAdapter extends RecyclerView.Adapter<CimeamaAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        final ObjectAnimator anim = ObjectAnimator.ofInt(viewHolder.cimeamaItemImage, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
         viewHolder.cimeamaItemImage.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(mContext).load(mData.get(i%mData.size()).getLogo())
-                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        anim.cancel();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        anim.cancel();
+                        return false;
+                    }
+                })
+                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)).placeholder(R.drawable.rotate))
                 .into(viewHolder.cimeamaItemImage);
         viewHolder.cimeamaItemTextName.setText(mData.get(i).getName());
         viewHolder.cimeamaItemTextTitle.setText(mData.get(i).getAddress());

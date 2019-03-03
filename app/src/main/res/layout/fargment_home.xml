@@ -127,7 +127,6 @@
                 android:layout_marginLeft="24dp"
                 />
             <View
-                android:id="@+id/hot_view"
                 android:layout_width="30dp"
                 android:layout_height="3dp"
                 android:layout_below="@+id/hot_text"
@@ -168,7 +167,6 @@
         android:layout_marginLeft="24dp"
         />
     <View
-        android:id="@+id/doing_view"
         android:layout_width="30dp"
         android:layout_height="3dp"
         android:layout_below="@+id/doing_text"
@@ -219,7 +217,6 @@
             ></View>
 
         <ImageView
-            android:id="@+id/noce_image_next"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:background="@mipmap/com_icon_next_default"

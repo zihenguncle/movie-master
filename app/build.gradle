@@ -44,6 +44,8 @@ android {
 
     buildTypes {
         release {
+            // 使用签名打包时不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
            // shrinkResources true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -113,8 +115,6 @@ dependencies {
     implementation 'com.amap.api:search:latest.integration'
     implementation 'com.amap.api:location:latest.integration'
 
-    //权限
-    implementation 'com.hjq:xxpermissions:5.2'
     implementation  'com.tencent.xinge:xinge:4.0.5-release'
     //implementation'com.tencent.xinge:xinge:4.3.1-beta'
     //jg包
@@ -125,4 +125,7 @@ dependencies {
     implementation 'com.tencent.mid:mid:4.0.7-Release'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.zaaach:citypicker:2.0.3'
+
+    //支付宝
+    implementation (name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }
